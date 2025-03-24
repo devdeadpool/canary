@@ -22,6 +22,7 @@
 #include "creatures/npcs/npc.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
+#include "creatures/players/status/player_attributes.hpp"
 #include "creatures/players/storages/storages.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "enums/account_errors.hpp"
@@ -73,7 +74,10 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_playerCyclopedia(*this),
 	m_playerTitle(*this),
 	m_animusMastery(*this),
+	m_playerAttributes(*this),
 	m_playerAttachedEffects(*this) { }
+	
+	
 
 Player::~Player() {
 	for (const auto &item : inventory) {
@@ -3242,6 +3246,7 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 		}
 
 		g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_LEVEL, prevLevel, level);
+		playerAttributes().updatePoints(prevLevel, level);
 
 		std::ostringstream ss;
 		ss << "You advanced from Level " << prevLevel << " to Level " << level << '.';
@@ -10470,6 +10475,15 @@ const PlayerAttachedEffects &Player::attachedEffects() const {
 	return m_playerAttachedEffects;
 }
 
+// Attributes
+PlayerAttributes &Player::playerAttributes() {
+	return m_playerAttributes;
+}
+
+const PlayerAttributes &Player::playerAttributes() const {
+	return m_playerAttributes;
+}
+
 void Player::sendLootMessage(const std::string &message) const {
 	const auto &party = getParty();
 	if (!party) {
@@ -10756,4 +10770,15 @@ AcceptTransferErrorMessage Player::canAcceptTransferHouse(uint32_t houseId) {
 	}
 
 	return Success;
+}
+
+int Player::getPointsPerLevel() const {
+    switch (getVocationId()) {
+        case 1: // Uchiha
+            return 5;
+        case 2: // Hyuuga
+            return 5;
+        default:
+            return 3; // Padrão para outras vocações
+    }
 }

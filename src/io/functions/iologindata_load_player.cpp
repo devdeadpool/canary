@@ -1015,3 +1015,36 @@ void IOLoginDataLoad::loadPlayerUpdateSystem(const std::shared_ptr<Player> &play
 	player->updateInventoryWeight();
 	player->updateItemsLight(true);
 }
+
+void IOLoginDataLoad::loadPlayerAttributes(const std::shared_ptr<Player> &player, DBResult_ptr result) {
+    if (!result || !player) {
+        g_logger().warn("[{}] - Player or Result nullptr", __FUNCTION__);
+        return;
+    }
+
+    Database& db = Database::getInstance();
+    std::ostringstream query;
+    query << "SELECT * FROM `player_attributes` WHERE `player_id` = " << player->getGUID();
+
+    if ((result = db.storeQuery(query.str()))) {
+        player->playerAttributes().setBaseAttribute(PlayerStatus::STRENGTH, result->getNumber<int>("strength"));
+        player->playerAttributes().setBaseAttribute(PlayerStatus::AGILITY, result->getNumber<int>("agility"));
+        player->playerAttributes().setBaseAttribute(PlayerStatus::INTELIGGENCE, result->getNumber<int>("intelligence"));
+        player->playerAttributes().setBaseAttribute(PlayerStatus::ENERGY, result->getNumber<int>("energy"));
+        player->playerAttributes().setBaseAttribute(PlayerStatus::FOCUS, result->getNumber<int>("focus"));
+        player->playerAttributes().setBaseAttribute(PlayerStatus::PERCEPTION, result->getNumber<int>("perception"));
+        player->playerAttributes().setBaseAttribute(PlayerStatus::DETERMINATION, result->getNumber<int>("determination"));
+        player->playerAttributes().addStatusPoints(result->getNumber<int>("status_points"));
+		player->playerAttributes().setHighestLevel(result->getNumber<int>("highest_level"));
+
+		 // 🔍 Adicionando logs para depuração
+		 g_logger().info("[loadPlayerAttributes] Strength: {}", player->playerAttributes().getStatusAttribute(PlayerStatus::STRENGTH));
+		g_logger().info("[loadPlayerAttributes] Intelligence: {}", player->playerAttributes().getStatusAttribute(PlayerStatus::INTELIGGENCE));
+		 g_logger().info("[loadPlayerAttributes] Status Points: {}", player->playerAttributes().getStatusPoints());
+    } else {
+        // Se não houver entrada no banco, criamos uma nova para o jogador
+        query.str("");
+        query << "INSERT INTO `player_attributes` (`player_id`) VALUES (" << player->getGUID() << ")";
+        db.executeQuery(query.str());
+    }
+}

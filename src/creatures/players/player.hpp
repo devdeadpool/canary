@@ -27,6 +27,7 @@
 #include "creatures/players/components/player_vip.hpp"
 #include "creatures/players/components/wheel/wheel_gems.hpp"
 #include "creatures/players/components/player_attached_effects.hpp"
+#include "creatures/players/status/player_attributes.hpp"
 
 class House;
 class NetworkMessage;
@@ -137,7 +138,6 @@ public:
 		}
 
 		PlayerLock(const PlayerLock &) = delete;
-
 		~PlayerLock() {
 			player->mutex.unlock();
 		}
@@ -1296,6 +1296,9 @@ public:
 	PlayerAttachedEffects &attachedEffects();
 	const PlayerAttachedEffects &attachedEffects() const;
 
+	PlayerAttributes &playerAttributes();
+	const PlayerAttributes &playerAttributes() const;
+
 	void sendLootMessage(const std::string &message) const;
 
 	std::shared_ptr<Container> getLootPouch();
@@ -1644,6 +1647,8 @@ private:
 	void clearCooldowns();
 	void triggerTranscendance();
 
+	int getPointsPerLevel() const;
+
 	friend class Game;
 	friend class SaveManager;
 	friend class Npc;
@@ -1664,6 +1669,7 @@ private:
 	friend class PlayerTitle;
 	friend class PlayerVIP;
 	friend class PlayerAttachedEffects;
+	friend class PlayerAttributes;
 
 	PlayerWheel m_wheelPlayer;
 	PlayerAchievement m_playerAchievement;
@@ -1673,6 +1679,7 @@ private:
 	PlayerVIP m_playerVIP;
 	AnimusMastery m_animusMastery;
 	PlayerAttachedEffects m_playerAttachedEffects;
+	PlayerAttributes m_playerAttributes;
 
 	std::mutex quickLootMutex;
 

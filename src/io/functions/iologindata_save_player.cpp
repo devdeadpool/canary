@@ -809,3 +809,31 @@ bool IOLoginDataSave::savePlayerStorage(const std::shared_ptr<Player> &player) {
 	}
 	return true;
 }
+
+bool IOLoginDataSave::savePlayerAttributes(const std::shared_ptr<Player> &player) {
+    if (!player) {
+        g_logger().warn("[{}] - Player nullptr", __FUNCTION__);
+        return false;
+    }
+
+    Database& db = Database::getInstance();
+    std::ostringstream query;
+
+    query << "UPDATE `player_attributes` SET "
+          << "`strength` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::STRENGTH) << ", "
+		  << "`agility` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::AGILITY) << ", "
+		  << "`intelligence` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::INTELIGGENCE) << ", "
+		  << "`energy` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::ENERGY) << ", "
+		  << "`focus` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::FOCUS) << ", "
+		  << "`perception` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::PERCEPTION) << ", "
+		  << "`determination` = " << player->playerAttributes().getStatusAttribute(PlayerStatus::DETERMINATION) << ", "
+		  << "`highest_level` = " << player->playerAttributes().getHighestLevel() << ", "
+          << "`status_points` = " << player->playerAttributes().getStatusPoints()
+          << " WHERE `player_id` = " << player->getGUID();
+
+    if (!db.executeQuery(query.str())) {
+        g_logger().warn("[{}] - Error saving player attributes for: {}", __FUNCTION__, player->getName());
+        return false;
+    }
+    return true;
+}

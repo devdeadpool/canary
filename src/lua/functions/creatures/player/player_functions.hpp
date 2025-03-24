@@ -393,5 +393,12 @@ class PlayerFunctions {
 	static int luaPlayerAddCustomOutfit(lua_State* L);
 	static int luaPlayerRemoveCustomOutfit(lua_State* L);
 
+	static int luaPlayerSetStatusAttribute(lua_State* L);
+	static int luaPlayerGetStatusAttribute(lua_State* L);
+	static int luaPlayerResetStatusAttributes(lua_State* L);
+	static int luaPlayerGetStatusPoints(lua_State* L);
+	static int luaPlayerGetStatusPointCost(lua_State* L);
+	static int luaPlayerRemoveStatusPoints(lua_State* L);
+
 	friend class CreatureFunctions;
 };

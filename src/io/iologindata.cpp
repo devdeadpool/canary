@@ -166,6 +166,9 @@ bool IOLoginData::loadPlayer(const std::shared_ptr<Player> &player, const DBResu
 		// Load instant spells list
 		IOLoginDataLoad::loadPlayerInstantSpellList(player, result);
 
+		// load attributes
+		IOLoginDataLoad::loadPlayerAttributes(player, result);
+
 		if (disableIrrelevantInfo) {
 			return true;
 		}
@@ -266,6 +269,10 @@ bool IOLoginData::savePlayerGuard(const std::shared_ptr<Player> &player) {
 
 	if (!player->wheel().saveDBPlayerSlotPointsOnLogout()) {
 		throw DatabaseException("[PlayerWheel::saveDBPlayerSlotPointsOnLogout] - Failed to save player wheel info: " + player->getName());
+	}
+
+	if (!IOLoginDataSave::savePlayerAttributes(player)) {
+		throw DatabaseException("[IOLoginDataSave::savePlayerAttributes] - Failed to save player atttributes: " + player->getName());
 	}
 
 	player->wheel().saveRevealedGems();
