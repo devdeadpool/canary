@@ -6497,7 +6497,7 @@ void ProtocolGame::sendRestingStatus(uint8_t protection) {
 }
 
 void ProtocolGame::sendMagicEffect(const Position &pos, uint16_t type) {
-	if (!canSee(pos) || (oldProtocol && type > 0xFF)) {
+	if (!canSee(pos)) {
 		return;
 	}
 
@@ -6505,7 +6505,8 @@ void ProtocolGame::sendMagicEffect(const Position &pos, uint16_t type) {
 	if (oldProtocol) {
 		msg.addByte(0x83);
 		msg.addPosition(pos);
-		msg.addByte(static_cast<uint8_t>(type));
+		//msg.addByte(static_cast<uint8_t>(type));
+		msg.add<uint16_t>(type);
 	} else {
 		msg.addByte(0x83);
 		msg.addPosition(pos);
@@ -6524,7 +6525,8 @@ void ProtocolGame::removeMagicEffect(const Position &pos, uint16_t type) {
 	msg.addByte(0x84);
 	msg.addPosition(pos);
 	if (oldProtocol) {
-		msg.addByte(static_cast<uint8_t>(type));
+		//msg.addByte(static_cast<uint16_t>(type)); //uint8_t
+		msg.add<uint16_t>(type);
 	} else {
 		msg.add<uint16_t>(type);
 	}

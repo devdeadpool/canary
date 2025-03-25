@@ -1036,11 +1036,6 @@ void IOLoginDataLoad::loadPlayerAttributes(const std::shared_ptr<Player> &player
         player->playerAttributes().setBaseAttribute(PlayerStatus::DETERMINATION, result->getNumber<int>("determination"));
         player->playerAttributes().addStatusPoints(result->getNumber<int>("status_points"));
 		player->playerAttributes().setHighestLevel(result->getNumber<int>("highest_level"));
-
-		 // 🔍 Adicionando logs para depuração
-		 g_logger().info("[loadPlayerAttributes] Strength: {}", player->playerAttributes().getStatusAttribute(PlayerStatus::STRENGTH));
-		g_logger().info("[loadPlayerAttributes] Intelligence: {}", player->playerAttributes().getStatusAttribute(PlayerStatus::INTELIGGENCE));
-		 g_logger().info("[loadPlayerAttributes] Status Points: {}", player->playerAttributes().getStatusPoints());
     } else {
         // Se não houver entrada no banco, criamos uma nova para o jogador
         query.str("");
