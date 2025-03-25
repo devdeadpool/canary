@@ -76,8 +76,6 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_animusMastery(*this),
 	m_playerAttributes(*this),
 	m_playerAttachedEffects(*this) { }
-	
-	
 
 Player::~Player() {
 	for (const auto &item : inventory) {
@@ -10773,12 +10771,12 @@ AcceptTransferErrorMessage Player::canAcceptTransferHouse(uint32_t houseId) {
 }
 
 int Player::getPointsPerLevel() const {
-    switch (getVocationId()) {
-        case 1: // Uchiha
-            return 5;
-        case 2: // Hyuuga
-            return 5;
-        default:
-            return 3; // Padrão para outras vocações
-    }
+	switch (getVocationId()) {
+		case 1: // Uchiha
+			return 5;
+		case 2: // Hyuuga
+			return 5;
+		default:
+			return 3; // Padrão para outras vocações
+	}
 }

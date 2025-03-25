@@ -419,7 +419,6 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "getStatusPointCost", PlayerFunctions::luaPlayerGetStatusPointCost);
 	Lua::registerMethod(L, "Player", "removeStatusPoints", PlayerFunctions::luaPlayerRemoveStatusPoints);
 
-
 	GroupFunctions::init(L);
 	GuildFunctions::init(L);
 	MountFunctions::init(L);
@@ -4999,110 +4998,110 @@ int PlayerFunctions::luaPlayerRemoveCustomOutfit(lua_State* L) {
 }
 
 int PlayerFunctions::luaPlayerSetStatusAttribute(lua_State* L) {
-    auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    int attribute = Lua::getNumber<int>(L, 2);
-    int value = Lua::getNumber<int>(L, 3);
+	int attribute = Lua::getNumber<int>(L, 2);
+	int value = Lua::getNumber<int>(L, 3);
 
-    if (attribute < 0 || attribute >= static_cast<int>(PlayerStatus::LAST)) {
-        Lua::reportErrorFunc("Invalid attribute ID.");
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	if (attribute < 0 || attribute >= static_cast<int>(PlayerStatus::LAST)) {
+		Lua::reportErrorFunc("Invalid attribute ID.");
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    player->playerAttributes().setStatusAttribute(static_cast<PlayerStatus>(attribute), value);
-    Lua::pushBoolean(L, true);
-    return 1;
+	player->playerAttributes().setStatusAttribute(static_cast<PlayerStatus>(attribute), value);
+	Lua::pushBoolean(L, true);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetStatusAttribute(lua_State* L) {
-    auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
-        Lua::pushNumber(L, 0);
-        return 1;
-    }
+	auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+		Lua::pushNumber(L, 0);
+		return 1;
+	}
 
-    int attribute = Lua::getNumber<int>(L, 2);
+	int attribute = Lua::getNumber<int>(L, 2);
 
-    if (attribute < 0 || attribute >= static_cast<int>(PlayerStatus::LAST)) {
-        Lua::reportErrorFunc("Invalid attribute ID.");
-        Lua::pushNumber(L, 0);
-        return 1;
-    }
+	if (attribute < 0 || attribute >= static_cast<int>(PlayerStatus::LAST)) {
+		Lua::reportErrorFunc("Invalid attribute ID.");
+		Lua::pushNumber(L, 0);
+		return 1;
+	}
 
-    int value = player->playerAttributes().getStatusAttribute(static_cast<PlayerStatus>(attribute));
-    Lua::pushNumber(L, value);
-    return 1;
+	int value = player->playerAttributes().getStatusAttribute(static_cast<PlayerStatus>(attribute));
+	Lua::pushNumber(L, value);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerResetStatusAttributes(lua_State* L) {
-    auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    player->playerAttributes().resetStatusAttributes();
-    Lua::pushBoolean(L, true);
-    return 1;
+	player->playerAttributes().resetStatusAttributes();
+	Lua::pushBoolean(L, true);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetStatusPoints(lua_State* L) {
-    auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
-        Lua::pushNumber(L, 0);
-        return 1;
-    }
+	auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+		Lua::pushNumber(L, 0);
+		return 1;
+	}
 
-    int points = player->playerAttributes().getStatusPoints();
-    Lua::pushNumber(L, points);
-    return 1;
+	int points = player->playerAttributes().getStatusPoints();
+	Lua::pushNumber(L, points);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetStatusPointCost(lua_State* L) {
-    auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
-        Lua::pushNumber(L, 0);
-        return 1;
-    }
+	auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+		Lua::pushNumber(L, 0);
+		return 1;
+	}
 
-    int attribute = Lua::getNumber<int>(L, 2);
+	int attribute = Lua::getNumber<int>(L, 2);
 
-    if (attribute < 0 || attribute >= static_cast<int>(PlayerStatus::LAST)) {
-        Lua::reportErrorFunc("Invalid attribute ID.");
-        Lua::pushNumber(L, 0);
-        return 1;
-    }
+	if (attribute < 0 || attribute >= static_cast<int>(PlayerStatus::LAST)) {
+		Lua::reportErrorFunc("Invalid attribute ID.");
+		Lua::pushNumber(L, 0);
+		return 1;
+	}
 
-    int cost = player->playerAttributes().getStatusPointCost(static_cast<PlayerStatus>(attribute));
-    Lua::pushNumber(L, cost);
-    return 1;
+	int cost = player->playerAttributes().getStatusPointCost(static_cast<PlayerStatus>(attribute));
+	Lua::pushNumber(L, cost);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerRemoveStatusPoints(lua_State* L) {
-    auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	auto player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::reportErrorFunc(Lua::getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    int value = Lua::getNumber<int>(L, 2);
-    if (value < 0) {
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	int value = Lua::getNumber<int>(L, 2);
+	if (value < 0) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    player->playerAttributes().removeStatusPoints(value);
-    Lua::pushBoolean(L, true);
-    return 1;
+	player->playerAttributes().removeStatusPoints(value);
+	Lua::pushBoolean(L, true);
+	return 1;
 }
