@@ -350,7 +350,7 @@ bool Items::loadFromDat() {
 
 		item.id = id;
 
-		//uint8_t icount = 0, attr = -1;
+		// uint8_t icount = 0, attr = -1;
 		uint8_t icount = 0;
 		uint8_t attr = -1;
 		bool done = false;
@@ -407,8 +407,8 @@ bool Items::loadFromDat() {
 					item.maxTextLen = props.read<uint16_t>();
 					break;
 				case DatAttrLiquidPool:
-				item.group = ITEM_GROUP_SPLASH;
-				break;
+					item.group = ITEM_GROUP_SPLASH;
+					break;
 
 				case DatAttrLiquidContainer:
 					item.group = ITEM_GROUP_FLUID;
@@ -476,9 +476,9 @@ bool Items::loadFromDat() {
 
 				case DatAttrAlwaysAnimated:
 					break;
-				
+
 				case DatAttrLyingObject:
-				break;
+					break;
 
 				case DatAttrMinimapColor:
 					props.read<uint16_t>();
@@ -526,7 +526,7 @@ bool Items::loadFromDat() {
 					item.wrapContainer = true;
 				case DatAttrTopEffect: {
 					break;
-				}										 	
+				}
 
 				case DatAttrNpcSaleData: {
 					break;
@@ -579,7 +579,7 @@ bool Items::loadFromDat() {
 				}
 
 				default: {
-					g_logger().info("Unhandled DatAttr value: {} (item id: {})", attr, item.id );
+					g_logger().info("Unhandled DatAttr value: {} (item id: {})", attr, item.id);
 					break;
 				}
 			}
@@ -616,8 +616,6 @@ bool Items::loadFromDat() {
 	delete[] buffer;
 	return true;
 }
-
-
 
 void Items::buildInventoryList() {
 	inventory.reserve(items.size());

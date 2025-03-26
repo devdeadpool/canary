@@ -600,7 +600,7 @@ public:
 	}
 
 	FILELOADER_ERRORS loadAppearanceProtobuf(const std::string &file);
-	
+
 	bool isMagicEffectRegistered(uint16_t type) const;
 	bool isDistanceEffectRegistered(uint16_t type) const;
 	bool isLookTypeRegistered(uint16_t type) const;
