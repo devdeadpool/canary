@@ -619,6 +619,7 @@ void LuaEnums::initConstMeEnums(lua_State* L) {
 	registerEnum(L, CONST_ME_CACAO);
 	registerEnum(L, CONST_ME_CANDY_FLOSS);
 	registerEnum(L, CONST_ME_TESTE);
+	registerEnum(L, CONST_ME_TESTE1);
 }
 
 void LuaEnums::initConstAniEnums(lua_State* L) {
@@ -925,6 +926,7 @@ void LuaEnums::initItemIdEnums(lua_State* L) {
 	registerEnum(L, ITEM_FORGE_CORE);
 	registerEnum(L, ITEM_PRIMAL_POD);
 	registerEnum(L, ITEM_DECORATION_KIT);
+	registerEnum(L, ITEM_SHARINGAN);
 
 	registerEnum(L, ItemID_t::HIRELING_LAMP);
 }

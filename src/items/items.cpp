@@ -298,7 +298,7 @@ bool Items::loadFromXml() {
 }
 
 bool Items::loadFromDat() {
-	auto file = g_configManager().getString(CORE_DIRECTORY) + "/items/Tibia.dat";
+	auto file = g_configManager().getString(CORE_DIRECTORY) + "/items/tibia.dat";
 	std::filesystem::path filePath(file);
 
 	if (!std::filesystem::exists(filePath)) {
@@ -398,6 +398,7 @@ bool Items::loadFromDat() {
 					break;
 
 				case DatAttrMultiUse:
+					item.multiUse = true;
 					break;
 
 				case DatAttrWriteable:
@@ -475,6 +476,9 @@ bool Items::loadFromDat() {
 
 				case DatAttrAlwaysAnimated:
 					break;
+				
+				case DatAttrLyingObject:
+				break;
 
 				case DatAttrMinimapColor:
 					props.read<uint16_t>();
@@ -515,7 +519,11 @@ bool Items::loadFromDat() {
 					break;
 
 				case DatAttrWrappable:
+					item.wrapContainer = true;
+					item.wrapable = true;
+					item.wrapableTo = ITEM_DECORATION_KIT;
 				case DatAttrUnWrappable:
+					item.wrapContainer = true;
 				case DatAttrTopEffect: {
 					break;
 				}										 	
@@ -571,6 +579,7 @@ bool Items::loadFromDat() {
 				}
 
 				default: {
+					g_logger().info("Unhandled DatAttr value: {} (item id: {})", attr, item.id );
 					break;
 				}
 			}

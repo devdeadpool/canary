@@ -80974,6 +80974,7 @@ Granted by TibiaGoals.com"/>
 	</item>
 
 	<item id="49279" article="a" name="sharingan level three">
+	<attribute key="primarytype" value="soul cores"/>
 		<attribute key="description" value="Focalises the soul within a core. Can be used to turn a soul core into a greater version"/>
 	</item>
 

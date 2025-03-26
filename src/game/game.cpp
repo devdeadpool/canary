@@ -1323,15 +1323,6 @@ FILELOADER_ERRORS Game::loadAppearanceProtobuf(const std::string &file) {
 		return ERROR_NOT_OPEN;
 	}
 
-	// Parsing all items into ItemType
-	/* Item::items.loadFromProtobuf(); */
-	if (g_configManager().getBoolean(LOAD_ITEMS_FROM_SPR_DAT)) {
-		Item::items.loadFromDat();
-	}
-	else {
-		Item::items.loadFromProtobuf();
-	}
-
 	// Only iterate other objects if necessary
 	if (g_configManager().getBoolean(WARN_UNSAFE_SCRIPTS)) {
 		// Registering distance effects
@@ -11549,5 +11540,17 @@ bool Game::processBankAuction(std::shared_ptr<Player> player, const std::shared_
 		}
 	}
 
+	return true;
+}
+
+bool Game::isMagicEffectRegistered(uint16_t type) const {
+	return true;
+}
+
+bool Game::isDistanceEffectRegistered(uint16_t type) const {
+	return true;
+}
+
+bool Game::isLookTypeRegistered(uint16_t type) const {
 	return true;
 }
