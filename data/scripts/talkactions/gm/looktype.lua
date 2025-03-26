@@ -360,6 +360,7 @@ local invalidTypes = {
 	1452,
 	1458,
 	1462,
+	1781,
 }
 
 local looktype = TalkAction("/looktype")
@@ -372,11 +373,15 @@ function looktype.onSay(player, words, param)
 		player:sendCancelMessage("Command param required.")
 		return true
 	end
-
+	
 	-- Test if supplied parameter is actually a numerical value to ensure there is no nil value passed.
 	if param:match("%d") then
 		local lookType = tonumber(param)
-		if lookType >= 0 and lookType < 1469 and not table.contains(invalidTypes, lookType) then
+		local playerOutfit = player:getOutfit()
+			playerOutfit.lookType = lookType
+			player:setOutfit(playerOutfit)
+
+		if lookType and not table.contains(invalidTypes, lookType) then
 			local playerOutfit = player:getOutfit()
 			playerOutfit.lookType = lookType
 			player:setOutfit(playerOutfit)

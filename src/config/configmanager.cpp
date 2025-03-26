@@ -158,6 +158,7 @@ bool ConfigManager::load() {
 	loadBoolConfig(L, VIP_SYSTEM_ENABLED, "vipSystemEnabled", false);
 	loadBoolConfig(L, WARN_UNSAFE_SCRIPTS, "warnUnsafeScripts", true);
 	loadBoolConfig(L, XP_DISPLAY_MODE, "experienceDisplayRates", true);
+	loadBoolConfig(L, LOAD_ITEMS_FROM_SPR_DAT, "loadItemsFromSprDat", false);
 	loadBoolConfig(L, CYCLOPEDIA_HOUSE_AUCTION, "toggleCyclopediaHouseAuction", true);
 	loadBoolConfig(L, LEAVE_PARTY_ON_DEATH, "leavePartyOnDeath", false);
 
