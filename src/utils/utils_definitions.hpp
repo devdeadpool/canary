@@ -219,6 +219,7 @@ enum MagicEffectClasses : uint16_t {
 	CONST_ME_CANDY_FLOSS = 271,
 	CONST_ME_TESTE = 272,
 	CONST_ME_TESTE1 = 273,
+	CONST_ME_TESTE2 = 276,
 
 	CONST_ME_LAST
 };

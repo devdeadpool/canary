@@ -620,6 +620,7 @@ void LuaEnums::initConstMeEnums(lua_State* L) {
 	registerEnum(L, CONST_ME_CANDY_FLOSS);
 	registerEnum(L, CONST_ME_TESTE);
 	registerEnum(L, CONST_ME_TESTE1);
+	registerEnum(L, CONST_ME_TESTE2);
 }
 
 void LuaEnums::initConstAniEnums(lua_State* L) {

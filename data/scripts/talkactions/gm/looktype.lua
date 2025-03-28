@@ -381,7 +381,7 @@ function looktype.onSay(player, words, param)
 		playerOutfit.lookType = lookType
 		player:setOutfit(playerOutfit)
 
-		if lookType and not table.contains(invalidTypes, lookType) then
+		if lookType then
 			local playerOutfit = player:getOutfit()
 			playerOutfit.lookType = lookType
 			player:setOutfit(playerOutfit)

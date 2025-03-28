@@ -606,6 +606,7 @@ public:
 	bool isLookTypeRegistered(uint16_t type) const;
 
 	void setMagicEffectTypes(const std::vector<uint16_t> &types) {
+		g_logger().info("[Items::setMagicEffectTypes] - types: {}", types);
 		registeredMagicEffects = types;
 	}
 

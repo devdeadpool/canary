@@ -636,7 +636,7 @@ struct AugmentInfo {
 	int32_t value {};
 };
 
-enum DatAttr : uint8_t {
+enum DatAttr_t : uint8_t {
 	DatAttrGround = 0,
 	DatAttrClip = 1,
 	DatAttrBottom = 2,
