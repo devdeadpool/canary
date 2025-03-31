@@ -456,6 +456,11 @@ private:
 	void sendUpdateImpactTracker(CombatType_t type, int32_t amount);
 	void sendUpdateInputAnalyzer(CombatType_t type, int32_t amount, const std::string &target);
 
+	//attributes
+	void sendPlayerAttributes();
+	void parseResetAttributes();
+	void parseAddAttributePoint(NetworkMessage &msg);
+
 	// Hotkey equip/dequip item
 	void parseHotkeyEquip(NetworkMessage &msg);
 

@@ -1010,6 +1010,20 @@ void ProtocolGame::parsePacketFromDispatcher(NetworkMessage &msg, uint8_t recvby
 	}
 
 	switch (recvbyte) {
+		case 0xFF: {
+			uint16_t ariseOpcode = msg.get<uint16_t>();
+			switch (ariseOpcode) {
+				case 0x01:
+					parseResetAttributes();
+					break;
+				case 0x02:
+					parseAddAttributePoint(msg);
+					break;
+				// outros subcomandos
+			}
+			break;
+		}
+
 		case 0x14:
 			logout(true, false);
 			break;
@@ -1382,9 +1396,9 @@ void ProtocolGame::parsePacketFromDispatcher(NetworkMessage &msg, uint8_t recvby
 		case 0xF9:
 			parseModalWindowAnswer(msg);
 			break;
-		case 0xFF:
+		/* case 0xFF:
 			parseRewardChestCollect(msg);
-			break;
+			break; */
 			// case 0xFA: parseStoreOpen(msg); break;
 			// case 0xFB: parseStoreRequestOffers(msg); break;
 			// case 0xFC: parseStoreBuyOffer(msg) break;
@@ -7894,6 +7908,7 @@ void ProtocolGame::AddCreature(NetworkMessage &msg, const std::shared_ptr<Creatu
 			msg.add<uint16_t>(id); // g_game.enableFeature(GameCreatureAttachedEffect)
 		}
 	}
+	sendPlayerAttributes();
 }
 
 void ProtocolGame::AddPlayerStats(NetworkMessage &msg) {
@@ -9786,3 +9801,57 @@ void ProtocolGame::sendHousesInfo() {
 
 	writeToOutputBuffer(msg);
 }
+
+void ProtocolGame::sendPlayerAttributes() {
+	const auto& attributes = player->playerAttributes();
+
+	NetworkMessage msg;
+	msg.addByte(0xFF); // Opcional: use um opcode que você definir para esse pacote
+	msg.addByte(0x01); // Opcional: use um opcode que você definir para esse pacote
+
+	  // Percorre todos os atributos
+	  for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); ++i) {
+        const PlayerStatus status = static_cast<PlayerStatus>(i);
+        int value = attributes.getStatusAttribute(status); // valor do atributo
+        int cost  = attributes.getStatusPointCost(status); // custo p/ subir +1
+
+        msg.addByte(static_cast<uint8_t>(i));   // ID do atributo
+        msg.add<uint16_t>(static_cast<uint16_t>(value)); // Valor atual
+        msg.add<uint16_t>(static_cast<uint16_t>(cost));  // Custo do próximo ponto
+    }
+
+	msg.add<uint16_t>(static_cast<uint16_t>(attributes.getStatusPoints()));
+
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::parseResetAttributes() {
+	if (!player) return;
+
+	player->playerAttributes().resetStatusAttributes();
+	player->sendPlayerAttributes(); // reenvia os atributos atualizados
+	player->sendTextMessage(MESSAGE_LOOK, "Your attributes were reset.");
+}
+
+/* void ProtocolGame::parseAddAttributePoint(NetworkMessage& msg)
+{
+	uint8_t attrId = msg.getByte();
+	if (!player || attrId >= static_cast<uint8_t>(PlayerStatus::LAST)) {
+		return;
+	}
+
+	g_game().playerAddStatusPoint(player->getID(), static_cast<PlayerStatus>(attrId));
+} */
+
+void ProtocolGame::parseAddAttributePoint(NetworkMessage& msg) {
+    if (!player) {
+        return;
+    }
+
+    uint8_t attrId = msg.getByte();
+    uint8_t amount = msg.getByte(); // novo: quantidade
+	g_logger().info("[setAttribute] Attribute {} increased to {}", attrId, amount);
+    auto status = static_cast<PlayerStatus>(attrId);
+    g_game().playerAddStatusPoints(player->getID(), status, amount);
+}
+

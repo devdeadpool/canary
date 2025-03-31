@@ -944,6 +944,9 @@ public:
 
 	void sendTakeScreenshot(Screenshot_t screenshotType) const;
 
+
+	void sendPlayerAttributes() const;
+
 	void onThink(uint32_t interval) override;
 
 	void postAddNotification(const std::shared_ptr<Thing> &thing, const std::shared_ptr<Cylinder> &oldParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;

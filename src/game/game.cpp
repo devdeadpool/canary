@@ -23,6 +23,7 @@
 #include "creatures/players/grouping/team_finder.hpp"
 #include "creatures/players/highscore_category.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
+#include "creatures/players/status/player_attributes.hpp"
 #include "creatures/players/player.hpp"
 #include "enums/player_wheel.hpp"
 #include "database/databasetasks.hpp"
@@ -11553,4 +11554,36 @@ bool Game::isDistanceEffectRegistered(uint16_t type) const {
 
 bool Game::isLookTypeRegistered(uint16_t type) const {
 	return std::ranges::find(registeredLookTypes, type) != registeredLookTypes.end();
+}
+
+void Game::playerAddStatusPoints(uint32_t playerId, PlayerStatus attr, uint16_t amount)
+{
+    const auto& player = getPlayerByID(playerId);
+    if (!player || amount == 0) {
+        return;
+    }
+
+    auto& attributes = player->playerAttributes();
+    int available = attributes.getStatusPoints();
+    if (available <= 0) {
+        player->sendCancelMessage("You don't have enough status points.");
+        return;
+    }
+
+    int added = 0;
+    for (int i = 0; i < amount; ++i) {
+        if (!attributes.canSpendStatusPoint(attr)) {
+            break;
+        }
+        attributes.setStatusAttribute(attr, 1);
+        added++;
+    }
+
+    if (added == 0) {
+        player->sendCancelMessage("Not enough points for this upgrade.");
+        return;
+    }
+
+    player->sendPlayerAttributes();
+    // player->sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("You increased {}!", getStatusName(attr)));
 }

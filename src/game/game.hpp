@@ -14,6 +14,7 @@
 #include "creatures/players/components/player_title.hpp"
 #include "creatures/players/grouping/familiars.hpp"
 #include "creatures/players/grouping/groups.hpp"
+#include "creatures/players/status/player_status.hpp"
 #include "lua/creature/raids.hpp"
 #include "map/map.hpp"
 #include "modal_window/modal_window.hpp"
@@ -600,6 +601,9 @@ public:
 	}
 
 	FILELOADER_ERRORS loadAppearanceProtobuf(const std::string &file);
+
+
+	void playerAddStatusPoints(uint32_t playerId, PlayerStatus attr, uint16_t amount);
 
 	bool isMagicEffectRegistered(uint16_t type) const;
 	bool isDistanceEffectRegistered(uint16_t type) const;

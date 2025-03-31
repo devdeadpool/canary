@@ -10780,3 +10780,10 @@ int Player::getPointsPerLevel() const {
 			return 3; // Padrão para outras vocações
 	}
 }
+
+
+void Player::sendPlayerAttributes() const {
+	if (client) {
+		client->sendPlayerAttributes();
+	}
+}
