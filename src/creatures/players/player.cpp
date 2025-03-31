@@ -10781,7 +10781,6 @@ int Player::getPointsPerLevel() const {
 	}
 }
 
-
 void Player::sendPlayerAttributes() const {
 	if (client) {
 		client->sendPlayerAttributes();

@@ -944,7 +944,6 @@ public:
 
 	void sendTakeScreenshot(Screenshot_t screenshotType) const;
 
-
 	void sendPlayerAttributes() const;
 
 	void onThink(uint32_t interval) override;

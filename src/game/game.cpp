@@ -11556,34 +11556,33 @@ bool Game::isLookTypeRegistered(uint16_t type) const {
 	return std::ranges::find(registeredLookTypes, type) != registeredLookTypes.end();
 }
 
-void Game::playerAddStatusPoints(uint32_t playerId, PlayerStatus attr, uint16_t amount)
-{
-    const auto& player = getPlayerByID(playerId);
-    if (!player || amount == 0) {
-        return;
-    }
+void Game::playerAddStatusPoints(uint32_t playerId, PlayerStatus attr, uint16_t amount) {
+	const auto &player = getPlayerByID(playerId);
+	if (!player || amount == 0) {
+		return;
+	}
 
-    auto& attributes = player->playerAttributes();
-    int available = attributes.getStatusPoints();
-    if (available <= 0) {
-        player->sendCancelMessage("You don't have enough status points.");
-        return;
-    }
+	auto &attributes = player->playerAttributes();
+	int available = attributes.getStatusPoints();
+	if (available <= 0) {
+		player->sendCancelMessage("You don't have enough status points.");
+		return;
+	}
 
-    int added = 0;
-    for (int i = 0; i < amount; ++i) {
-        if (!attributes.canSpendStatusPoint(attr)) {
-            break;
-        }
-        attributes.setStatusAttribute(attr, 1);
-        added++;
-    }
+	int added = 0;
+	for (int i = 0; i < amount; ++i) {
+		if (!attributes.canSpendStatusPoint(attr)) {
+			break;
+		}
+		attributes.setStatusAttribute(attr, 1);
+		added++;
+	}
 
-    if (added == 0) {
-        player->sendCancelMessage("Not enough points for this upgrade.");
-        return;
-    }
+	if (added == 0) {
+		player->sendCancelMessage("Not enough points for this upgrade.");
+		return;
+	}
 
-    player->sendPlayerAttributes();
-    // player->sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("You increased {}!", getStatusName(attr)));
+	player->sendPlayerAttributes();
+	// player->sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("You increased {}!", getStatusName(attr)));
 }
