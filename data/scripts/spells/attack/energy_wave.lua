@@ -1,15 +1,15 @@
-local function formulaFunction(player, level, maglevel)
-	local min = (level / 5) + (maglevel * 4.5)
-	local max = (level / 5) + (maglevel * 9)
+local function formulaFunction(player, level, ninjutsu)
+	local min = (level / 5) + (ninjutsu * 4.5)
+	local max = (level / 5) + (ninjutsu * 9)
 	return -min, -max
 end
 
-function onGetFormulaValues(player, level, maglevel)
-	return formulaFunction(player, level, maglevel)
+function onGetFormulaValues(player, level, ninjutsu)
+	return formulaFunction(player, level, ninjutsu)
 end
 
-function onGetFormulaValuesWOD(player, level, maglevel)
-	return formulaFunction(player, level, maglevel)
+function onGetFormulaValuesWOD(player, level, ninjutsu)
+	return formulaFunction(player, level, ninjutsu)
 end
 
 local function createCombat(area, areaDiagonal, combatFunc)

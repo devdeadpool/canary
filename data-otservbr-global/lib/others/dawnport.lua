@@ -4,16 +4,16 @@ Dawnport = {
 	skillsLimit = {
 		[VOCATION.ID.NONE] = {},
 		[VOCATION.ID.SORCERER] = {
-			[SKILL_MAGLEVEL] = 20,
+			[SKILL_NINJUTSU] = 20,
 		},
 		[VOCATION.ID.DRUID] = {
-			[SKILL_MAGLEVEL] = 20,
+			[SKILL_NINJUTSU] = 20,
 		},
 		[VOCATION.ID.PALADIN] = {
-			[SKILL_MAGLEVEL] = 9,
+			[SKILL_NINJUTSU] = 9,
 		},
 		[VOCATION.ID.KNIGHT] = {
-			[SKILL_MAGLEVEL] = 4,
+			[SKILL_NINJUTSU] = 4,
 		},
 	},
 }
@@ -32,12 +32,12 @@ function Player.changeVocation(self, newVocationId)
 		magic.manaSpent = magic.manaSpent + self:getVocation():getRequiredManaSpent(level)
 	end
 	local skills = {
-		{ id = SKILL_FIST },
-		{ id = SKILL_CLUB },
-		{ id = SKILL_SWORD },
+		{ id = SKILL_TAIJUTSU },
+		{ id = SKILL_FUINJUTSU },
+		{ id = SKILL_BUKIJUTSU },
 		{ id = SKILL_AXE },
-		{ id = SKILL_DISTANCE },
-		{ id = SKILL_SHIELD },
+		{ id = SKILL_GENJUTSU },
+		{ id = SKILL_RESISTANCE },
 	}
 	-- Get current vocation skills levels and skills tries
 	for i = 1, #skills do
@@ -125,7 +125,7 @@ function isSkillGrowthLimited(player, skillId)
 		if skillsLimit and skillsLimit[skillId] then
 			-- Get current skillId level
 			local skillLevel
-			if skillId == SKILL_MAGLEVEL then
+			if skillId == SKILL_NINJUTSU then
 				skillLevel = player:getBaseMagicLevel()
 			else
 				skillLevel = player:getSkillLevel(skillId)

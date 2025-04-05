@@ -332,7 +332,7 @@ end
 
 function getPlayerMagLevel(cid)
 	local p = Player(cid)
-	return p and p:getMagicLevel() or false
+	return p and p:getNinjutsuLevel() or false
 end
 
 function getPlayerAccess(cid)

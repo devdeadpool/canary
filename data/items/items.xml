@@ -7392,7 +7392,7 @@
 	<item id="3094" article="a" name="sword ring">
 		<attribute key="primarytype" value="rings"/>
 		<attribute key="showduration" value="1"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="duration" value="1800"/>
 		<attribute key="transformdeequipto" value="3091"/>
 		<attribute key="decayTo" value="0"/>
@@ -21774,7 +21774,7 @@
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="absorbpercentice" value="-5"/>
 		<attribute key="absorbpercentfire" value="5"/>
-		<attribute key="skillsword" value="2"/>
+		<attribute key="skillbukijutsu" value="2"/>
 		<attribute key="armor" value="15"/>
 		<attribute key="weight" value="12000"/>
 		<attribute key="script" value="moveevent">
@@ -28971,7 +28971,7 @@
 	<item id="11688" article="a" name="shield of corruption">
 		<attribute key="weaponType" value="shield"/>
 		<attribute key="showAttributes" value="1"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="defense" value="36"/>
 		<attribute key="weight" value="4900"/>
 		<attribute key="imbuementslot" value="1">
@@ -34593,7 +34593,7 @@
 	<item id="16175" article="a" name="shiny blade">
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="attack" value="49"/>
 		<attribute key="extradef" value="2"/>
 		<attribute key="defense" value="35"/>
@@ -39843,7 +39843,7 @@
 	<item id="20066" article="an" name="umbral masterblade">
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="attack" value="52"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="31"/>
@@ -39902,7 +39902,7 @@
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="slotType" value="two-handed"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="54"/>
 		<attribute key="defense" value="35"/>
 		<attribute key="weight" value="9000"/>
@@ -44083,7 +44083,7 @@ Awarded by TibiaMagazine.com.ve"/>
 		<attribute key="showduration" value="1"/>
 		<attribute key="showAttributes" value="1"/>
 		<attribute key="absorbpercentphysical" value="4"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="duration" value="3600"/>
 		<attribute key="decayTo" value="22062"/>
 		<attribute key="armor" value="9"/>
@@ -44514,7 +44514,7 @@ Awarded by TibiaMisterios.com.br"/>
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="absorbpercentice" value="-8"/>
 		<attribute key="absorbpercentfire" value="8"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="armor" value="18"/>
 		<attribute key="weight" value="14500"/>
 		<attribute key="script" value="moveevent">
@@ -44553,7 +44553,7 @@ Awarded by TibiaMisterios.com.br"/>
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="absorbpercentpoison" value="8"/>
 		<attribute key="absorbpercentfire" value="-8"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="armor" value="18"/>
 		<attribute key="weight" value="14500"/>
 		<attribute key="script" value="moveevent">
@@ -44592,7 +44592,7 @@ Awarded by TibiaMisterios.com.br"/>
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="absorbpercentpoison" value="-8"/>
 		<attribute key="absorbpercentenergy" value="8"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="armor" value="18"/>
 		<attribute key="weight" value="14500"/>
 		<attribute key="script" value="moveevent">
@@ -44631,7 +44631,7 @@ Awarded by TibiaMisterios.com.br"/>
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="absorbpercentice" value="8"/>
 		<attribute key="absorbpercentenergy" value="-8"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="armor" value="18"/>
 		<attribute key="weight" value="14500"/>
 		<attribute key="script" value="moveevent">
@@ -46519,7 +46519,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="absorbpercentphysical" value="5"/>
 		<attribute key="skillclub" value="4"/>
 		<attribute key="skillaxe" value="4"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="duration" value="1800"/>
 		<attribute key="transformdeequipto" value="23544"/>
 		<attribute key="decayTo" value="0"/>
@@ -46602,7 +46602,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="absorbpercentphysical" value="3"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="skillaxe" value="3"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="duration" value="1800"/>
 		<attribute key="transformdeequipto" value="23533"/>
 		<attribute key="decayTo" value="0"/>
@@ -52500,7 +52500,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="elementenergy" value="42"/>
 		<attribute key="absorbpercentenergy" value="6"/>
-		<attribute key="skillsword" value="2"/>
+		<attribute key="skillbukijutsu" value="2"/>
 		<attribute key="attack" value="10"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="29"/>
@@ -54152,7 +54152,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="skilldist" value="3"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="skillaxe" value="3"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="armor" value="10"/>
 		<attribute key="weight" value="3600"/>
 		<attribute key="script" value="moveevent">
@@ -54210,7 +54210,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="slotType" value="two-handed"/>
 		<attribute key="absorbpercentpoison" value="10"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="attack" value="56"/>
 		<attribute key="defense" value="34"/>
 		<attribute key="weight" value="8200"/>
@@ -55456,7 +55456,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="elementfire" value="41"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="attack" value="10"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="20"/>
@@ -55479,7 +55479,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="elementice" value="40"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="attack" value="10"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="22"/>
@@ -57297,7 +57297,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="absorbpercentphysical" value="5"/>
 		<attribute key="skillclub" value="1"/>
 		<attribute key="skillaxe" value="1"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="armor" value="9"/>
 		<attribute key="weight" value="2700"/>
 		<attribute key="imbuementslot" value="2">
@@ -57316,7 +57316,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 	</item>
 	<item id="30398" name="cobra sword">
 		<attribute key="primarytype" value="sword weapons"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="52"/>
 		<attribute key="extradef" value="2"/>
 		<attribute key="defense" value="31"/>
@@ -58984,7 +58984,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="absorbpercentpoison" value="5"/>
 		<attribute key="skillclub" value="2"/>
 		<attribute key="skillaxe" value="2"/>
-		<attribute key="skillsword" value="2"/>
+		<attribute key="skillbukijutsu" value="2"/>
 		<attribute key="armor" value="9"/>
 		<attribute key="weight" value="3100"/>
 		<attribute key="imbuementslot" value="1">
@@ -59210,7 +59210,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="slotType" value="two-handed"/>
 		<attribute key="elementearth" value="49"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="7"/>
 		<attribute key="defense" value="32"/>
 		<attribute key="weight" value="8100"/>
@@ -61680,7 +61680,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="skilldist" value="2"/>
 		<attribute key="skillclub" value="2"/>
 		<attribute key="skillaxe" value="2"/>
-		<attribute key="skillsword" value="2"/>
+		<attribute key="skillbukijutsu" value="2"/>
 		<attribute key="armor" value="9"/>
 		<attribute key="weight" value="5500"/>
 		<attribute key="script" value="moveevent">
@@ -63918,7 +63918,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="manaleechchance" value="100"/>
 		<attribute key="lifeleechamount" value="500"/>
 		<attribute key="lifeleechchance" value="100"/>
-		<attribute key="skillsword" value="5"/>
+		<attribute key="skillbukijutsu" value="5"/>
 		<attribute key="attack" value="7"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="32"/>
@@ -63944,7 +63944,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="elementice" value="47"/>
 		<attribute key="criticalhitdamage" value="1000"/>
 		<attribute key="criticalhitchance" value="1000"/>
-		<attribute key="skillsword" value="5"/>
+		<attribute key="skillbukijutsu" value="5"/>
 		<attribute key="attack" value="10"/>
 		<attribute key="defense" value="35"/>
 		<attribute key="weight" value="8100"/>
@@ -64262,7 +64262,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="absorbpercentfire" value="5"/>
 		<attribute key="skillclub" value="1"/>
 		<attribute key="skillaxe" value="1"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="speed" value="15"/>
 		<attribute key="armor" value="4"/>
 		<attribute key="weight" value="1300"/>
@@ -64632,7 +64632,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="elementearth" value="44"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="8"/>
 		<attribute key="extradef" value="2"/>
 		<attribute key="defense" value="31"/>
@@ -64679,7 +64679,7 @@ hands of its owner. Granted by TibiaRoyal.com"/>
 		<attribute key="absorbpercentphysical" value="6"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="skillaxe" value="3"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="armor" value="17"/>
 		<attribute key="weight" value="15000"/>
 		<attribute key="imbuementslot" value="2">
@@ -67308,7 +67308,7 @@ former students at the Noodles Academy. Awarded by TibiaLabs.com"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="slotType" value="two-handed"/>
 		<attribute key="elementfire" value="50"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="6"/>
 		<attribute key="defense" value="33"/>
 		<attribute key="cleavepercent" value="3"/>
@@ -67332,7 +67332,7 @@ former students at the Noodles Academy. Awarded by TibiaLabs.com"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="slotType" value="two-handed"/>
 		<attribute key="elementfire" value="50"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="6"/>
 		<attribute key="defense" value="33"/>
 		<attribute key="cleavepercent" value="3"/>
@@ -71283,7 +71283,7 @@ Granted by TibiaGoals.com"/>
 	<item id="39147" article="a" name="spiritthorn armor">
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="absorbpercentphysical" value="13"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="skillaxe" value="4"/>
 		<attribute key="skillclub" value="4"/>
 		<attribute key="reflectdamage" value="19"/>
@@ -71308,7 +71308,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="primarytype" value="helmets"/>
 		<attribute key="absorbpercentphysical" value="6"/>
 		<attribute key="absorbpercentenergy" value="10"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="skillaxe" value="3"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="reflectdamage" value="13"/>
@@ -71461,7 +71461,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="primarytype" value="sword weapons"/>
 		<attribute key="weaponType" value="sword"/>
 		<attribute key="elementice" value="44"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="attack" value="8"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="31"/>
@@ -71739,7 +71739,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="absorbpercentice" value="4"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="skillaxe" value="3"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="armor" value="2"/>
 		<attribute key="transformDeEquipTo" value="39177"/>
 		<attribute key="showduration" value="1"/>
@@ -72100,7 +72100,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="absorbpercentice" value="15"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="skillaxe" value="3"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="transformDeEquipTo" value="39233"/>
 		<attribute key="showduration" value="1"/>
 		<attribute key="showattributes" value="1"/>
@@ -73878,7 +73878,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="absorbpercentice" value="7"/>
 		<attribute key="skillclub" value="1"/>
 		<attribute key="skillaxe" value="1"/>
-		<attribute key="skillsword" value="1"/>
+		<attribute key="skillbukijutsu" value="1"/>
 		<attribute key="armor" value="9"/>
 		<attribute key="weight" value="2200"/>
 		<attribute key="imbuementslot" value="2">
@@ -73902,7 +73902,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="absorbpercentpoison" value="5"/>
 		<attribute key="skillclub" value="2"/>
 		<attribute key="skillaxe" value="2"/>
-		<attribute key="skillsword" value="2"/>
+		<attribute key="skillbukijutsu" value="2"/>
 		<attribute key="armor" value="9"/>
 		<attribute key="weight" value="3400"/>
 		<attribute key="script" value="moveevent">
@@ -75532,7 +75532,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="lifeleechchance" value="100"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="32"/>
-		<attribute key="skillsword" value="5"/>
+		<attribute key="skillbukijutsu" value="5"/>
 		<attribute key="weight" value="6100"/>
 		<attribute key="imbuementslot" value="2">
 			<attribute key="life leech" value="3"/>
@@ -75564,7 +75564,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="lifeleechchance" value="100"/>
 		<attribute key="extradef" value="3"/>
 		<attribute key="defense" value="32"/>
-		<attribute key="skillsword" value="5"/>
+		<attribute key="skillbukijutsu" value="5"/>
 		<attribute key="weight" value="6000"/>
 		<attribute key="imbuementslot" value="2">
 			<attribute key="life leech" value="3"/>
@@ -75722,7 +75722,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="criticalhitdamage" value="1000"/>
 		<attribute key="attack" value="8"/>
 		<attribute key="defense" value="35"/>
-		<attribute key="skillsword" value="5"/>
+		<attribute key="skillbukijutsu" value="5"/>
 		<attribute key="weight" value="8100"/>
 		<attribute key="imbuementslot" value="3">
 			<attribute key="life leech" value="3"/>
@@ -75751,7 +75751,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="criticalhitchance" value="1000"/>
 		<attribute key="attack" value="8"/>
 		<attribute key="defense" value="35"/>
-		<attribute key="skillsword" value="5"/>
+		<attribute key="skillbukijutsu" value="5"/>
 		<attribute key="weight" value="7900"/>
 		<attribute key="imbuementslot" value="3">
 			<attribute key="life leech" value="3"/>
@@ -75893,7 +75893,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="absorbpercentdeath" value="6"/>
 		<attribute key="skillaxe" value="4"/>
 		<attribute key="skillclub" value="4"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="armor" value="12"/>
 		<attribute key="weight" value="3800"/>
 		<attribute key="augments" value="1">
@@ -76479,7 +76479,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="primarytype" value="armors"/>
 		<attribute key="armor" value="18"/>
 		<attribute key="skillaxe" value="3"/>
-		<attribute key="skillsword" value="3"/>
+		<attribute key="skillbukijutsu" value="3"/>
 		<attribute key="skillclub" value="3"/>
 		<attribute key="absorbpercentphysical" value="8"/>
 		<attribute key="weight" value="15200"/>
@@ -76656,7 +76656,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="primarytype" value="legs"/>
 		<attribute key="armor" value="9"/>
 		<attribute key="skillaxe" value="2"/>
-		<attribute key="skillsword" value="2"/>
+		<attribute key="skillbukijutsu" value="2"/>
 		<attribute key="skillclub" value="2"/>
 		<attribute key="absorbpercentphysical" value="4"/>
 		<attribute key="absorbpercentenergy" value="2"/>
@@ -77176,7 +77176,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="slotType" value="two-handed"/>
 		<attribute key="elementdeath" value="50"/>
 		<attribute key="defense" value="34"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="weight" value="7200"/>
 		<attribute key="imbuementslot" value="2">
 			<attribute key="life leech" value="3"/>
@@ -77355,7 +77355,7 @@ Granted by TibiaGoals.com"/>
 		<attribute key="elementenergy" value="46"/>
 		<attribute key="defense" value="32"/>
 		<attribute key="extradef" value="3"/>
-		<attribute key="skillsword" value="4"/>
+		<attribute key="skillbukijutsu" value="4"/>
 		<attribute key="weight" value="5000"/>
 		<attribute key="imbuementslot" value="2">
 			<attribute key="life leech" value="3"/>

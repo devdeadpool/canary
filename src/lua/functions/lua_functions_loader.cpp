@@ -612,7 +612,7 @@ void Lua::pushInstantSpell(lua_State* L, const InstantSpell &spell) {
 	setField(L, "name", spell.getName());
 	setField(L, "words", spell.getWords());
 	setField(L, "level", spell.getLevel());
-	setField(L, "mlevel", spell.getMagicLevel());
+	setField(L, "mlevel", spell.getNinjutsuLevel());
 	setField(L, "mana", spell.getMana());
 	setField(L, "manapercent", spell.getManaPercent());
 

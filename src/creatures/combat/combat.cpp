@@ -36,7 +36,7 @@ int32_t Combat::getLevelFormula(const std::shared_ptr<Player> &player, const std
 		return 0;
 	}
 
-	uint32_t magicLevelSkill = player->getMagicLevel();
+	uint32_t magicLevelSkill = player->getNinjutsuLevel();
 	// Wheel of destiny - Runic Mastery
 	if (player->wheel().getInstant("Runic Mastery") && wheelSpell && damage.instantSpellName.empty() && normal_random(0, 100) <= 25) {
 		const auto conjuringSpell = g_spells().getInstantSpellByName(damage.runeSpellName);
@@ -46,7 +46,7 @@ int32_t Combat::getLevelFormula(const std::shared_ptr<Player> &player, const std
 		}
 	}
 
-	int32_t levelFormula = player->getLevel() * 2 + (player->getMagicLevel() + player->getSpecializedMagicLevel(damage.primary.type, true)) * 3;
+	int32_t levelFormula = player->getLevel() * 2 + (player->getNinjutsuLevel() + player->getSpecializedMagicLevel(damage.primary.type, true)) * 3;
 	return levelFormula;
 }
 
@@ -1572,12 +1572,12 @@ bool Combat::isValidChainTarget(const std::shared_ptr<Creature> &caster, const s
 ValueCallback::ValueCallback(formulaType_t initType) :
 	type(initType) { }
 
-uint32_t ValueCallback::getMagicLevelSkill(const std::shared_ptr<Player> &player, const CombatDamage &damage) const {
+uint32_t ValueCallback::getNinjutsuLevelSkill(const std::shared_ptr<Player> &player, const CombatDamage &damage) const {
 	if (!player) {
 		return 0;
 	}
 
-	uint32_t magicLevelSkill = player->getMagicLevel();
+	uint32_t magicLevelSkill = player->getNinjutsuLevel();
 	// Wheel of destiny
 	if (player && player->wheel().getInstant("Runic Mastery") && damage.instantSpellName.empty()) {
 		const std::shared_ptr<Spell> &spell = g_spells().getRuneSpellByName(damage.runeSpellName);
@@ -1621,9 +1621,9 @@ void ValueCallback::getMinMaxValues(const std::shared_ptr<Player> &player, Comba
 
 	switch (type) {
 		case COMBAT_FORMULA_LEVELMAGIC: {
-			// onGetPlayerMinMaxValues(player, level, maglevel)
+			// onGetPlayerMinMaxValues(player, level, ninjutsu)
 			lua_pushnumber(L, player->getLevel());
-			lua_pushnumber(L, getMagicLevelSkill(player, damage));
+			lua_pushnumber(L, getNinjutsuLevelSkill(player, damage));
 			parameters += 2;
 			break;
 		}

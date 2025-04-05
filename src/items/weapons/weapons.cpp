@@ -158,7 +158,7 @@ int32_t Weapon::playerWeaponCheck(const std::shared_ptr<Player> &player, const s
 			damageModifier = (isWieldedUnproperly() ? damageModifier / 2 : 0);
 		}
 
-		if (player->getMagicLevel() < getReqMagLv()) {
+		if (player->getNinjutsuLevel() < getReqMagLv()) {
 			damageModifier = (isWieldedUnproperly() ? damageModifier / 2 : 0);
 		}
 		return damageModifier;
@@ -206,7 +206,7 @@ bool Weapon::useFist(const std::shared_ptr<Player> &player, const std::shared_pt
 	}
 
 	const float attackFactor = player->getAttackFactor();
-	const int32_t attackSkill = player->getSkillLevel(SKILL_FIST);
+	const int32_t attackSkill = player->getSkillLevel(SKILL_TAIJUTSU);
 	constexpr int32_t attackValue = 7;
 
 	const int32_t maxDamage = Weapons::getMaxWeaponDamage(player->getLevel(), attackSkill, attackValue, attackFactor, true);
@@ -224,7 +224,7 @@ bool Weapon::useFist(const std::shared_ptr<Player> &player, const std::shared_pt
 
 	Combat::doCombatHealth(player, target, damage, params);
 	if (!player->hasFlag(PlayerFlags_t::NotGainSkill) && player->getAddAttackSkill()) {
-		player->addSkillAdvance(SKILL_FIST, 1);
+		player->addSkillAdvance(SKILL_TAIJUTSU, 1);
 	}
 
 	return true;
@@ -578,12 +578,12 @@ bool WeaponMelee::getSkillType(const std::shared_ptr<Player> &player, const std:
 	const WeaponType_t weaponType = item->getWeaponType();
 	switch (weaponType) {
 		case WEAPON_SWORD: {
-			skill = SKILL_SWORD;
+			skill = SKILL_BUKIJUTSU;
 			return true;
 		}
 
 		case WEAPON_CLUB: {
-			skill = SKILL_CLUB;
+			skill = SKILL_FUINJUTSU;
 			return true;
 		}
 
@@ -703,7 +703,7 @@ bool WeaponDistance::useWeapon(const std::shared_ptr<Player> &player, const std:
 		perfectShot = true;
 	} else if (it.hitChance == 0) {
 		// hit chance is based on distance to target and distance skill
-		const uint32_t skill = player->getSkillLevel(SKILL_DISTANCE);
+		const uint32_t skill = player->getSkillLevel(SKILL_GENJUTSU);
 		const uint32_t distance = std::max<uint32_t>(distanceX, distanceY);
 
 		uint32_t maxHitChance;
@@ -849,7 +849,7 @@ int32_t WeaponDistance::getElementDamage(const std::shared_ptr<Player> &player, 
 		}
 	}
 
-	const int32_t attackSkill = player->getSkillLevel(SKILL_DISTANCE);
+	const int32_t attackSkill = player->getSkillLevel(SKILL_GENJUTSU);
 	const float attackFactor = player->getAttackFactor();
 
 	int32_t minValue = std::round(player->getLevel() / 5);
@@ -887,7 +887,7 @@ int32_t WeaponDistance::getWeaponDamage(const std::shared_ptr<Player> &player, c
 		}
 	}
 
-	const int32_t attackSkill = player->getSkillLevel(SKILL_DISTANCE);
+	const int32_t attackSkill = player->getSkillLevel(SKILL_GENJUTSU);
 	const float attackFactor = player->getAttackFactor();
 
 	int32_t minValue = player->getLevel() / 5;
@@ -913,7 +913,7 @@ int32_t WeaponDistance::getWeaponDamage(const std::shared_ptr<Player> &player, c
 }
 
 bool WeaponDistance::getSkillType(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &, skills_t &skill, uint32_t &skillpoint) const {
-	skill = SKILL_DISTANCE;
+	skill = SKILL_GENJUTSU;
 
 	if (player && player->getAddAttackSkill()) {
 		switch (player->getLastAttackBlockType()) {

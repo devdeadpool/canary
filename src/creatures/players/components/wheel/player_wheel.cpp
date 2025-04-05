@@ -3058,7 +3058,7 @@ int32_t PlayerWheel::checkDrainBodyLeech(const std::shared_ptr<Creature> &target
 }
 
 int32_t PlayerWheel::checkBattleHealingAmount() const {
-	double amount = static_cast<double>(m_player.getSkillLevel(SKILL_SHIELD)) * 0.2;
+	double amount = static_cast<double>(m_player.getSkillLevel(SKILL_RESISTANCE)) * 0.2;
 	const uint8_t healthPercent = (m_player.getHealth() * 100) / m_player.getMaxHealth();
 	if (healthPercent <= 30) {
 		amount *= 3;
@@ -3806,7 +3806,7 @@ void PlayerWheel::adjustDamageBasedOnResistanceAndSkill(int32_t &damage, CombatT
 }
 
 float PlayerWheel::calculateMitigation() const {
-	const int32_t skill = m_player.getSkillLevel(SKILL_SHIELD);
+	const int32_t skill = m_player.getSkillLevel(SKILL_RESISTANCE);
 	int32_t defenseValue = 0;
 	float fightFactor = 1.0f;
 	float shieldFactor = 1.0f;

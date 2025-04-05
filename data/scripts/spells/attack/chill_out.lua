@@ -3,9 +3,9 @@ combat:setParameter(COMBAT_PARAM_TYPE, COMBAT_ICEDAMAGE)
 combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_ICEAREA)
 combat:setArea(createCombatArea(AREA_WAVE4, AREADIAGONAL_WAVE4))
 
-function onGetFormulaValues(player, level, maglevel)
-	local min = (level / 5) + (maglevel * 0.3) + 2
-	local max = (level / 5) + (maglevel * 0.6) + 4
+function onGetFormulaValues(player, level, ninjutsu)
+	local min = (level / 5) + (ninjutsu * 0.3) + 2
+	local max = (level / 5) + (ninjutsu * 0.6) + 4
 	return -min, -max
 end
 

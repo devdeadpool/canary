@@ -4,11 +4,11 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_STONES)
 combat:setParameter(COMBAT_PARAM_DISTANCEEFFECT, CONST_ANI_EARTH)
 combat:setArea(createCombatArea(AREA_CIRCLE1X1))
 
-function onGetFormulaValues(player, level, maglevel)
+function onGetFormulaValues(player, level, ninjutsu)
 	level = math.min(level, 20)
-	maglevel = math.min(maglevel, 20)
-	local min = (level / 5) + (maglevel * 0.3) + 2
-	local max = (level / 5) + (maglevel * 0.45) + 3
+	ninjutsu = math.min(ninjutsu, 20)
+	local min = (level / 5) + (ninjutsu * 0.3) + 2
+	local max = (level / 5) + (ninjutsu * 0.45) + 3
 	return -min, -max
 end
 

@@ -7,7 +7,7 @@ for i = 60, 85 do
 
 	local condition = Condition(CONDITION_ATTRIBUTES)
 	condition:setParameter(CONDITION_PARAM_TICKS, 25000)
-	condition:setParameter(CONDITION_PARAM_SKILL_DISTANCEPERCENT, i)
+	condition:setParameter(CONDITION_PARAM_SKILL_GENJUTSUPERCENT, i)
 	condition:setParameter(CONDITION_PARAM_SKILL_MELEEPERCENT, i)
 
 	local area = createCombatArea(AREA_BEAM1)

@@ -22,7 +22,7 @@ arr = {
 local area = createCombatArea(arr)
 combat2:setArea(area)
 
-function onGetFormulaValues(player, level, maglevel)
+function onGetFormulaValues(player, level, ninjutsu)
 	min = -1500
 	max = -1500
 	return min, max

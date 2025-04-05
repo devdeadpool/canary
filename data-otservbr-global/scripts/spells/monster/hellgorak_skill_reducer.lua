@@ -6,7 +6,7 @@ for i = 20, 40 do
 
 	local condition = Condition(CONDITION_ATTRIBUTES)
 	condition:setParameter(CONDITION_PARAM_TICKS, 20000)
-	condition:setParameter(CONDITION_PARAM_SKILL_DISTANCEPERCENT, i)
+	condition:setParameter(CONDITION_PARAM_SKILL_GENJUTSUPERCENT, i)
 
 	arr = {
 		{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },

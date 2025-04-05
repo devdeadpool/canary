@@ -6,7 +6,7 @@ for i = 35, 55 do
 
 	local condition = Condition(CONDITION_ATTRIBUTES)
 	condition:setParameter(CONDITION_PARAM_TICKS, 15000)
-	condition:setParameter(CONDITION_PARAM_SKILL_DISTANCEPERCENT, i)
+	condition:setParameter(CONDITION_PARAM_SKILL_GENJUTSUPERCENT, i)
 	combat[i]:addCondition(condition)
 
 	arr = {

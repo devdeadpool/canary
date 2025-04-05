@@ -95,7 +95,7 @@ class PlayerFunctions {
 	static int luaPlayerSendSpellCooldown(lua_State* L);
 	static int luaPlayerSendSpellGroupCooldown(lua_State* L);
 
-	static int luaPlayerGetMagicLevel(lua_State* L);
+	static int luaPlayerGetNinjutsuLevel(lua_State* L);
 	static int luaPlayerGetBaseMagicLevel(lua_State* L);
 	static int luaPlayerGetMana(lua_State* L);
 	static int luaPlayerAddMana(lua_State* L);

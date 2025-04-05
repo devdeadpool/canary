@@ -126,6 +126,17 @@ bool Vocations::loadFromXml() {
 			voc->avatarLookType = pugi::cast<uint16_t>(attr.value());
 		}
 
+		const auto attrNode = vocationNode.child("attributes");
+		if (attrNode) {
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::STRENGTH)] = attrNode.attribute("strength").as_int(0);
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::AGILITY)] = attrNode.attribute("agility").as_int(0);
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::INTELIGGENCE)] = attrNode.attribute("intelligence").as_int(0);
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::ENERGY)] = attrNode.attribute("energy").as_int(0);
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::FOCUS)] = attrNode.attribute("focus").as_int(0);
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::PERCEPTION)] = attrNode.attribute("perception").as_int(0);
+			voc->baseAttributes[static_cast<size_t>(PlayerStatus::DETERMINATION)] = attrNode.attribute("determination").as_int(0);
+		}
+
 		for (const auto &childNode : vocationNode.children()) {
 			if (strcasecmp(childNode.name(), "skill") == 0) {
 				pugi::xml_attribute skillIdAttribute = childNode.attribute("id");

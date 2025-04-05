@@ -57,10 +57,10 @@ function offlineTraining.onLogin(player)
 	local topVocation = not promotion and vocation or promotion
 
 	local tries = nil
-	if table.contains({ SKILL_CLUB, SKILL_SWORD, SKILL_AXE, SKILL_DISTANCE }, offlineTrainingSkill) then
+	if table.contains({ SKILL_FUINJUTSU, SKILL_BUKIJUTSU, SKILL_AXE, SKILL_GENJUTSU }, offlineTrainingSkill) then
 		local modifier = topVocation:getBaseAttackSpeed() / 1000
-		tries = (trainingTime / modifier) / (offlineTrainingSkill == SKILL_DISTANCE and 4 or 2)
-	elseif offlineTrainingSkill == SKILL_MAGLEVEL then
+		tries = (trainingTime / modifier) / (offlineTrainingSkill == SKILL_GENJUTSU and 4 or 2)
+	elseif offlineTrainingSkill == SKILL_NINJUTSU then
 		local gainTicks = topVocation:getManaGainTicks() / 1000
 		if gainTicks == 0 then
 			gainTicks = 1
@@ -75,7 +75,7 @@ function offlineTraining.onLogin(player)
 	end
 
 	if updateSkills then
-		player:addOfflineTrainingTries(SKILL_SHIELD, trainingTime / 4)
+		player:addOfflineTrainingTries(SKILL_RESISTANCE, trainingTime / 4)
 	end
 	return true
 end

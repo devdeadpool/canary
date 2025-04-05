@@ -121,6 +121,8 @@ void PlayerAttributes::setStatusAttribute(PlayerStatus status, int value) {
     // Seta o novo valor do atributo
     attributes[static_cast<int>(status)] = newValue;
 
+    updateDerivedStats();
+
     // Log para depuração
     g_logger().info("[setAttribute] Attribute {} increased from {} to {} (Spent {} points).",
                     static_cast<int>(status), oldValue, newValue, costNow);
@@ -153,23 +155,25 @@ int PlayerAttributes::getStatusPoints() const {
     return statusPoints;
 }
 
-// Reseta todos os atributos e devolve TODOS os pontos gastos ao statusPoints
 void PlayerAttributes::resetStatusAttributes() {
-    uint32_t total = statusPoints; // começa com o que já temos livre
+    uint32_t total = statusPoints;
 
-    // Para cada atributo, soma o custo total que foi necessário para chegar nele
     for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); i++) {
         uint32_t value = attributes[i];
-        if (value > 0) {
-            total += getTotalCostForValue(value);
-            attributes[i] = 0;
+        uint32_t base = m_player.vocation->baseAttributes[i];
+
+        if (value > base) {
+            total += calculateIncrementalCost(base, value);
         }
+
+        attributes[i] = base;
     }
 
     statusPoints = total;
 
-    // Envia pro cliente
+    updateDerivedStats();
     m_player.sendPlayerAttributes();
+
     g_logger().info("All attributes reset! You now have {} status points.", statusPoints);
 }
 
@@ -198,11 +202,11 @@ void PlayerAttributes::updatePoints(uint32_t oldLevel, uint32_t newLevel) {
     uint32_t qtdLvl = newLevel - oldLevel;
 
     // Pega quantos pontos por level a vocação desse player fornece
-    uint32_t pointsToAdd = m_player.getPointsPerLevel() * qtdLvl;
+    uint32_t pointsToAdd = m_player.getPointsPerLevel();
 
     // Adiciona esses pontos
     addStatusPoints(pointsToAdd);
-
+    updateDerivedStats();
     // Envia update pro cliente
     m_player.sendPlayerAttributes();
 
@@ -227,4 +231,64 @@ int PlayerAttributes::getStatusPointCost(PlayerStatus status) const {
     // Para descobrir o custo do "próximo nível"
     uint32_t nextPointCost = getCostForSinglePoint(attrValue + 1);
     return static_cast<int>(nextPointCost);
+}
+
+
+void PlayerAttributes::updateDerivedStats() {
+    const int oldHealthMax = m_player.healthMax;
+    const int oldManaMax = m_player.manaMax;
+
+    m_player.healthMax = m_player.getMaxHealth();
+    m_player.manaMax = m_player.getMaxMana();
+
+    int healthGain = m_player.healthMax - oldHealthMax;
+    int manaGain = m_player.manaMax - oldManaMax;
+
+    if (healthGain > 0) {
+        m_player.health = std::min(m_player.health + healthGain, m_player.healthMax);
+    } else {
+        m_player.health = std::min(m_player.health, m_player.healthMax);
+    }
+
+    if (manaGain > 0) {
+        m_player.mana = std::min(m_player.mana + manaGain, m_player.manaMax);
+    } else {
+        m_player.mana = std::min(m_player.mana, m_player.manaMax);
+    }
+
+    m_player.getCombatStats().calculateFromPlayer(&m_player);
+
+    m_player.sendHealthBarUpdate();
+    m_player.sendStats();
+}
+
+
+void PlayerAttributes::applyBaseAttributesFromVocation() {
+    for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); ++i) {
+        uint16_t base = m_player.vocation->baseAttributes[i];
+        setBaseAttribute(static_cast<PlayerStatus>(i), base);
+    }
+    updateDerivedStats();
+    saveToDatabase();
+    m_player.sendPlayerAttributes();
+    m_player.sendStats();
+}
+
+void PlayerAttributes::saveToDatabase() {
+	std::ostringstream query;
+	query << "UPDATE `player_attributes` SET "
+		  << "`strength` = " << getStatusAttribute(PlayerStatus::STRENGTH) << ", "
+		  << "`agility` = " << getStatusAttribute(PlayerStatus::AGILITY) << ", "
+		  << "`intelligence` = " << getStatusAttribute(PlayerStatus::INTELIGGENCE) << ", "
+		  << "`energy` = " << getStatusAttribute(PlayerStatus::ENERGY) << ", "
+		  << "`focus` = " << getStatusAttribute(PlayerStatus::FOCUS) << ", "
+		  << "`perception` = " << getStatusAttribute(PlayerStatus::PERCEPTION) << ", "
+		  << "`determination` = " << getStatusAttribute(PlayerStatus::DETERMINATION) << ", "
+		  << "`highest_level` = " << getHighestLevel() << ", "
+		  << "`status_points` = " << getStatusPoints()
+		  << " WHERE `player_id` = " << m_player.getGUID();
+
+	if (!Database::getInstance().executeQuery(query.str())) {
+		g_logger().warn("[saveToDatabase] Failed to save attributes for player {}", m_player.getName());
+	}
 }

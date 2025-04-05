@@ -24,6 +24,7 @@
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/status/player_attributes.hpp"
 #include "creatures/players/storages/storages.hpp"
+#include "database/database.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "enums/account_errors.hpp"
 #include "enums/account_group_type.hpp"
@@ -355,7 +356,7 @@ WeaponType_t Player::getWeaponType() const {
 
 int32_t Player::getWeaponSkill(const std::shared_ptr<Item> &item) const {
 	if (!item) {
-		return getSkillLevel(SKILL_FIST);
+		return getSkillLevel(SKILL_TAIJUTSU);
 	}
 
 	int32_t attackSkill;
@@ -363,12 +364,12 @@ int32_t Player::getWeaponSkill(const std::shared_ptr<Item> &item) const {
 	const WeaponType_t &weaponType = item->getWeaponType();
 	switch (weaponType) {
 		case WEAPON_SWORD: {
-			attackSkill = getSkillLevel(SKILL_SWORD);
+			attackSkill = getSkillLevel(SKILL_BUKIJUTSU);
 			break;
 		}
 
 		case WEAPON_CLUB: {
-			attackSkill = getSkillLevel(SKILL_CLUB);
+			attackSkill = getSkillLevel(SKILL_FUINJUTSU);
 			break;
 		}
 
@@ -379,7 +380,7 @@ int32_t Player::getWeaponSkill(const std::shared_ptr<Item> &item) const {
 
 		case WEAPON_MISSILE:
 		case WEAPON_DISTANCE: {
-			attackSkill = getSkillLevel(SKILL_DISTANCE);
+			attackSkill = getSkillLevel(SKILL_GENJUTSU);
 			break;
 		}
 
@@ -438,7 +439,7 @@ float Player::getMitigation() const {
 }
 
 int32_t Player::getDefense() const {
-	int32_t defenseSkill = getSkillLevel(SKILL_FIST);
+	int32_t defenseSkill = getSkillLevel(SKILL_TAIJUTSU);
 	int32_t defenseValue = 7;
 	std::shared_ptr<Item> weapon;
 	std::shared_ptr<Item> shield;
@@ -459,7 +460,7 @@ int32_t Player::getDefense() const {
 		if (shield->getDefense() > 0) {
 			defenseValue += wheel().getMajorStatConditional("Combat Mastery", WheelMajor_t::DEFENSE);
 		}
-		defenseSkill = getSkillLevel(SKILL_SHIELD);
+		defenseSkill = getSkillLevel(SKILL_RESISTANCE);
 	}
 
 	if (defenseSkill == 0) {
@@ -3079,8 +3080,8 @@ void Player::addManaSpent(uint64_t amount) {
 		return;
 	}
 
-	g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), SKILL_MAGLEVEL, amount);
-	g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, &EventCallback::playerOnGainSkillTries, getPlayer(), SKILL_MAGLEVEL, amount);
+	g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), SKILL_NINJUTSU, amount);
+	g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, &EventCallback::playerOnGainSkillTries, getPlayer(), SKILL_NINJUTSU, amount);
 	if (amount == 0) {
 		return;
 	}
@@ -3097,7 +3098,7 @@ void Player::addManaSpent(uint64_t amount) {
 		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
 		sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
 
-		g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_MAGLEVEL, magLevel - 1, magLevel);
+		g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_NINJUTSU, magLevel - 1, magLevel);
 		sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
 
 		sendUpdateStats = true;
@@ -3208,16 +3209,16 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 		// Player stats gain for vocations level <= 8
 		if (vocation->getId() != VOCATION_NONE && level <= 8) {
 			const auto &noneVocation = g_vocations().getVocation(VOCATION_NONE);
-			healthMax += noneVocation->getHPGain();
+			/* healthMax += noneVocation->getHPGain();
 			health += noneVocation->getHPGain();
 			manaMax += noneVocation->getManaGain();
-			mana += noneVocation->getManaGain();
+			mana += noneVocation->getManaGain(); */
 			capacity += noneVocation->getCapGain();
 		} else {
-			healthMax += vocation->getHPGain();
+			/* healthMax += vocation->getHPGain();
 			health += vocation->getHPGain();
 			manaMax += vocation->getManaGain();
-			mana += vocation->getManaGain();
+			mana += vocation->getManaGain(); */
 			capacity += vocation->getCapGain();
 		}
 
@@ -3230,8 +3231,8 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 	}
 
 	if (prevLevel != level) {
-		health = healthMax;
-		mana = manaMax;
+		/* health = healthMax;
+		mana = manaMax; */
 
 		updateBaseSpeed();
 		setBaseSpeed(getBaseSpeed());
@@ -3305,12 +3306,12 @@ void Player::removeExperience(uint64_t exp, bool sendText /* = false*/) {
 		// Player stats loss for vocations level <= 8
 		if (vocation->getId() != VOCATION_NONE && level <= 8) {
 			const auto &noneVocation = g_vocations().getVocation(VOCATION_NONE);
-			healthMax = std::max<int32_t>(0, healthMax - noneVocation->getHPGain());
-			manaMax = std::max<int32_t>(0, manaMax - noneVocation->getManaGain());
+			/* healthMax = std::max<int32_t>(0, healthMax - noneVocation->getHPGain());
+			manaMax = std::max<int32_t>(0, manaMax - noneVocation->getManaGain()); */
 			capacity = std::max<int32_t>(0, capacity - noneVocation->getCapGain());
 		} else {
-			healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
-			manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain());
+		/* 	healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
+			manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain()); */
 			capacity = std::max<int32_t>(0, capacity - vocation->getCapGain());
 		}
 		currLevelExp = Player::getExpForLevel(level);
@@ -3363,7 +3364,7 @@ void Player::onBlockHit() {
 		--shieldBlockCount;
 
 		if (hasShield()) {
-			addSkillAdvance(SKILL_SHIELD, 1);
+			addSkillAdvance(SKILL_RESISTANCE, 1);
 		}
 	}
 }
@@ -6441,7 +6442,7 @@ uint32_t Player::getAttackSpeed() const {
 	uint32_t MAX_ATTACK_SPEED = g_configManager().getNumber(MAX_SPEED_ATTACKONFIST);
 	if (onFistAttackSpeed) {
 		uint32_t baseAttackSpeed = vocation->getAttackSpeed();
-		uint32_t skillLevel = getSkillLevel(SKILL_FIST);
+		uint32_t skillLevel = getSkillLevel(SKILL_TAIJUTSU);
 		uint32_t attackSpeed = baseAttackSpeed - (skillLevel * g_configManager().getNumber(MULTIPLIER_ATTACKONFIST));
 
 		if (attackSpeed < MAX_ATTACK_SPEED) {
@@ -6524,7 +6525,7 @@ bool Player::isInWarList(uint32_t guildId) const {
 	return std::ranges::find(guildWarVector, guildId) != guildWarVector.end();
 }
 
-uint32_t Player::getMagicLevel() const {
+uint32_t Player::getNinjutsuLevel() const {
 	uint32_t magic = std::max<int32_t>(0, getLoyaltyMagicLevel() + varStats[STAT_MAGICPOINTS]);
 	// Wheel of destiny magic bonus
 	magic += m_wheelPlayer.getStat(WheelStat_t::MAGIC); // Regular bonus
@@ -6559,12 +6560,27 @@ uint32_t Player::getLoyaltyMagicLevel() const {
 	return level;
 }
 
-int32_t Player::getMaxHealth() const {
+/* int32_t Player::getMaxHealth() const {
 	return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
 }
 
 uint32_t Player::getMaxMana() const {
 	return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
+} */
+
+int32_t Player::getMaxHealth() const {
+	const int energy = playerAttributes().getStatusAttribute(PlayerStatus::ENERGY);
+	int32_t baseHealth = energy * 8;
+	return std::max<int32_t>(10, vocation->getHPGain() + baseHealth + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
+}
+
+uint32_t Player::getMaxMana() const {
+	const int energy = playerAttributes().getStatusAttribute(PlayerStatus::ENERGY);
+	const auto* skills = getSkills();
+	uint32_t baseMana = (energy * 4)
+		+ (skills[SKILL_NINJUTSU].level * 7)
+		+ (skills[SKILL_GENJUTSU].level * 7);
+	return std::max<uint32_t>(10, vocation->getManaGain() + baseMana + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
 }
 
 bool Player::hasExtraSwing() {
@@ -6582,15 +6598,15 @@ uint16_t Player::getSkillLevel(skills_t skill) const {
 	}
 
 	// Wheel of destiny
-	if (skill >= SKILL_CLUB && skill <= SKILL_AXE) {
+	if (skill >= SKILL_FUINJUTSU && skill <= SKILL_AXE) {
 		skillLevel += m_wheelPlayer.getStat(WheelStat_t::MELEE);
 		skillLevel += m_wheelPlayer.getMajorStatConditional("Battle Instinct", WheelMajor_t::MELEE);
-	} else if (skill == SKILL_DISTANCE) {
+	} else if (skill == SKILL_GENJUTSU) {
 		skillLevel += m_wheelPlayer.getMajorStatConditional("Positional Tactics", WheelMajor_t::DISTANCE);
 		skillLevel += m_wheelPlayer.getStat(WheelStat_t::DISTANCE);
-	} else if (skill == SKILL_SHIELD) {
+	} else if (skill == SKILL_RESISTANCE) {
 		skillLevel += m_wheelPlayer.getMajorStatConditional("Battle Instinct", WheelMajor_t::SHIELD);
-	} else if (skill == SKILL_MAGLEVEL) {
+	} else if (skill == SKILL_NINJUTSU) {
 		skillLevel += m_wheelPlayer.getMajorStatConditional("Positional Tactics", WheelMajor_t::MAGIC);
 		skillLevel += m_wheelPlayer.getStat(WheelStat_t::MAGIC);
 	} else if (skill == SKILL_LIFE_LEECH_AMOUNT) {
@@ -7209,7 +7225,7 @@ bool Player::addOfflineTrainingTries(skills_t skill, uint64_t tries) {
 	uint32_t oldSkillValue, newSkillValue;
 	long double oldPercentToNextLevel, newPercentToNextLevel;
 
-	if (skill == SKILL_MAGLEVEL) {
+	if (skill == SKILL_NINJUTSU) {
 		uint64_t currReqMana = vocation->getReqMana(magLevel);
 		uint64_t nextReqMana = vocation->getReqMana(magLevel + 1);
 
@@ -7220,8 +7236,8 @@ bool Player::addOfflineTrainingTries(skills_t skill, uint64_t tries) {
 		oldSkillValue = magLevel;
 		oldPercentToNextLevel = static_cast<long double>(manaSpent * 100) / nextReqMana;
 
-		g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), SKILL_MAGLEVEL, tries);
-		g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, &EventCallback::playerOnGainSkillTries, getPlayer(), SKILL_MAGLEVEL, std::ref(tries));
+		g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), SKILL_NINJUTSU, tries);
+		g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, &EventCallback::playerOnGainSkillTries, getPlayer(), SKILL_NINJUTSU, std::ref(tries));
 
 		uint32_t currMagLevel = magLevel;
 		while ((manaSpent + tries) >= nextReqMana) {
@@ -7230,7 +7246,7 @@ bool Player::addOfflineTrainingTries(skills_t skill, uint64_t tries) {
 			magLevel++;
 			manaSpent = 0;
 
-			g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_MAGLEVEL, magLevel - 1, magLevel);
+			g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_NINJUTSU, magLevel - 1, magLevel);
 
 			sendUpdate = true;
 			currReqMana = nextReqMana;
@@ -10786,4 +10802,15 @@ void Player::sendPlayerAttributes() const {
 	if (client) {
 		client->sendPlayerAttributes();
 	}
+}
+
+void Player::sendHealthBarUpdate() {
+	g_game().addCreatureHealth(std::static_pointer_cast<Creature>(shared_from_this()));
+}
+
+void Player::initializeFromVocationIfNeeded(bool initSkills, bool initAttributes) {
+    if (initAttributes) {
+        playerAttributes().applyBaseAttributesFromVocation();
+		Database::getInstance().executeQuery(fmt::format("UPDATE players SET attributes_initialized = 1 WHERE id = {}", getGUID()));
+    }
 }

@@ -113,7 +113,7 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "sendSpellCooldown", PlayerFunctions::luaPlayerSendSpellCooldown);
 	Lua::registerMethod(L, "Player", "sendSpellGroupCooldown", PlayerFunctions::luaPlayerSendSpellGroupCooldown);
 
-	Lua::registerMethod(L, "Player", "getMagicLevel", PlayerFunctions::luaPlayerGetMagicLevel);
+	Lua::registerMethod(L, "Player", "getNinjutsuLevel", PlayerFunctions::luaPlayerGetNinjutsuLevel);
 	Lua::registerMethod(L, "Player", "getBaseMagicLevel", PlayerFunctions::luaPlayerGetBaseMagicLevel);
 	Lua::registerMethod(L, "Player", "getMana", PlayerFunctions::luaPlayerGetMana);
 	Lua::registerMethod(L, "Player", "addMana", PlayerFunctions::luaPlayerAddMana);
@@ -1334,11 +1334,11 @@ int PlayerFunctions::luaPlayerSendSpellGroupCooldown(lua_State* L) {
 	return 1;
 }
 
-int PlayerFunctions::luaPlayerGetMagicLevel(lua_State* L) {
-	// player:getMagicLevel()
+int PlayerFunctions::luaPlayerGetNinjutsuLevel(lua_State* L) {
+	// player:getNinjutsuLevel()
 	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
 	if (player) {
-		lua_pushnumber(L, player->getMagicLevel());
+		lua_pushnumber(L, player->getNinjutsuLevel());
 	} else {
 		lua_pushnil(L);
 	}
@@ -3198,7 +3198,7 @@ int PlayerFunctions::luaPlayerCanLearnSpell(lua_State* L) {
 		Lua::pushBoolean(L, false);
 	} else if (player->getLevel() < spell->getLevel()) {
 		Lua::pushBoolean(L, false);
-	} else if (player->getMagicLevel() < spell->getMagicLevel()) {
+	} else if (player->getNinjutsuLevel() < spell->getNinjutsuLevel()) {
 		Lua::pushBoolean(L, false);
 	} else {
 		Lua::pushBoolean(L, true);

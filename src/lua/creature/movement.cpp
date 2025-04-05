@@ -517,7 +517,7 @@ uint32_t MoveEvent::EquipItem(const std::shared_ptr<MoveEvent> &moveEvent, const
 	}
 
 	if (!player->hasFlag(PlayerFlags_t::IgnoreWeaponCheck) && moveEvent->getWieldInfo() != 0) {
-		if (player->getLevel() < moveEvent->getReqLevel() || player->getMagicLevel() < moveEvent->getReqMagLv()) {
+		if (player->getLevel() < moveEvent->getReqLevel() || player->getNinjutsuLevel() < moveEvent->getReqMagLv()) {
 			return 0;
 		}
 

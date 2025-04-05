@@ -20,6 +20,9 @@ public:
 	int getStatusPointCost(PlayerStatus status) const;
 	void removeStatusPoints(int value);
 	void setBaseAttribute(PlayerStatus status, int value);
+	void updateDerivedStats();
+	void applyBaseAttributesFromVocation();
+	void saveToDatabase();
 
 private:
 	Player &m_player;

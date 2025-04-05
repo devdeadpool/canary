@@ -5,9 +5,9 @@ combat:setParameter(COMBAT_PARAM_AGGRESSIVE, 0)
 combat:setParameter(COMBAT_PARAM_TARGETCASTERORTOPMOST, 1)
 combat:setParameter(COMBAT_PARAM_DISPEL, CONDITION_PARALYZE)
 
-function onGetFormulaValues(player, level, maglevel)
-	local min = (level / 5) + (maglevel * 7.3) + 42
-	local max = (level / 5) + (maglevel * 12.4) + 90
+function onGetFormulaValues(player, level, ninjutsu)
+	local min = (level / 5) + (ninjutsu * 7.3) + 42
+	local max = (level / 5) + (ninjutsu * 12.4) + 90
 	return min, max
 end
 

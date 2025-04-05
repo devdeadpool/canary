@@ -1,6 +1,6 @@
-function onGetFormulaValues(player, level, maglevel)
-	local min = (level / 5) + (maglevel * 5.5)
-	local max = (level / 5) + (maglevel * 9)
+function onGetFormulaValues(player, level, ninjutsu)
+	local min = (level / 5) + (ninjutsu * 5.5)
+	local max = (level / 5) + (ninjutsu * 9)
 	return -min, -max
 end
 

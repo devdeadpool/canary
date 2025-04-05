@@ -610,7 +610,7 @@ function Player:onGainSkillTries(skill, tries)
 	local baseRate = configManager.getNumber(configKeys.RATE_SKILL)
 
 	-- Special case for magic level
-	if skill == SKILL_MAGLEVEL then
+	if skill == SKILL_NINJUTSU then
 		rateSkillStages = configManager.getBoolean(configKeys.RATE_USE_STAGES) and magicLevelStages or nil
 		currentSkillLevel = self:getBaseMagicLevel()
 		baseRate = configManager.getNumber(configKeys.RATE_MAGIC)

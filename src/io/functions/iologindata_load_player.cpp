@@ -149,7 +149,7 @@ bool IOLoginDataLoad::loadPlayerBasicInfo(const std::shared_ptr<Player> &player,
 	player->capacity = result->getNumber<uint32_t>("cap") * 100;
 	player->mana = result->getNumber<uint32_t>("mana");
 	player->manaMax = result->getNumber<uint32_t>("manamax");
-	player->magLevel = result->getNumber<uint32_t>("maglevel");
+	player->magLevel = result->getNumber<uint32_t>("ninjutsu");
 	uint64_t nextManaCount = player->vocation->getReqMana(player->magLevel + 1);
 	auto manaSpent = result->getNumber<uint64_t>("manaspent");
 	if (manaSpent > nextManaCount) {
@@ -212,6 +212,10 @@ bool IOLoginDataLoad::loadPlayerBasicInfo(const std::shared_ptr<Player> &player,
 	player->setMaxManaShield(result->getNumber<uint32_t>("max_manashield"));
 
 	player->setMarriageSpouse(result->getNumber<int32_t>("marriage_spouse"));
+
+	player->initializeFromVocationIfNeeded(
+		result->getNumber<uint8_t>("attributes_initialized") == 0
+	);
 	return true;
 }
 
@@ -342,8 +346,8 @@ void IOLoginDataLoad::loadPlayerSkill(const std::shared_ptr<Player> &player, con
 		return;
 	}
 
-	static const std::array<std::string, 13> skillNames = { "skill_fist", "skill_club", "skill_sword", "skill_axe", "skill_dist", "skill_shielding", "skill_fishing", "skill_critical_hit_chance", "skill_critical_hit_damage", "skill_life_leech_chance", "skill_life_leech_amount", "skill_mana_leech_chance", "skill_mana_leech_amount" };
-	static const std::array<std::string, 13> skillNameTries = { "skill_fist_tries", "skill_club_tries", "skill_sword_tries", "skill_axe_tries", "skill_dist_tries", "skill_shielding_tries", "skill_fishing_tries", "skill_critical_hit_chance_tries", "skill_critical_hit_damage_tries", "skill_life_leech_chance_tries", "skill_life_leech_amount_tries", "skill_mana_leech_chance_tries", "skill_mana_leech_amount_tries" };
+	static const std::array<std::string, 13> skillNames = { "skill_taijutsu", "skill_fuinjutsu", "skill_bukijutsu", "skill_axe", "skill_genjutsu", "skill_resistance", "skill_fishing", "skill_critical_hit_chance", "skill_critical_hit_damage", "skill_life_leech_chance", "skill_life_leech_amount", "skill_mana_leech_chance", "skill_mana_leech_amount" };
+	static const std::array<std::string, 13> skillNameTries = { "skill_taijutsu_tries", "skill_fuinjutsu_tries", "skill_bukijutsu_tries", "skill_axe_tries", "skill_genjutsu_tries", "skill_resistance_tries", "skill_fishing_tries", "skill_critical_hit_chance_tries", "skill_critical_hit_damage_tries", "skill_life_leech_chance_tries", "skill_life_leech_amount_tries", "skill_mana_leech_chance_tries", "skill_mana_leech_amount_tries" };
 	for (size_t i = 0; i < skillNames.size(); ++i) {
 		auto skillLevel = result->getNumber<uint16_t>(skillNames[i]);
 		auto skillTries = result->getNumber<uint64_t>(skillNameTries[i]);

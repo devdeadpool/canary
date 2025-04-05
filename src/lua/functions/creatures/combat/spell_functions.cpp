@@ -178,14 +178,14 @@ int SpellFunctions::luaSpellRegister(lua_State* L) {
 	} else if (spell->spellType == SPELL_RUNE) {
 		const auto &spellBase = Lua::getUserdataShared<Spell>(L, 1, "Spell");
 		const auto &rune = std::static_pointer_cast<RuneSpell>(spellBase);
-		if (rune->getMagicLevel() != 0 || rune->getLevel() != 0) {
+		if (rune->getNinjutsuLevel() != 0 || rune->getLevel() != 0) {
 			// Change information in the ItemType to get accurate description
 			ItemType &iType = Item::items.getItemType(rune->getRuneItemId());
 			// If the item is not registered in items.xml then we will register it by rune name
 			if (iType.name.empty()) {
 				iType.name = rune->getName();
 			}
-			iType.runeMagLevel = rune->getMagicLevel();
+			iType.runeMagLevel = rune->getNinjutsuLevel();
 			iType.runeLevel = rune->getLevel();
 			iType.charges = rune->getCharges();
 		}
@@ -402,7 +402,7 @@ int SpellFunctions::luaSpellMagicLevel(lua_State* L) {
 	const auto &spell = Lua::getUserdataShared<Spell>(L, 1, "Spell");
 	if (spell) {
 		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, spell->getMagicLevel());
+			lua_pushnumber(L, spell->getNinjutsuLevel());
 		} else {
 			spell->setMagicLevel(Lua::getNumber<uint32_t>(L, 2));
 			Lua::pushBoolean(L, true);

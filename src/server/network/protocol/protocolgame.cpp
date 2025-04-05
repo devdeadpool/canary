@@ -3556,10 +3556,10 @@ void ProtocolGame::sendCyclopediaCharacterGeneralStats() {
 	msg.add<uint32_t>(player->hasFlag(PlayerFlags_t::HasInfiniteCapacity) ? 1000000 : player->getFreeCapacity());
 	msg.addByte(8);
 	msg.addByte(1);
-	msg.add<uint16_t>(player->getMagicLevel());
+	msg.add<uint16_t>(player->getNinjutsuLevel());
 	msg.add<uint16_t>(player->getBaseMagicLevel());
 	msg.add<uint16_t>(player->getLoyaltyMagicLevel());
-	msg.add<uint16_t>(player->getMagicLevelPercent() * 100);
+	msg.add<uint16_t>(player->getNinjutsuLevelPercent() * 100);
 
 	for (uint8_t i = SKILL_FIRST; i < SKILL_CRITICAL_HIT_CHANCE; ++i) {
 		static const uint8_t HardcodedSkillIds[] = { 11, 9, 8, 10, 7, 6, 13 };
@@ -3649,7 +3649,7 @@ void ProtocolGame::sendCyclopediaCharacterCombatStats() {
 				}
 			}
 
-			int32_t attackSkill = player->getSkillLevel(SKILL_DISTANCE);
+			int32_t attackSkill = player->getSkillLevel(SKILL_GENJUTSU);
 			float attackFactor = player->getAttackFactor();
 			int32_t maxDamage = static_cast<int32_t>(Weapons::getMaxWeaponDamage(player->getLevel(), attackSkill, attackValue, attackFactor, true) * player->getVocation()->distDamageMultiplier);
 			if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
@@ -3690,7 +3690,7 @@ void ProtocolGame::sendCyclopediaCharacterCombatStats() {
 		}
 	} else {
 		float attackFactor = player->getAttackFactor();
-		int32_t attackSkill = player->getSkillLevel(SKILL_FIST);
+		int32_t attackSkill = player->getSkillLevel(SKILL_TAIJUTSU);
 		int32_t attackValue = 7;
 
 		int32_t maxDamage = Weapons::getMaxWeaponDamage(player->getLevel(), attackSkill, attackValue, attackFactor, true);
@@ -7949,9 +7949,9 @@ void ProtocolGame::AddPlayerStats(NetworkMessage &msg) {
 		msg.add<uint16_t>(std::min<int32_t>(player->getMana(), std::numeric_limits<uint16_t>::max()));
 		msg.add<uint16_t>(std::min<int32_t>(player->getMaxMana(), std::numeric_limits<uint16_t>::max()));
 
-		msg.addByte(static_cast<uint8_t>(std::min<uint32_t>(player->getMagicLevel(), std::numeric_limits<uint8_t>::max())));
+		msg.addByte(static_cast<uint8_t>(std::min<uint32_t>(player->getNinjutsuLevel(), std::numeric_limits<uint8_t>::max())));
 		msg.addByte(static_cast<uint8_t>(std::min<uint32_t>(player->getBaseMagicLevel(), std::numeric_limits<uint8_t>::max())));
-		msg.addByte(std::min<uint8_t>(static_cast<uint8_t>(player->getMagicLevelPercent()), 100));
+		msg.addByte(std::min<uint8_t>(static_cast<uint8_t>(player->getNinjutsuLevelPercent()), 100));
 	}
 
 	msg.addByte(player->getSoul());
@@ -7985,10 +7985,10 @@ void ProtocolGame::AddPlayerSkills(NetworkMessage &msg) {
 			msg.addByte(std::min<uint8_t>(100, static_cast<uint8_t>(player->getSkillPercent(skill))));
 		}
 	} else {
-		msg.add<uint16_t>(player->getMagicLevel());
+		msg.add<uint16_t>(player->getNinjutsuLevel());
 		msg.add<uint16_t>(player->getBaseMagicLevel());
 		msg.add<uint16_t>(player->getLoyaltyMagicLevel());
-		msg.add<uint16_t>(player->getMagicLevelPercent() * 100);
+		msg.add<uint16_t>(player->getNinjutsuLevelPercent() * 100);
 
 		for (uint8_t i = SKILL_FIRST; i <= SKILL_FISHING; ++i) {
 			auto skill = static_cast<skills_t>(i);
@@ -9849,8 +9849,7 @@ void ProtocolGame::parseAddAttributePoint(NetworkMessage& msg) {
     }
 
     uint8_t attrId = msg.getByte();
-    uint8_t amount = msg.getByte(); // novo: quantidade
-	g_logger().info("[setAttribute] Attribute {} increased to {}", attrId, amount);
+    uint8_t amount = msg.getByte();
     auto status = static_cast<PlayerStatus>(attrId);
     g_game().playerAddStatusPoints(player->getID(), status, amount);
 }

@@ -3,6 +3,7 @@ target_sources(${PROJECT_NAME}_lib PRIVATE
     appearance/outfit/outfit.cpp
     appearance/attached_effects/attached_effects.cpp
     combat/combat.cpp
+    combat/combat_stats.cpp
     combat/condition.cpp
     combat/spells.cpp
     creature.cpp

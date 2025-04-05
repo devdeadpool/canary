@@ -97,17 +97,17 @@ end
 
 function Game.getSkillType(weaponType)
 	if weaponType == WEAPON_CLUB then
-		return SKILL_CLUB
+		return SKILL_FUINJUTSU
 	elseif weaponType == WEAPON_SWORD then
-		return SKILL_SWORD
+		return SKILL_BUKIJUTSU
 	elseif weaponType == WEAPON_AXE then
 		return SKILL_AXE
 	elseif weaponType == WEAPON_DISTANCE or weaponType == WEAPON_MISSILE then
-		return SKILL_DISTANCE
+		return SKILL_GENJUTSU
 	elseif weaponType == WEAPON_SHIELD then
-		return SKILL_SHIELD
+		return SKILL_RESISTANCE
 	end
-	return SKILL_FIST
+	return SKILL_TAIJUTSU
 end
 
 if not globalStorageTable then

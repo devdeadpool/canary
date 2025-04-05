@@ -450,20 +450,20 @@ void ItemParse::parseHealthAndMana(const std::string &stringValue, pugi::xml_att
 }
 
 void ItemParse::parseSkills(const std::string &stringValue, pugi::xml_attribute valueAttribute, ItemType &itemType) {
-	if (stringValue == "skillsword") {
-		itemType.getAbilities().skills[SKILL_SWORD] = pugi::cast<int32_t>(valueAttribute.value());
+	if (stringValue == "skillbukijutsu") {
+		itemType.getAbilities().skills[SKILL_BUKIJUTSU] = pugi::cast<int32_t>(valueAttribute.value());
 	} else if (stringValue == "skillaxe") {
 		itemType.getAbilities().skills[SKILL_AXE] = pugi::cast<int32_t>(valueAttribute.value());
-	} else if (stringValue == "skillclub") {
-		itemType.getAbilities().skills[SKILL_CLUB] = pugi::cast<int32_t>(valueAttribute.value());
-	} else if (stringValue == "skilldist") {
-		itemType.getAbilities().skills[SKILL_DISTANCE] = pugi::cast<int32_t>(valueAttribute.value());
+	} else if (stringValue == "skillfuinjutsu") {
+		itemType.getAbilities().skills[SKILL_FUINJUTSU] = pugi::cast<int32_t>(valueAttribute.value());
+	} else if (stringValue == "skillgenjutsu") {
+		itemType.getAbilities().skills[SKILL_GENJUTSU] = pugi::cast<int32_t>(valueAttribute.value());
 	} else if (stringValue == "skillfish") {
 		itemType.getAbilities().skills[SKILL_FISHING] = pugi::cast<int32_t>(valueAttribute.value());
-	} else if (stringValue == "skillshield") {
-		itemType.getAbilities().skills[SKILL_SHIELD] = pugi::cast<int32_t>(valueAttribute.value());
-	} else if (stringValue == "skillfist") {
-		itemType.getAbilities().skills[SKILL_FIST] = pugi::cast<int32_t>(valueAttribute.value());
+	} else if (stringValue == "skillresistence") {
+		itemType.getAbilities().skills[SKILL_RESISTANCE] = pugi::cast<int32_t>(valueAttribute.value());
+	} else if (stringValue == "skilltaijutsu") {
+		itemType.getAbilities().skills[SKILL_TAIJUTSU] = pugi::cast<int32_t>(valueAttribute.value());
 	}
 }
 

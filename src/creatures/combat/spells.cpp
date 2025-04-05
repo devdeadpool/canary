@@ -477,7 +477,7 @@ bool Spell::playerSpellCheck(const std::shared_ptr<Player> &player) const {
 		return false;
 	}
 
-	if (player->getMagicLevel() < magLevel) {
+	if (player->getNinjutsuLevel() < magLevel) {
 		player->sendCancelMessage(RETURNVALUE_NOTENOUGHMAGICLEVEL);
 		g_game().addMagicEffect(player->getPosition(), CONST_ME_POFF);
 		return false;
@@ -868,7 +868,7 @@ void Spell::setLevel(uint32_t lvl) {
 	level = lvl;
 }
 
-uint32_t Spell::getMagicLevel() const {
+uint32_t Spell::getNinjutsuLevel() const {
 	return magLevel;
 }
 

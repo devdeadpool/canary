@@ -12,6 +12,7 @@
 #include "config/configmanager.hpp"
 #include "creatures/combat/condition.hpp"
 #include "creatures/combat/combat.hpp"
+#include "creatures/combat/combat_stats.hpp"
 #include "creatures/monsters/monster.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "game/game.hpp"
@@ -1918,4 +1919,27 @@ void Creature::detachEffectById(uint16_t id) {
 	}
 	attachedEffectList.erase(it);
 	g_game().sendDetachEffect(static_self_cast<Creature>(), id);
+}
+
+const CombatStats& Creature::getCombatStats() const {
+	return combatStats;
+}
+
+void Creature::sendCombatStatsInfo() const {
+	const auto& stats = getCombatStats();
+
+	std::ostringstream msg;
+	msg << " Combat Stats:\n";
+	msg << " ATK: " << stats.get(SHINOBISTAT_ATK) << "\n";
+	msg << " SP.ATK: " << stats.get(SHINOBISTAT_SP_ATK) << "\n";
+	msg << " DEF: " << stats.get(SHINOBISTAT_DEF) << "\n";
+	msg << " SP.DEF: " << stats.get(SHINOBISTAT_SP_DEF) << "\n";
+	msg << " Stamina: " << stats.get(SHINOBISTAT_STAMINA) << "\n";
+	msg << " Power: " << stats.get(SHINOBISTAT_POWER);
+
+	if (const auto &player = getPlayer()) {
+		player->sendTextMessage(MESSAGE_LOOK, msg.str());
+	}
+
+	
 }

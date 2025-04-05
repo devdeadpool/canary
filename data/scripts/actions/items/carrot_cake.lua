@@ -2,7 +2,7 @@ local distanceCondition = Condition(CONDITION_ATTRIBUTES)
 distanceCondition:setParameter(CONDITION_PARAM_SUBID, JeanPierreDistance)
 distanceCondition:setParameter(CONDITION_PARAM_BUFF_SPELL, 1)
 distanceCondition:setParameter(CONDITION_PARAM_TICKS, 60 * 60 * 1000)
-distanceCondition:setParameter(CONDITION_PARAM_SKILL_DISTANCE, 10)
+distanceCondition:setParameter(CONDITION_PARAM_SKILL_GENJUTSU, 10)
 distanceCondition:setParameter(CONDITION_PARAM_FORCEUPDATE, true)
 
 local carrotCake = Action()

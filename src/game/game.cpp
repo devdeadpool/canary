@@ -206,11 +206,11 @@ namespace InternalGame {
 } // Namespace InternalGame
 
 Game::Game() {
-	offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_SWORD);
+	offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_BUKIJUTSU);
 	offlineTrainingWindow.choices.emplace_back("Axe Fighting and Shielding", SKILL_AXE);
-	offlineTrainingWindow.choices.emplace_back("Club Fighting and Shielding", SKILL_CLUB);
-	offlineTrainingWindow.choices.emplace_back("Distance Fighting and Shielding", SKILL_DISTANCE);
-	offlineTrainingWindow.choices.emplace_back("Magic Level and Shielding", SKILL_MAGLEVEL);
+	offlineTrainingWindow.choices.emplace_back("Club Fighting and Shielding", SKILL_FUINJUTSU);
+	offlineTrainingWindow.choices.emplace_back("Distance Fighting and Shielding", SKILL_GENJUTSU);
+	offlineTrainingWindow.choices.emplace_back("Ninjutsu and Resistence", SKILL_NINJUTSU);
 	offlineTrainingWindow.buttons.emplace_back("Okay", 1);
 	offlineTrainingWindow.buttons.emplace_back("Cancel", 0);
 	offlineTrainingWindow.defaultEscapeButton = 1;
@@ -8856,21 +8856,21 @@ void Game::playerHighscores(const std::shared_ptr<Player> &player, HighscoreType
 std::string Game::getSkillNameById(uint8_t &skill) {
 	switch (static_cast<HighscoreCategories_t>(skill)) {
 		case HighscoreCategories_t::FIST_FIGHTING:
-			return "skill_fist";
+			return "skill_taijutsu";
 		case HighscoreCategories_t::CLUB_FIGHTING:
-			return "skill_club";
+			return "skill_fuinjutsu";
 		case HighscoreCategories_t::SWORD_FIGHTING:
-			return "skill_sword";
+			return "skill_bukijutsu";
 		case HighscoreCategories_t::AXE_FIGHTING:
 			return "skill_axe";
 		case HighscoreCategories_t::DISTANCE_FIGHTING:
-			return "skill_dist";
+			return "skill_genjutsu";
 		case HighscoreCategories_t::SHIELDING:
-			return "skill_shielding";
+			return "skill_resistance";
 		case HighscoreCategories_t::FISHING:
 			return "skill_fishing";
 		case HighscoreCategories_t::MAGIC_LEVEL:
-			return "maglevel";
+			return "ninjutsu";
 		case HighscoreCategories_t::BOSS_POINTS:
 			return "boss_points";
 		default:
@@ -9659,7 +9659,7 @@ void Game::playerAnswerModalWindow(uint32_t playerId, uint32_t modalWindowId, ui
 	// offline training, hardcoded
 	if (modalWindowId == std::numeric_limits<uint32_t>::max()) {
 		if (button == 1) {
-			if (choice == SKILL_SWORD || choice == SKILL_AXE || choice == SKILL_CLUB || choice == SKILL_DISTANCE || choice == SKILL_MAGLEVEL) {
+			if (choice == SKILL_BUKIJUTSU || choice == SKILL_AXE || choice == SKILL_FUINJUTSU || choice == SKILL_GENJUTSU || choice == SKILL_NINJUTSU) {
 				auto bedItem = player->getBedItem();
 				if (bedItem && bedItem->sleep(player)) {
 					player->setOfflineTrainingSkill(static_cast<int8_t>(choice));

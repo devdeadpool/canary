@@ -67,7 +67,7 @@ const phmap::flat_hash_map<std::string, ItemParseAttributes_t> ItemParseAttribut
 	{ "managain", ITEM_PARSE_MANAGAIN },
 	{ "manaticks", ITEM_PARSE_MANATICKS },
 	{ "manashield", ITEM_PARSE_MANASHIELD },
-	{ "skillsword", ITEM_PARSE_SKILLSWORD },
+	{ "skillbukijutsu", ITEM_PARSE_SKILLSWORD },
 	{ "skillaxe", ITEM_PARSE_SKILLAXE },
 	{ "skillclub", ITEM_PARSE_SKILLCLUB },
 	{ "skilldist", ITEM_PARSE_SKILLDIST },

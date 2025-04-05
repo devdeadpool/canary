@@ -136,7 +136,7 @@ public:
 	void setSoulCost(uint32_t s);
 	[[nodiscard]] uint32_t getLevel() const;
 	void setLevel(uint32_t lvl);
-	[[nodiscard]] uint32_t getMagicLevel() const;
+	[[nodiscard]] uint32_t getNinjutsuLevel() const;
 	void setMagicLevel(uint32_t lvl);
 	[[nodiscard]] uint32_t getMana() const;
 	void setMana(uint32_t m);

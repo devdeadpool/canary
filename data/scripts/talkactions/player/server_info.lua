@@ -27,22 +27,22 @@ function serverInfo.onSay(player, words, param)
 			.. getRateFromTable(experienceStages, player:getLevel(), expstagesrate)
 			.. "x"
 			.. "\nSword Skill Stages rate: "
-			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_SWORD), configRateSkill)
+			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_BUKIJUTSU), configRateSkill)
 			.. "x"
 			.. "\nClub Skill Stages rate: "
-			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_CLUB), configRateSkill)
+			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_FUINJUTSU), configRateSkill)
 			.. "x"
 			.. "\nAxe Skill Stages rate: "
 			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_AXE), configRateSkill)
 			.. "x"
 			.. "\nDistance Skill Stages rate: "
-			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_DISTANCE), configRateSkill)
+			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_GENJUTSU), configRateSkill)
 			.. "x"
 			.. "\nShield Skill Stages rate: "
-			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_SHIELD), configRateSkill)
+			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_RESISTANCE), configRateSkill)
 			.. "x"
 			.. "\nFist Skill Stages rate: "
-			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_FIST), configRateSkill)
+			.. getRateFromTable(skillsStages, player:getSkillLevel(SKILL_TAIJUTSU), configRateSkill)
 			.. "x"
 			.. "\nMagic rate: "
 			.. getRateFromTable(magicLevelStages, player:getBaseMagicLevel(), configManager.getNumber(configKeys.RATE_MAGIC))

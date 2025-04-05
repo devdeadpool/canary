@@ -2,7 +2,7 @@ local defenseCondition = Condition(CONDITION_ATTRIBUTES)
 defenseCondition:setParameter(CONDITION_PARAM_SUBID, JeanPierreDefense)
 defenseCondition:setParameter(CONDITION_PARAM_BUFF_SPELL, 1)
 defenseCondition:setParameter(CONDITION_PARAM_TICKS, 60 * 60 * 1000)
-defenseCondition:setParameter(CONDITION_PARAM_SKILL_SHIELD, 10)
+defenseCondition:setParameter(CONDITION_PARAM_SKILL_RESISTANCE, 10)
 defenseCondition:setParameter(CONDITION_PARAM_FORCEUPDATE, true)
 
 local roastedDragonWings = Action()

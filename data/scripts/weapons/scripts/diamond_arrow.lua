@@ -14,7 +14,7 @@ combat:setParameter(COMBAT_PARAM_IMPACTSOUND, SOUND_EFFECT_TYPE_DIAMOND_ARROW_EF
 combat:setParameter(COMBAT_PARAM_CASTSOUND, SOUND_EFFECT_TYPE_DIST_ATK_BOW)
 combat:setParameter(COMBAT_PARAM_BLOCKARMOR, true)
 function onGetFormulaValues(player, skill, attack, factor)
-	local distanceSkill = player:getEffectiveSkillLevel(SKILL_DISTANCE)
+	local distanceSkill = player:getEffectiveSkillLevel(SKILL_GENJUTSU)
 	local min = (player:getLevel() / 5)
 	local max = (0.09 * factor) * distanceSkill * attack + (player:getLevel() / 5)
 	return -min, -max

@@ -8,7 +8,7 @@ condition:setParameter(CONDITION_PARAM_SUBID, 1)
 condition:setParameter(CONDITION_PARAM_BUFF_SPELL, 1)
 condition:setParameter(CONDITION_PARAM_TICKS, 2 * 60 * 1000)
 condition:setParameter(CONDITION_PARAM_SKILL_MELEE, 3)
-condition:setParameter(CONDITION_PARAM_SKILL_DISTANCE, 3)
+condition:setParameter(CONDITION_PARAM_SKILL_GENJUTSU, 3)
 
 local baseMana = 60
 

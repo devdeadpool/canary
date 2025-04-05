@@ -5,9 +5,9 @@ combat:setParameter(COMBAT_PARAM_DISTANCEEFFECT, CONST_ANI_EXPLOSION)
 combat:setParameter(COMBAT_PARAM_BLOCKARMOR, 1)
 combat:setArea(createCombatArea(AREA_CIRCLE1X1))
 
-function onGetFormulaValues(player, level, maglevel)
+function onGetFormulaValues(player, level, ninjutsu)
 	local min = 0
-	local max = (level / 5) + (maglevel * 4.8)
+	local max = (level / 5) + (ninjutsu * 4.8)
 	return -min, -max
 end
 

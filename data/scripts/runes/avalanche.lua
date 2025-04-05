@@ -4,9 +4,9 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_ICEAREA)
 combat:setParameter(COMBAT_PARAM_DISTANCEEFFECT, CONST_ANI_ICE)
 combat:setArea(createCombatArea(AREA_CIRCLE3X3))
 
-function onGetFormulaValues(player, level, maglevel)
-	local min = (level / 5) + (maglevel * 1.2) + 7
-	local max = (level / 5) + (maglevel * 2.8) + 17
+function onGetFormulaValues(player, level, ninjutsu)
+	local min = (level / 5) + (ninjutsu * 1.2) + 7
+	local max = (level / 5) + (ninjutsu * 2.8) + 17
 	return -min, -max
 end
 

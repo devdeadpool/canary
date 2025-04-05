@@ -34,7 +34,7 @@ function dawnportAdvance.onAdvance(player, skill, oldLevel, newLevel)
 			end
 			-- Notify reached a skill limit
 		elseif skill ~= SKILL_LEVEL and isSkillGrowthLimited(player, skill) then
-			if skill == SKILL_MAGLEVEL then
+			if skill == SKILL_NINJUTSU then
 				player:sendTextMessage(
 					MESSAGE_EVENT_ADVANCE,
 					"You cannot train your magic level any further. \z

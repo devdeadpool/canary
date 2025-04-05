@@ -16,11 +16,11 @@ meleeCondition:setParameter(CONDITION_PARAM_SKILL_MELEE, 3)
 
 local shieldCondition = Condition(CONDITION_ATTRIBUTES)
 shieldCondition:setParameter(CONDITION_PARAM_TICKS, 60 * 60 * 1000)
-shieldCondition:setParameter(CONDITION_PARAM_SKILL_SHIELD, 7)
+shieldCondition:setParameter(CONDITION_PARAM_SKILL_RESISTANCE, 7)
 
 local distanceCondition = Condition(CONDITION_ATTRIBUTES)
 distanceCondition:setParameter(CONDITION_PARAM_TICKS, 60 * 60 * 1000)
-distanceCondition:setParameter(CONDITION_PARAM_SKILL_DISTANCE, 7)
+distanceCondition:setParameter(CONDITION_PARAM_SKILL_GENJUTSU, 7)
 
 local gourmetDishes = {
 	[29408] = { condition = shieldCondition, message = "Chomp." },

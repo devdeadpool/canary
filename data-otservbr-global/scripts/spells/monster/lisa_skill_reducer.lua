@@ -15,7 +15,7 @@ for i = 60, 75 do
 
 	local condition3 = Condition(CONDITION_ATTRIBUTES)
 	condition3:setParameter(CONDITION_PARAM_TICKS, 7000)
-	condition3:setParameter(CONDITION_PARAM_SKILL_DISTANCEPERCENT, i)
+	condition3:setParameter(CONDITION_PARAM_SKILL_GENJUTSUPERCENT, i)
 	condition3:setParameter(CONDITION_PARAM_SKILL_DEFENSEPERCENT, i)
 
 	arr = {

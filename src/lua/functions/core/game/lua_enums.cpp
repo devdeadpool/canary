@@ -371,12 +371,12 @@ void LuaEnums::initConditionParamEnums(lua_State* L) {
 	registerEnum(L, CONDITION_PARAM_TICKINTERVAL);
 	registerEnum(L, CONDITION_PARAM_FORCEUPDATE);
 	registerEnum(L, CONDITION_PARAM_SKILL_MELEE);
-	registerEnum(L, CONDITION_PARAM_SKILL_FIST);
-	registerEnum(L, CONDITION_PARAM_SKILL_CLUB);
-	registerEnum(L, CONDITION_PARAM_SKILL_SWORD);
+	registerEnum(L, CONDITION_PARAM_SKILL_TAIJUTSU);
+	registerEnum(L, CONDITION_PARAM_SKILL_FUINJUTSU);
+	registerEnum(L, CONDITION_PARAM_SKILL_BUKIJUTSU);
 	registerEnum(L, CONDITION_PARAM_SKILL_AXE);
-	registerEnum(L, CONDITION_PARAM_SKILL_DISTANCE);
-	registerEnum(L, CONDITION_PARAM_SKILL_SHIELD);
+	registerEnum(L, CONDITION_PARAM_SKILL_GENJUTSU);
+	registerEnum(L, CONDITION_PARAM_SKILL_RESISTANCE);
 	registerEnum(L, CONDITION_PARAM_SKILL_FISHING);
 	registerEnum(L, CONDITION_PARAM_SKILL_CRITICAL_HIT_CHANCE);
 	registerEnum(L, CONDITION_PARAM_SKILL_CRITICAL_HIT_DAMAGE);
@@ -392,12 +392,12 @@ void LuaEnums::initConditionParamEnums(lua_State* L) {
 	registerEnum(L, CONDITION_PARAM_STAT_MAGICPOINTSPERCENT);
 	registerEnum(L, CONDITION_PARAM_PERIODICDAMAGE);
 	registerEnum(L, CONDITION_PARAM_SKILL_MELEEPERCENT);
-	registerEnum(L, CONDITION_PARAM_SKILL_FISTPERCENT);
-	registerEnum(L, CONDITION_PARAM_SKILL_CLUBPERCENT);
-	registerEnum(L, CONDITION_PARAM_SKILL_SWORDPERCENT);
+	registerEnum(L, CONDITION_PARAM_SKILL_TAIJUTSUPERCENT);
+	registerEnum(L, CONDITION_PARAM_SKILL_FUINJUTSUPERCENT);
+	registerEnum(L, CONDITION_PARAM_SKILL_BUKIJUTSUPERCENT);
 	registerEnum(L, CONDITION_PARAM_SKILL_AXEPERCENT);
-	registerEnum(L, CONDITION_PARAM_SKILL_DISTANCEPERCENT);
-	registerEnum(L, CONDITION_PARAM_SKILL_SHIELDPERCENT);
+	registerEnum(L, CONDITION_PARAM_SKILL_GENJUTSUPERCENT);
+	registerEnum(L, CONDITION_PARAM_SKILL_RESISTANCEPERCENT);
 	registerEnum(L, CONDITION_PARAM_SKILL_FISHINGPERCENT);
 	registerEnum(L, CONDITION_PARAM_BUFF_SPELL);
 	registerEnum(L, CONDITION_PARAM_SUBID);
@@ -979,12 +979,12 @@ void LuaEnums::initReportReasonEnums(lua_State* L) {
 
 void LuaEnums::initSkillEnums(lua_State* L) {
 	registerEnum(L, SKILL_NONE);
-	registerEnum(L, SKILL_FIST);
-	registerEnum(L, SKILL_CLUB);
-	registerEnum(L, SKILL_SWORD);
+	registerEnum(L, SKILL_TAIJUTSU);
+	registerEnum(L, SKILL_FUINJUTSU);
+	registerEnum(L, SKILL_TAIJUTSU);
 	registerEnum(L, SKILL_AXE);
-	registerEnum(L, SKILL_DISTANCE);
-	registerEnum(L, SKILL_SHIELD);
+	registerEnum(L, SKILL_GENJUTSU);
+	registerEnum(L, SKILL_RESISTANCE);
 	registerEnum(L, SKILL_FISHING);
 	registerEnum(L, SKILL_CRITICAL_HIT_CHANCE);
 	registerEnum(L, SKILL_CRITICAL_HIT_DAMAGE);
@@ -992,7 +992,7 @@ void LuaEnums::initSkillEnums(lua_State* L) {
 	registerEnum(L, SKILL_LIFE_LEECH_AMOUNT);
 	registerEnum(L, SKILL_MANA_LEECH_CHANCE);
 	registerEnum(L, SKILL_MANA_LEECH_AMOUNT);
-	registerEnum(L, SKILL_MAGLEVEL);
+	registerEnum(L, SKILL_NINJUTSU);
 	registerEnum(L, SKILL_LEVEL);
 }
 

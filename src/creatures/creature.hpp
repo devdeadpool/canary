@@ -10,6 +10,7 @@
 #pragma once
 
 #include "creatures/creatures_definitions.hpp"
+#include "creatures/combat/combat_stats.hpp"
 #include "game/game_definitions.hpp"
 #include "game/movement/position.hpp"
 #include "items/thing.hpp"
@@ -77,6 +78,9 @@ public:
 	static constexpr double speedB = 261.29;
 	static constexpr double speedC = -4795.01;
 
+	CombatStats& getCombatStats() { return combatStats; }
+	const CombatStats& getCombatStats() const;
+	
 	virtual ~Creature();
 
 	// non-copyable
@@ -119,6 +123,8 @@ public:
 	void setRemoved() {
 		isInternalRemoved = true;
 	}
+
+	void sendCombatStatsInfo() const;
 
 	uint32_t getID() const {
 		return id;
@@ -898,4 +904,5 @@ private:
 	CombatDamage m_combatDamage;
 	std::vector<uint16_t> attachedEffectList;
 	std::string shader;
+	CombatStats combatStats;
 };

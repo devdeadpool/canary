@@ -34,7 +34,7 @@ public:
 	 * @param damage The combat damage information.
 	 * @return The magic level skill of the player.
 	 */
-	uint32_t getMagicLevelSkill(const std::shared_ptr<Player> &player, const CombatDamage &damage) const;
+	uint32_t getNinjutsuLevelSkill(const std::shared_ptr<Player> &player, const CombatDamage &damage) const;
 	void getMinMaxValues(const std::shared_ptr<Player> &player, CombatDamage &damage, bool useCharges) const;
 
 private:

@@ -1,14 +1,14 @@
 local skillMap = {
-	club = SKILL_CLUB,
-	sword = SKILL_SWORD,
+	club = SKILL_FUINJUTSU,
+	sword = SKILL_BUKIJUTSU,
 	axe = SKILL_AXE,
-	dist = SKILL_DISTANCE,
-	shield = SKILL_SHIELD,
+	dist = SKILL_GENJUTSU,
+	shield = SKILL_RESISTANCE,
 	fish = SKILL_FISHING,
 }
 
 local function getSkillId(skillName)
-	return skillMap[skillName:match("^%a+")] or SKILL_FIST
+	return skillMap[skillName:match("^%a+")] or SKILL_TAIJUTSU
 end
 
 local addSkill = TalkAction("/addskill")

@@ -8,7 +8,7 @@ for i = 1, 10 do
 	condition:setParameter(CONDITION_PARAM_TICKS, 15000)
 	condition:setParameter(CONDITION_PARAM_SKILL_MELEEPERCENT, i)
 	condition:setParameter(CONDITION_PARAM_SKILL_DEFENSEPERCENT, i)
-	condition:setParameter(CONDITION_PARAM_SKILL_DISTANCEPERCENT, i)
+	condition:setParameter(CONDITION_PARAM_SKILL_GENJUTSUPERCENT, i)
 
 	local area = createCombatArea({
 		{ 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 },

@@ -162,6 +162,10 @@ public:
 
 	static std::shared_ptr<Task> createPlayerTask(uint32_t delay, std::function<void(void)> f, const std::string &context);
 
+	void sendHealthBarUpdate();
+	void applyBaseSkillsFromVocation();
+	void initializeFromVocationIfNeeded(bool initAttributes);
+
 	void setID() override;
 
 	void setOnline(bool value) override {
@@ -193,6 +197,9 @@ public:
 	CreatureType_t getType() const override {
 		return CREATURETYPE_PLAYER;
 	}
+
+	Skill* getSkills() { return skills; }
+	const Skill* getSkills() const { return skills; }
 
 	uint8_t getLastMount() const;
 	uint8_t getCurrentMount() const;
@@ -456,12 +463,12 @@ public:
 	uint8_t getLevelPercent() const {
 		return levelPercent;
 	}
-	uint32_t getMagicLevel() const;
+	uint32_t getNinjutsuLevel() const;
 	uint32_t getLoyaltyMagicLevel() const;
 	uint32_t getBaseMagicLevel() const {
 		return magLevel;
 	}
-	double_t getMagicLevelPercent() const {
+	double_t getNinjutsuLevelPercent() const {
 		return magLevelPercent;
 	}
 	uint8_t getSoul() const {

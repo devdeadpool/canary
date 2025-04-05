@@ -72,7 +72,7 @@ private:
 	static int luaCreatureGetMaxHealth(lua_State* L);
 	static int luaCreatureSetMaxHealth(lua_State* L);
 	static int luaCreatureSetHiddenHealth(lua_State* L);
-
+	static int luaCreatureSendCombatStatsInfo(lua_State* L);
 	static int luaCreatureIsMoveLocked(lua_State* L);
 	static int luaCreatureSetMoveLocked(lua_State* L);
 

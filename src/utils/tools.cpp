@@ -964,22 +964,22 @@ SpawnType_t getSpawnType(const std::string &strValue) {
 
 std::string getSkillName(uint8_t skillid) {
 	switch (skillid) {
-		case SKILL_FIST:
+		case SKILL_TAIJUTSU:
 			return "fist fighting";
 
-		case SKILL_CLUB:
+		case SKILL_FUINJUTSU:
 			return "club fighting";
 
-		case SKILL_SWORD:
+		case SKILL_BUKIJUTSU:
 			return "sword fighting";
 
 		case SKILL_AXE:
 			return "axe fighting";
 
-		case SKILL_DISTANCE:
+		case SKILL_GENJUTSU:
 			return "distance fighting";
 
-		case SKILL_SHIELD:
+		case SKILL_RESISTANCE:
 			return "shielding";
 
 		case SKILL_FISHING:
@@ -1003,8 +1003,8 @@ std::string getSkillName(uint8_t skillid) {
 		case SKILL_MANA_LEECH_AMOUNT:
 			return "mana leech amount";
 
-		case SKILL_MAGLEVEL:
-			return "magic level";
+		case SKILL_NINJUTSU:
+			return "ninjutsu";
 
 		case SKILL_LEVEL:
 			return "level";

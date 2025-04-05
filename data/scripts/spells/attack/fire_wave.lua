@@ -5,9 +5,9 @@ combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_HITBYFIRE)
 local area = createCombatArea(AREA_WAVE4, AREADIAGONAL_WAVE4)
 combat:setArea(area)
 
-function onGetFormulaValues(player, level, maglevel)
-	local min = (level / 5) + (maglevel * 1.25) + 4
-	local max = (level / 5) + (maglevel * 2) + 12
+function onGetFormulaValues(player, level, ninjutsu)
+	local min = (level / 5) + (ninjutsu * 1.25) + 4
+	local max = (level / 5) + (ninjutsu * 2) + 12
 	return -min, -max
 end
 
