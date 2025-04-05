@@ -96,7 +96,6 @@ void CreatureFunctions::init(lua_State* L) {
 
 	Lua::registerMethod(L, "Creature", "sendCombatStatsInfo", CreatureFunctions::luaCreatureSendCombatStatsInfo);
 
-
 	CombatFunctions::init(L);
 	MonsterFunctions::init(L);
 	NpcFunctions::init(L);
@@ -1268,13 +1267,13 @@ int CreatureFunctions::luaCreatureSetShader(lua_State* L) {
 }
 
 int CreatureFunctions::luaCreatureSendCombatStatsInfo(lua_State* L) {
-	const auto& creature = Lua::getUserdataShared<Creature>(L, 1, "Creature");
+	const auto &creature = Lua::getUserdataShared<Creature>(L, 1, "Creature");
 	if (!creature) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	const auto& player = creature->getPlayer();
+	const auto &player = creature->getPlayer();
 	if (!player) {
 		lua_pushnil(L);
 		return 1;

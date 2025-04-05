@@ -9,7 +9,7 @@ void CombatStats::reset() {
 }
 
 void CombatStats::calculateFromPlayer(Player* player) {
-	const auto& attr = player->playerAttributes();
+	const auto &attr = player->playerAttributes();
 	const auto* skills = player->getSkills();
 
 	int energy = attr.getStatusAttribute(PlayerStatus::ENERGY);
@@ -18,8 +18,7 @@ void CombatStats::calculateFromPlayer(Player* player) {
 	int intelligence = attr.getStatusAttribute(PlayerStatus::INTELIGGENCE);
 	int agility = attr.getStatusAttribute(PlayerStatus::AGILITY);
 
-	stats[SHINOBISTAT_STAMINA] =
-		(energy * 4)
+	stats[SHINOBISTAT_STAMINA] = (energy * 4)
 		+ (skills[SKILL_TAIJUTSU].level * 20)
 		+ (skills[SKILL_BUKIJUTSU].level * 7);
 
@@ -28,16 +27,10 @@ void CombatStats::calculateFromPlayer(Player* player) {
 	stats[SHINOBISTAT_SP_ATK] = intelligence / 2;
 	stats[SHINOBISTAT_SP_DEF] = resistance / 2;
 
-	stats[SHINOBISTAT_POWER] =
-		(energy * 200)
+	stats[SHINOBISTAT_POWER] = (energy * 200)
 		+ (strength + intelligence + resistance) * 150
-		+ (
-			skills[SKILL_NINJUTSU].level +
-			skills[SKILL_GENJUTSU].level +
-			skills[SKILL_BUKIJUTSU].level +
-			skills[SKILL_TAIJUTSU].level +
-			agility
-		) * 100;
+		+ (skills[SKILL_NINJUTSU].level + skills[SKILL_GENJUTSU].level + skills[SKILL_BUKIJUTSU].level + skills[SKILL_TAIJUTSU].level + agility
+	      ) * 100;
 }
 
 void CombatStats::calculateFromMonster(Monster* monster) {

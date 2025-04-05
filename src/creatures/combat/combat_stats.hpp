@@ -27,8 +27,12 @@ public:
 	void calculateFromPlayer(Player* player);
 	void calculateFromMonster(Monster* monster);
 
-	int32_t get(shinobiStat_t stat) const { return stats[stat]; }
-	void set(shinobiStat_t stat, int32_t value) { stats[stat] = value; }
+	int32_t get(shinobiStat_t stat) const {
+		return stats[stat];
+	}
+	void set(shinobiStat_t stat, int32_t value) {
+		stats[stat] = value;
+	}
 
 private:
 	std::array<int32_t, SHINOBISTAT_LAST + 1> stats;

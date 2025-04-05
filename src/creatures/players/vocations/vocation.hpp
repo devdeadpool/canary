@@ -76,7 +76,7 @@ public:
 	std::vector<WheelGemSupremeModifier_t> getSupremeGemModifiers();
 
 	uint16_t getWheelGemId(WheelGemQuality_t quality);
-	std::array<uint16_t, static_cast<size_t>(PlayerStatus::LAST)> baseAttributes{};
+	std::array<uint16_t, static_cast<size_t>(PlayerStatus::LAST)> baseAttributes {};
 
 private:
 	friend class Vocations;

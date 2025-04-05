@@ -198,8 +198,12 @@ public:
 		return CREATURETYPE_PLAYER;
 	}
 
-	Skill* getSkills() { return skills; }
-	const Skill* getSkills() const { return skills; }
+	Skill* getSkills() {
+		return skills;
+	}
+	const Skill* getSkills() const {
+		return skills;
+	}
 
 	uint8_t getLastMount() const;
 	uint8_t getCurrentMount() const;
