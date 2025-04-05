@@ -602,7 +602,6 @@ public:
 
 	FILELOADER_ERRORS loadAppearanceProtobuf(const std::string &file);
 
-
 	void playerAddStatusPoints(uint32_t playerId, PlayerStatus attr, uint16_t amount);
 
 	bool isMagicEffectRegistered(uint16_t type) const;
