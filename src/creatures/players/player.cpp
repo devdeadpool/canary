@@ -10797,7 +10797,6 @@ int Player::getPointsPerLevel() const {
 	}
 }
 
-
 void Player::sendPlayerAttributes() const {
 	if (client) {
 		client->sendPlayerAttributes();
@@ -10809,8 +10808,8 @@ void Player::sendHealthBarUpdate() {
 }
 
 void Player::initializeFromVocationIfNeeded(bool initAttributes) {
-    if (initAttributes) {
-        playerAttributes().applyBaseAttributesFromVocation();
+	if (initAttributes) {
+		playerAttributes().applyBaseAttributesFromVocation();
 		Database::getInstance().executeQuery(fmt::format("UPDATE players SET attributes_initialized = 1 WHERE id = {}", getGUID()));
 	}
 }

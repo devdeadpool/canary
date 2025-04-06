@@ -9850,9 +9850,9 @@ void ProtocolGame::parseAddAttributePoint(NetworkMessage &msg) {
 		return;
 	}
 
-    uint8_t attrId = msg.getByte();
-    uint8_t amount = msg.getByte(); // novo: quantidade
+	uint8_t attrId = msg.getByte();
+	uint8_t amount = msg.getByte(); // novo: quantidade
 
-    auto status = static_cast<PlayerStatus>(attrId);
-    g_game().playerAddStatusPoints(player->getID(), status, amount);
+	auto status = static_cast<PlayerStatus>(attrId);
+	g_game().playerAddStatusPoints(player->getID(), status, amount);
 }

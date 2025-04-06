@@ -147,22 +147,22 @@ int PlayerAttributes::getStatusPoints() const {
 }
 
 void PlayerAttributes::resetStatusAttributes() {
-    uint32_t total = statusPoints;
+	uint32_t total = statusPoints;
 
-    for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); i++) {
-        uint32_t value = attributes[i];
-        uint32_t base = m_player.vocation->baseAttributes[i];
+	for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); i++) {
+		uint32_t value = attributes[i];
+		uint32_t base = m_player.vocation->baseAttributes[i];
 
-        if (value > base) {
-            total += calculateIncrementalCost(base, value);
-        }
+		if (value > base) {
+			total += calculateIncrementalCost(base, value);
+		}
 
-        attributes[i] = base;
-    }
+		attributes[i] = base;
+	}
 
-    statusPoints = total;
-    
-    m_player.sendPlayerAttributes();
+	statusPoints = total;
+
+	m_player.sendPlayerAttributes();
 	updateDerivedStats();
 
 	m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("All attributes reset! You now have {} status points.", statusPoints));
@@ -197,8 +197,8 @@ void PlayerAttributes::updatePoints(uint32_t oldLevel, uint32_t newLevel) {
 	// Adiciona esses pontos
 	addStatusPoints(pointsToAdd);
 
-    // Envia update pro cliente
-    m_player.sendPlayerAttributes();
+	// Envia update pro cliente
+	m_player.sendPlayerAttributes();
 	updateDerivedStats();
 
 	m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("You gained {} status points!", pointsToAdd));
