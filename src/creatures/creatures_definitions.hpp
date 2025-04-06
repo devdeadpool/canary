@@ -406,7 +406,7 @@ enum PlayerPronoun_t : uint8_t {
 	PLAYERPRONOUN_LAST = PLAYERPRONOUN_NAME
 };
 
- enum skills_t : int8_t {
+enum skills_t : int8_t {
 	SKILL_NONE = -1,
 	SKILL_TAIJUTSU = 0,
 	SKILL_FUINJUTSU = 1,
@@ -430,34 +430,34 @@ enum PlayerPronoun_t : uint8_t {
 };
 
 /* enum skills_t : int8_t {
-	SKILL_NONE = -1,
+    SKILL_NONE = -1,
 
-	// 🔁 Reaproveitadas e renomeadas para Naruto
-	SKILL_TAIJUTSU = 0,         // Era SKILL_TAIJUTSU
-	SKILL_BUKIJUTSU = 2,        // Era SKILL_BUKIJUTSU
-	SKILL_NINJUTSU = 13,        // Era SKILL_NINJUTSU
-	SKILL_GENJUTSU = 4,         // Era SKILL_GENJUTSU
-	SKILL_FUINJUTSU = 1,        // Era SKILL_FUINJUTSU
-	SKILL_RESISTANCE = 5,       // Era SKILL_RESISTANCE
+    // 🔁 Reaproveitadas e renomeadas para Naruto
+    SKILL_TAIJUTSU = 0,         // Era SKILL_TAIJUTSU
+    SKILL_BUKIJUTSU = 2,        // Era SKILL_BUKIJUTSU
+    SKILL_NINJUTSU = 13,        // Era SKILL_NINJUTSU
+    SKILL_GENJUTSU = 4,         // Era SKILL_GENJUTSU
+    SKILL_FUINJUTSU = 1,        // Era SKILL_FUINJUTSU
+    SKILL_RESISTANCE = 5,       // Era SKILL_RESISTANCE
 
-	// ✅ Mantidas como estão (não alteradas)
-	//SKILL_FUINJUTSU = 1,
-	SKILL_AXE = 3,
-	//SKILL_RESISTANCE = 5,
-	SKILL_FISHING = 6,
+    // ✅ Mantidas como estão (não alteradas)
+    //SKILL_FUINJUTSU = 1,
+    SKILL_AXE = 3,
+    //SKILL_RESISTANCE = 5,
+    SKILL_FISHING = 6,
 
-	SKILL_CRITICAL_HIT_CHANCE = 7,
-	SKILL_CRITICAL_HIT_DAMAGE = 8,
-	SKILL_LIFE_LEECH_CHANCE = 9,
-	SKILL_LIFE_LEECH_AMOUNT = 10,
-	SKILL_MANA_LEECH_CHANCE = 11,
-	SKILL_MANA_LEECH_AMOUNT = 12,
+    SKILL_CRITICAL_HIT_CHANCE = 7,
+    SKILL_CRITICAL_HIT_DAMAGE = 8,
+    SKILL_LIFE_LEECH_CHANCE = 9,
+    SKILL_LIFE_LEECH_AMOUNT = 10,
+    SKILL_MANA_LEECH_CHANCE = 11,
+    SKILL_MANA_LEECH_AMOUNT = 12,
 
-	//SKILL_NINJUTSU = 13,
-	SKILL_LEVEL = 14,
+    //SKILL_NINJUTSU = 13,
+    SKILL_LEVEL = 14,
 
-	SKILL_FIRST = SKILL_TAIJUTSU,
-	SKILL_LAST = SKILL_LEVEL
+    SKILL_FIRST = SKILL_TAIJUTSU,
+    SKILL_LAST = SKILL_LEVEL
 }; */
 
 enum CreatureType_t : uint8_t {

@@ -114,8 +114,8 @@ void PlayerAttributes::setStatusAttribute(PlayerStatus status, int value) {
 	// Desconta do statusPoints
 	statusPoints -= costNow;
 
-    // Seta o novo valor do atributo
-    attributes[static_cast<int>(status)] = newValue;
+	// Seta o novo valor do atributo
+	attributes[static_cast<int>(status)] = newValue;
 
 	// Manda atualização pro cliente, se desejar
 	m_player.sendPlayerAttributes();
@@ -191,11 +191,11 @@ void PlayerAttributes::updatePoints(uint32_t oldLevel, uint32_t newLevel) {
 	// Quantos níveis foram ganhos
 	uint32_t qtdLvl = newLevel - oldLevel;
 
-    // Pega quantos pontos por level a vocação desse player fornece
-    uint32_t pointsToAdd = m_player.getPointsPerLevel() * qtdLvl;
+	// Pega quantos pontos por level a vocação desse player fornece
+	uint32_t pointsToAdd = m_player.getPointsPerLevel() * qtdLvl;
 
-    // Adiciona esses pontos
-    addStatusPoints(pointsToAdd);
+	// Adiciona esses pontos
+	addStatusPoints(pointsToAdd);
 
     // Envia update pro cliente
     m_player.sendPlayerAttributes();
@@ -223,45 +223,43 @@ int PlayerAttributes::getStatusPointCost(PlayerStatus status) const {
 	return static_cast<int>(nextPointCost);
 }
 
-
 void PlayerAttributes::updateDerivedStats() {
-    const int oldHealthMax = m_player.healthMax;
-    const int oldManaMax = m_player.manaMax;
+	const int oldHealthMax = m_player.healthMax;
+	const int oldManaMax = m_player.manaMax;
 
-    m_player.healthMax = m_player.getMaxHealth();
-    m_player.manaMax = m_player.getMaxMana();
+	m_player.healthMax = m_player.getMaxHealth();
+	m_player.manaMax = m_player.getMaxMana();
 
-    int healthGain = m_player.healthMax - oldHealthMax;
-    int manaGain = m_player.manaMax - oldManaMax;
+	int healthGain = m_player.healthMax - oldHealthMax;
+	int manaGain = m_player.manaMax - oldManaMax;
 
-    if (healthGain > 0) {
-        m_player.health = std::min(m_player.health + healthGain, m_player.healthMax);
-    } else {
-        m_player.health = std::min(m_player.health, m_player.healthMax);
-    }
+	if (healthGain > 0) {
+		m_player.health = std::min(m_player.health + healthGain, m_player.healthMax);
+	} else {
+		m_player.health = std::min(m_player.health, m_player.healthMax);
+	}
 
-    if (manaGain > 0) {
-        m_player.mana = std::min(m_player.mana + manaGain, m_player.manaMax);
-    } else {
-        m_player.mana = std::min(m_player.mana, m_player.manaMax);
-    }
+	if (manaGain > 0) {
+		m_player.mana = std::min(m_player.mana + manaGain, m_player.manaMax);
+	} else {
+		m_player.mana = std::min(m_player.mana, m_player.manaMax);
+	}
 
-    m_player.getCombatStats().calculateFromPlayer(&m_player);
+	m_player.getCombatStats().calculateFromPlayer(&m_player);
 
-    m_player.sendHealthBarUpdate();
-    m_player.sendStats();
+	m_player.sendHealthBarUpdate();
+	m_player.sendStats();
 }
 
-
 void PlayerAttributes::applyBaseAttributesFromVocation() {
-    for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); ++i) {
-        uint16_t base = m_player.vocation->baseAttributes[i];
-        setBaseAttribute(static_cast<PlayerStatus>(i), base);
-    }
-    updateDerivedStats();
-    saveToDatabase();
-    m_player.sendPlayerAttributes();
-    m_player.sendStats();
+	for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); ++i) {
+		uint16_t base = m_player.vocation->baseAttributes[i];
+		setBaseAttribute(static_cast<PlayerStatus>(i), base);
+	}
+	updateDerivedStats();
+	saveToDatabase();
+	m_player.sendPlayerAttributes();
+	m_player.sendStats();
 }
 
 void PlayerAttributes::saveToDatabase() {

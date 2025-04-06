@@ -1921,12 +1921,12 @@ void Creature::detachEffectById(uint16_t id) {
 	g_game().sendDetachEffect(static_self_cast<Creature>(), id);
 }
 
-const CombatStats& Creature::getCombatStats() const {
+const CombatStats &Creature::getCombatStats() const {
 	return combatStats;
 }
 
 void Creature::sendCombatStatsInfo() const {
-	const auto& stats = getCombatStats();
+	const auto &stats = getCombatStats();
 
 	std::ostringstream msg;
 	msg << " Combat Stats:\n";
@@ -1940,6 +1940,4 @@ void Creature::sendCombatStatsInfo() const {
 	if (const auto &player = getPlayer()) {
 		player->sendTextMessage(MESSAGE_LOOK, msg.str());
 	}
-
-	
 }

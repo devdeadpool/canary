@@ -78,9 +78,11 @@ public:
 	static constexpr double speedB = 261.29;
 	static constexpr double speedC = -4795.01;
 
-	CombatStats& getCombatStats() { return combatStats; }
-	const CombatStats& getCombatStats() const;
-	
+	CombatStats &getCombatStats() {
+		return combatStats;
+	}
+	const CombatStats &getCombatStats() const;
+
 	virtual ~Creature();
 
 	// non-copyable

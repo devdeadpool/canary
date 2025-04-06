@@ -3310,8 +3310,8 @@ void Player::removeExperience(uint64_t exp, bool sendText /* = false*/) {
 			manaMax = std::max<int32_t>(0, manaMax - noneVocation->getManaGain()); */
 			capacity = std::max<int32_t>(0, capacity - noneVocation->getCapGain());
 		} else {
-		/* 	healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
-			manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain()); */
+			/* 	healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
+			    manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain()); */
 			capacity = std::max<int32_t>(0, capacity - vocation->getCapGain());
 		}
 		currLevelExp = Player::getExpForLevel(level);
@@ -6561,11 +6561,11 @@ uint32_t Player::getLoyaltyMagicLevel() const {
 }
 
 /* int32_t Player::getMaxHealth() const {
-	return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
+    return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
 }
 
 uint32_t Player::getMaxMana() const {
-	return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
+    return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
 } */
 
 int32_t Player::getMaxHealth() const {
@@ -10812,5 +10812,5 @@ void Player::initializeFromVocationIfNeeded(bool initAttributes) {
     if (initAttributes) {
         playerAttributes().applyBaseAttributesFromVocation();
 		Database::getInstance().executeQuery(fmt::format("UPDATE players SET attributes_initialized = 1 WHERE id = {}", getGUID()));
-    }
+	}
 }
