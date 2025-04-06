@@ -10797,6 +10797,7 @@ int Player::getPointsPerLevel() const {
 	}
 }
 
+
 void Player::sendPlayerAttributes() const {
 	if (client) {
 		client->sendPlayerAttributes();
@@ -10807,7 +10808,7 @@ void Player::sendHealthBarUpdate() {
 	g_game().addCreatureHealth(std::static_pointer_cast<Creature>(shared_from_this()));
 }
 
-void Player::initializeFromVocationIfNeeded(bool initSkills, bool initAttributes) {
+void Player::initializeFromVocationIfNeeded(bool initAttributes) {
     if (initAttributes) {
         playerAttributes().applyBaseAttributesFromVocation();
 		Database::getInstance().executeQuery(fmt::format("UPDATE players SET attributes_initialized = 1 WHERE id = {}", getGUID()));

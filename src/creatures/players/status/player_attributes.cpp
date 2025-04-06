@@ -31,16 +31,16 @@ struct CostTier {
 
 // Lista de tiers. Se quiser continuar acima de 50, é só adicionar outro com maxAttribute grande.
 static std::vector<CostTier> costTiers = {
-	{ 5, 1 },
-	{ 10, 2 },
-	{ 15, 3 },
-	{ 20, 4 },
-	{ 25, 5 },
-	{ 30, 6 },
-	{ 35, 7 },
-	{ 40, 8 },
-	{ 45, 9 },
-	{ 50, 10 },
+	{ 7, 1 },
+	{ 14, 2 },
+	{ 21, 3 },
+	{ 28, 4 },
+	{ 35, 5 },
+	{ 42, 6 },
+	{ 49, 7 },
+	{ 56, 8 },
+	{ 64, 9 },
+	{ 71, 10 },
 };
 
 // -------------------------------------------------
@@ -107,7 +107,7 @@ void PlayerAttributes::setStatusAttribute(PlayerStatus status, int value) {
 
 	// Se o jogador não tiver pontos de status suficientes, aborta (ou faz parcial).
 	if (costNow > static_cast<uint32_t>(statusPoints)) {
-		g_logger().info("Not enough points! Need {}, have {}.", costNow, statusPoints);
+		m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("Not enough points! Need {}, have {}.", costNow, statusPoints));
 		return;
 	}
 
@@ -117,11 +117,9 @@ void PlayerAttributes::setStatusAttribute(PlayerStatus status, int value) {
     // Seta o novo valor do atributo
     attributes[static_cast<int>(status)] = newValue;
 
-	// Log para depuração
-	g_logger().info("[setAttribute] Attribute {} increased from {} to {} (Spent {} points).", static_cast<int>(status), oldValue, newValue, costNow);
-
 	// Manda atualização pro cliente, se desejar
 	m_player.sendPlayerAttributes();
+	updateDerivedStats();
 }
 
 // Remove pontos de status (caso queira penalizar ou tirar statusPoints)
@@ -149,24 +147,26 @@ int PlayerAttributes::getStatusPoints() const {
 }
 
 void PlayerAttributes::resetStatusAttributes() {
-    uint32_t total = statusPoints; // começa com o que já temos livre
+    uint32_t total = statusPoints;
 
-    // Para cada atributo, soma o custo total que foi necessário para chegar nele
     for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); i++) {
         uint32_t value = attributes[i];
-        if (value > 0) {
-            total += getTotalCostForValue(value);
-            attributes[i] = 0;
+        uint32_t base = m_player.vocation->baseAttributes[i];
+
+        if (value > base) {
+            total += calculateIncrementalCost(base, value);
         }
+
+        attributes[i] = base;
     }
 
-	statusPoints = total;
-
-    // Envia pro cliente
+    statusPoints = total;
+    
     m_player.sendPlayerAttributes();
-    g_logger().info("All attributes reset! You now have {} status points.", statusPoints);
-}
+	updateDerivedStats();
 
+	m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("All attributes reset! You now have {} status points.", statusPoints));
+}
 // --------------------------------------------
 // Funções de highestLevel (para controlar se já ganhou pontos de level anterior)
 
@@ -199,6 +199,7 @@ void PlayerAttributes::updatePoints(uint32_t oldLevel, uint32_t newLevel) {
 
     // Envia update pro cliente
     m_player.sendPlayerAttributes();
+	updateDerivedStats();
 
 	m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("You gained {} status points!", pointsToAdd));
 }

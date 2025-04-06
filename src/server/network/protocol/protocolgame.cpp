@@ -9852,7 +9852,7 @@ void ProtocolGame::parseAddAttributePoint(NetworkMessage &msg) {
 
     uint8_t attrId = msg.getByte();
     uint8_t amount = msg.getByte(); // novo: quantidade
-	g_logger().info("[setAttribute] Attribute {} increased to {}", attrId, amount);
+
     auto status = static_cast<PlayerStatus>(attrId);
     g_game().playerAddStatusPoints(player->getID(), status, amount);
 }
