@@ -152,7 +152,7 @@ monster.elements = {
 	{ type = COMBAT_DROWNDAMAGE, percent = 100 },
 	{ type = COMBAT_ICEDAMAGE, percent = -12 },
 	{ type = COMBAT_HOLYDAMAGE, percent = -12 },
---[[ 	{ type = COMBAT_DEATHDAMAGE, percent = 20 }, ]]
+	--[[ 	{ type = COMBAT_DEATHDAMAGE, percent = 20 }, ]]
 }
 
 monster.immunities = {
@@ -166,7 +166,7 @@ monster.combatStats = {
 	atk = 100,
 	def = 70,
 	spAtk = 60,
-	spDef = 50
+	spDef = 50,
 }
 
 mType:register(monster)
