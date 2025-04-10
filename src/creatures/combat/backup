@@ -1,0 +1,86 @@
+CombatDamage Combat::getCombatDamage(const std::shared_ptr<Creature>& creature, const std::shared_ptr<Creature>& target) const {
+	CombatDamage damage;
+	damage.origin = params.origin;
+	damage.primary.type = params.combatType;
+
+	damage.instantSpellName = instantSpellName;
+	damage.runeSpellName = runeSpellName;
+	
+	// 🌀 Aplicação de dano baseado em atributos derivados
+	std::shared_ptr<Player> attackerPlayer = creature ? creature->getPlayer() : nullptr;
+	if (attackerPlayer) {
+		const BaseSpell* rawSpell = baseSpell;
+		// Tenta recuperar via ScriptEnvironment se baseSpell estiver null
+		if (!rawSpell) {
+			if (ScriptEnvironment* env = LuaEnvironment::getScriptEnv()) {
+				rawSpell = env->getCombatSpell();
+			}
+		}
+		if (rawSpell) {
+			const auto* spell = dynamic_cast<const Spell*>(rawSpell);
+			if (spell) {
+				spell->applyCombatStatsDamage(attackerPlayer, target, damage, params.combatType);
+				return damage;
+			}
+		}
+	}
+
+	// 🌪️ Continuação do sistema padrão (fórmulas antigas)
+	std::shared_ptr<Spell> wheelSpell = nullptr;
+
+	if (attackerPlayer) {
+		wheelSpell = attackerPlayer->wheel().getCombatDataSpell(damage);
+	}
+
+	if (formulaType == COMBAT_FORMULA_DAMAGE) {
+		damage.primary.value = normal_random(
+			static_cast<int32_t>(mina),
+			static_cast<int32_t>(maxa)
+		);
+	} else if (creature) {
+		
+		int32_t min, max;
+		
+		if (creature->getCombatValues(min, max)) {
+			damage.primary.value = normal_random(min, max);
+		} else if (const auto& player = creature->getPlayer()) {
+			if (params.valueCallback) {
+				params.valueCallback->getMinMaxValues(player, damage, params.useCharges);
+			} else if (formulaType == COMBAT_FORMULA_LEVELMAGIC) {
+				int32_t levelFormula = getLevelFormula(player, wheelSpell, damage);
+				damage.primary.value = normal_random(
+					static_cast<int32_t>(levelFormula * mina + minb),
+					static_cast<int32_t>(levelFormula * maxa + maxb)
+				);
+			} else if (formulaType == COMBAT_FORMULA_SKILL) {
+				const auto& tool = player->getWeapon();
+				const WeaponShared_ptr& weapon = g_weapons().getWeapon(tool);
+				if (weapon) {
+					damage.primary.value = normal_random(
+						static_cast<int32_t>(minb),
+						static_cast<int32_t>(weapon->getWeaponDamage(player, target, tool, true) * maxa + maxb)
+					);
+
+					damage.secondary.type = weapon->getElementType();
+					damage.secondary.value = weapon->getElementDamage(player, target, tool);
+					if (params.useCharges) {
+						auto charges = tool->getAttribute<uint16_t>(ItemAttribute_t::CHARGES);
+						if (charges != 0) {
+							g_game().transformItem(tool, tool->getID(), charges - 1);
+						}
+					}
+				} else {
+					damage.primary.value = normal_random(
+						static_cast<int32_t>(minb),
+						static_cast<int32_t>(maxb)
+						
+					);
+				}
+			}
+		}
+		if (attackerPlayer && wheelSpell && wheelSpell->isInstant()) {
+			wheelSpell->getCombatDataAugment(attackerPlayer, damage);
+		}
+	}
+	return damage;
+}

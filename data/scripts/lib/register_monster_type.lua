@@ -337,6 +337,26 @@ registerMonsterType.events = function(mtype, mask)
 	end
 end
 
+registerMonsterType.combatStats = function(mtype, mask)
+	if not mask.combatStats then
+		return
+	end
+
+	if mask.combatStats.atk then
+		print(mask.combatStats.atk)
+		mtype:atk(mask.combatStats.atk)
+	end
+	if mask.combatStats.def then
+		mtype:def(mask.combatStats.def)
+	end
+	if mask.combatStats.spAtk then
+		mtype:spAtk(mask.combatStats.spAtk)
+	end
+	if mask.combatStats.spDef then
+		mtype:spDef(mask.combatStats.spDef)
+	end
+end
+
 function SortLootByChance(loot)
 	if not configManager.getBoolean(configKeys.SORT_LOOT_BY_CHANCE) then
 		return

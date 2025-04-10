@@ -743,6 +743,14 @@ enum SpellGroup_t : uint8_t {
 	SPELLGROUP_GREAT_BEAMS = 10,
 };
 
+enum AttackType_t : uint8_t {
+	ATTACKTYPE_NONE = 0,
+	ATTACKTYPE_PHYSICAL = 1,
+	ATTACKTYPE_SPECIAL = 2,
+	ATTACKTYPE_HYBRID = 3,       // usa atk + spAtk e def + spDef
+	ATTACKTYPE_ELEMENTAL = 4     // ex: terra, fogo, etc — pode ser customizado
+};
+
 enum ChannelEvent_t : uint8_t {
 	CHANNELEVENT_JOIN = 0,
 	CHANNELEVENT_LEAVE = 1,

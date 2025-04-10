@@ -9,6 +9,7 @@
 
 #pragma once
 #include "creatures/creature.hpp"
+#include "creatures/combat/combat_stats.hpp"
 #include "lua/lua_definitions.hpp"
 
 struct spellBlock_t;
@@ -25,6 +26,10 @@ public:
 	static std::shared_ptr<Monster> createMonster(const std::string &name);
 	static int32_t despawnRange;
 	static int32_t despawnRadius;
+
+	CombatStats& getCombatStats() override;
+	const CombatStats& getCombatStats() const override;
+	void calculateDerivedStats(); // declarada
 
 	explicit Monster(const std::shared_ptr<MonsterType> &mType);
 
@@ -241,6 +246,7 @@ protected:
 	void onExecuteAsyncTasks() override;
 
 private:
+	CombatStats combatStats;
 	void onThink_async();
 
 	auto getTargetIterator(const std::shared_ptr<Creature> &creature) {

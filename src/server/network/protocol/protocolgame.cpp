@@ -15,6 +15,7 @@
 #include "creatures/appearance/mounts/mounts.hpp"
 #include "creatures/appearance/attached_effects/attached_effects.hpp"
 #include "creatures/combat/condition.hpp"
+#include "creatures/combat/combat_stats.hpp"
 #include "creatures/combat/spells.hpp"
 #include "creatures/interactions/chat.hpp"
 #include "creatures/monsters/monster.hpp"
@@ -6976,6 +6977,8 @@ void ProtocolGame::sendAddCreature(const std::shared_ptr<Creature> &creature, co
 	player->sendClientCheck();
 	player->sendGameNews();
 	player->sendIcons();
+
+	player->getCombatStats().calculateFromPlayer(player.get());
 
 	// We need to manually send the open containers on player login, on IOLoginData it won't work.
 	if (isLogin && oldProtocol) {

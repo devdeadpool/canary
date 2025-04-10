@@ -134,14 +134,14 @@ monster.attacks = {
 	{ name = "speed", interval = 2000, chance = 15, speedChange = -700, radius = 1, effect = CONST_ME_MAGIC_RED, target = true, duration = 30000 },
 }
 
-monster.defenses = {
+--[[ monster.defenses = {
 	defense = 55,
 	armor = 44,
 	mitigation = 1.74,
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 180, maxDamage = 250, effect = CONST_ME_MAGIC_BLUE, target = false },
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 320, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 }
-
+ ]]
 monster.elements = {
 	{ type = COMBAT_PHYSICALDAMAGE, percent = 25 },
 	{ type = COMBAT_ENERGYDAMAGE, percent = 50 },
@@ -152,7 +152,7 @@ monster.elements = {
 	{ type = COMBAT_DROWNDAMAGE, percent = 100 },
 	{ type = COMBAT_ICEDAMAGE, percent = -12 },
 	{ type = COMBAT_HOLYDAMAGE, percent = -12 },
-	{ type = COMBAT_DEATHDAMAGE, percent = 20 },
+--[[ 	{ type = COMBAT_DEATHDAMAGE, percent = 20 }, ]]
 }
 
 monster.immunities = {
@@ -160,6 +160,13 @@ monster.immunities = {
 	{ type = "outfit", condition = false },
 	{ type = "invisible", condition = true },
 	{ type = "bleed", condition = false },
+}
+
+monster.combatStats = {
+	atk = 100,
+	def = 70,
+	spAtk = 60,
+	spDef = 50
 }
 
 mType:register(monster)

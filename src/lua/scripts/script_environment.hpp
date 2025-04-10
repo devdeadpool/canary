@@ -22,6 +22,8 @@ class LuaScriptInterface;
 class Cylinder;
 class Game;
 
+class BaseSpell;
+
 class ScriptEnvironment final {
 public:
 	ScriptEnvironment();
@@ -72,8 +74,11 @@ public:
 	std::shared_ptr<Item> getItemByUID(uint32_t uid);
 	std::shared_ptr<Container> getContainerByUID(uint32_t uid);
 	void removeItemByUID(uint32_t uid);
+	void setCombatSpell(const BaseSpell* spell) { combatSpell = spell; }
+	const BaseSpell* getCombatSpell() const { return combatSpell; }
 
 private:
+	const BaseSpell* combatSpell = nullptr;
 	using StorageMap = std::map<uint32_t, int32_t>;
 	using DBResultMap = std::map<uint32_t, DBResult_ptr>;
 

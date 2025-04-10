@@ -10813,3 +10813,11 @@ void Player::initializeFromVocationIfNeeded(bool initAttributes) {
 		Database::getInstance().executeQuery(fmt::format("UPDATE players SET attributes_initialized = 1 WHERE id = {}", getGUID()));
 	}
 }
+
+CombatStats& Player::getCombatStats() {
+	return combatStats;
+}
+
+const CombatStats& Player::getCombatStats() const {
+	return combatStats;
+}

@@ -128,6 +128,12 @@ class MonsterType {
 		bool targetPreferPlayer = false;
 		bool targetPreferMaster = false;
 
+
+		int32_t atk = -1;
+		int32_t def = -1;
+		int32_t spAtk = -1;
+		int32_t spDef = -1;
+
 		Faction_t faction = FACTION_DEFAULT;
 		stdext::vector_set<Faction_t> enemyFactions;
 

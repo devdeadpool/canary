@@ -19,6 +19,7 @@ class Combat;
 class Player;
 class Creature;
 class LuaScriptInterface;
+class CombatStats;
 
 struct LuaVariant;
 struct Position;
@@ -88,6 +89,11 @@ public:
 
 	SoundEffect_t soundImpactEffect = SoundEffect_t::SILENCE;
 	SoundEffect_t soundCastEffect = SoundEffect_t::SPELL_OR_RUNE;
+
+	void applyCombatStatsDamage(const std::shared_ptr<Player>& attacker,
+		const std::shared_ptr<Creature>& target,
+		CombatDamage& damage,
+		CombatType_t combatType) const;
 
 protected:
 	int32_t m_spellScriptId {};
@@ -227,6 +233,29 @@ public:
 	void getCombatDataAugment(const std::shared_ptr<Player> &player, CombatDamage &damage) const;
 	int32_t calculateAugmentSpellCooldownReduction(const std::shared_ptr<Player> &player) const;
 
+	CombatType_t getCombatType() const { return combatType; }
+	void setCombatType(CombatType_t type) { combatType = type; }
+
+	// AttackType
+	void setAttackType(AttackType_t type);
+	AttackType_t getAttackType() const;
+
+	// Base Damage
+	void setBaseDamage(int32_t damage);
+	int32_t getBaseDamage() const;
+
+	// Crítico
+	void setCanCrit(bool value);
+	bool getCanCrit() const;
+
+	// Escalonamento (usar defesa)
+	void setScaleDefense(bool value);
+	bool getScaleDefense() const;
+
+	// Ignorar armadura (def/spDef)
+	void setIgnoreArmor(bool value);
+	bool getIgnoreArmor() const;
+
 protected:
 	void applyCooldownConditions(const std::shared_ptr<Player> &player) const;
 	bool playerSpellCheck(const std::shared_ptr<Player> &player) const;
@@ -238,6 +267,7 @@ protected:
 	SpellGroup_t group = SPELLGROUP_NONE;
 	SpellGroup_t secondaryGroup = SPELLGROUP_NONE;
 	SpellType_t spellType = SPELL_UNDEFINED;
+	CombatType_t combatType = COMBAT_NONE;
 
 	uint32_t cooldown = 1000;
 	uint32_t groupCooldown = 1000;
@@ -275,6 +305,13 @@ private:
 	std::string m_separator;
 
 	friend class SpellFunctions;
+
+	int32_t baseDamage = 0;
+	AttackType_t attackType = ATTACKTYPE_NONE;
+	bool scaleDefense = false;
+	bool ignoreArmor = false;
+	bool canCrit = false;
+
 };
 
 class InstantSpell final : public Spell {
@@ -347,3 +384,5 @@ private:
 	uint32_t charges = 0;
 	bool hasCharges = false;
 };
+
+int32_t calculateScaledDamage(const CombatStats& attacker, const CombatStats& target, const Spell* spell);

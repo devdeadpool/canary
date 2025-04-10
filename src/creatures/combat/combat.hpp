@@ -19,6 +19,7 @@ class Player;
 class MatrixArea;
 class Weapon;
 class Tile;
+class BaseSpell;
 
 using CreatureVector = std::vector<std::shared_ptr<Creature>>;
 
@@ -107,6 +108,9 @@ struct CombatParams {
 	bool useCharges = false;
 
 	uint8_t chainEffect = CONST_ME_NONE;
+	const BaseSpell* baseSpell = nullptr; // era "baseSpell" antes na classe Combat
+    // Se precisar de formulaType, mina, maxa, etc., coloque-os também:
+
 };
 
 using CombatFunction = std::function<void(std::shared_ptr<Creature>, std::shared_ptr<Creature>, const CombatParams &, CombatDamage*)>;
@@ -245,6 +249,10 @@ public:
 	void setupChain(const std::shared_ptr<Weapon> &weapon);
 	bool doCombatChain(const std::shared_ptr<Creature> &caster, const std::shared_ptr<Creature> &target, bool aggressive) const;
 
+	void setBaseSpell(const BaseSpell* spell) { baseSpell = spell; }
+	const BaseSpell* getBaseSpell() const { return baseSpell; }
+	const BaseSpell* baseSpell = nullptr;
+
 private:
 	static void doChainEffect(const Position &origin, const Position &pos, uint8_t effect);
 	static std::vector<std::pair<Position, std::vector<uint32_t>>> pickChainTargets(const std::shared_ptr<Creature> &caster, const CombatParams &params, uint8_t chainDistance, uint8_t maxTargets, bool aggressive, bool backtracking, const std::shared_ptr<Creature> &initialTarget = nullptr);
@@ -257,6 +265,12 @@ private:
 	static void doCombatDefault(const std::shared_ptr<Creature> &caster, const std::shared_ptr<Creature> &target, const Position &origin, const CombatParams &params);
 
 	static void CombatFunc(const std::shared_ptr<Creature> &caster, const Position &origin, const Position &pos, const std::unique_ptr<AreaCombat> &area, const CombatParams &params, const CombatFunction &func, CombatDamage* data);
+
+	static CombatDamage computeDamageStatic(
+        const CombatParams& params,
+        const std::shared_ptr<Creature>& caster,
+        const std::shared_ptr<Creature>& target
+    );
 
 	static void CombatHealthFunc(const std::shared_ptr<Creature> &caster, const std::shared_ptr<Creature> &target, const CombatParams &params, CombatDamage* data);
 	static CombatDamage applyImbuementElementalDamage(const std::shared_ptr<Player> &attackerPlayer, std::shared_ptr<Item> item, CombatDamage damage);

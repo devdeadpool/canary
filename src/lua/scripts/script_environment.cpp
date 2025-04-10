@@ -28,6 +28,7 @@ void ScriptEnvironment::resetEnv() {
 	interface = nullptr;
 	localMap.clear();
 	tempResults.clear();
+	combatSpell = nullptr;
 
 	const auto [fst, snd] = tempItems.equal_range(this);
 	auto it = fst;

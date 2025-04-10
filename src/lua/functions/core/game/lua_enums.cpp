@@ -196,6 +196,12 @@ void LuaEnums::initOthersEnums(lua_State* L) {
 	registerEnum(L, SPELL_INSTANT);
 	registerEnum(L, SPELL_RUNE);
 
+	registerEnum(L, ATTACKTYPE_NONE);
+	registerEnum(L, ATTACKTYPE_PHYSICAL);
+	registerEnum(L, ATTACKTYPE_SPECIAL);
+	registerEnum(L, ATTACKTYPE_HYBRID);
+	registerEnum(L, ATTACKTYPE_ELEMENTAL);
+
 	registerEnum(L, SUBOWNER_LIST);
 
 	registerEnum(L, VOCATION_NONE);

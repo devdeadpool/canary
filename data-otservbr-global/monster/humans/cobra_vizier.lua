@@ -106,7 +106,7 @@ monster.defenses = {
 	defense = 82,
 	armor = 82,
 	mitigation = 2.31,
-	{ name = "speed", interval = 2000, chance = 8, speedChange = 250, effect = CONST_ME_MAGIC_GREEN, target = false, duration = 5000 },
+	{ name = "speed", interval = 2000, chance = 8, speedChange = 250, effect = CONST_ME_MAGICs_GREEN, target = false, duration = 5000 },
 }
 
 monster.elements = {
@@ -127,6 +127,13 @@ monster.immunities = {
 	{ type = "outfit", condition = false },
 	{ type = "invisible", condition = true },
 	{ type = "bleed", condition = false },
+}
+
+monster.combatStats = {
+	atk = 80,
+	def = 70,
+	spAtk = 110,
+	spDef = 90
 }
 
 mType.onSpawn = function(monster)

@@ -102,4 +102,11 @@ monster.immunities = {
 	{ type = "bleed", condition = false },
 }
 
+monster.combatStats = {
+	atk = 80,
+	def = 70,
+	spAtk = 110,
+	spDef = 90
+}
+
 mType:register(monster)
