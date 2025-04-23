@@ -58,11 +58,4 @@ private:
 	static int luaSpellAllowFarUse(lua_State* L);
 	static int luaSpellBlockWalls(lua_State* L);
 	static int luaSpellCheckFloor(lua_State* L);
-
-	// Atributos derivados
-	static int luaSpellBaseDamage(lua_State* L);
-	static int luaSpellAttackType(lua_State* L);
-	static int luaSpellCanCrit(lua_State* L);
-	static int luaSpellScaleDefense(lua_State* L);
-	static int luaSpellIgnoreArmor(lua_State* L);
 };

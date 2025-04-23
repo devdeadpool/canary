@@ -25,7 +25,7 @@ public:
 	void saveToDatabase();
 
 private:
-	Player& m_player;
+	Player &m_player;
 	int attributes[static_cast<int>(PlayerStatus::LAST)] = { 0 }; // Array para armazenar os valores
 	// std::array<int, static_cast<int>(PlayerStatus::LAST)> attributes;
 	int statusPoints = 0;

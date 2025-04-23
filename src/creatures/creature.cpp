@@ -1921,14 +1921,10 @@ void Creature::detachEffectById(uint16_t id) {
 	g_game().sendDetachEffect(static_self_cast<Creature>(), id);
 }
 
-const CombatStats& Creature::getCombatStats() const {
-	return CombatStats::empty(); // safe fallback
+const CombatStats &Creature::getCombatStats() const {
+	return combatStats;
 }
 
-CombatStats& Creature::getCombatStats() {
-	static CombatStats dummy;
-	return dummy;
-}
 void Creature::sendCombatStatsInfo() const {
 	const auto &stats = getCombatStats();
 

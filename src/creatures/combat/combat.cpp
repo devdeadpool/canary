@@ -31,8 +31,6 @@
 #include "creatures/players/player.hpp"
 #include "creatures/players/components/wheel/wheel_definitions.hpp"
 
-#include "lua/scripts/lua_environment.hpp"
-
 int32_t Combat::getLevelFormula(const std::shared_ptr<Player> &player, const std::shared_ptr<Spell> &wheelSpell, const CombatDamage &damage) const {
 	if (!player) {
 		return 0;
@@ -115,7 +113,7 @@ CombatDamage Combat::getCombatDamage(const std::shared_ptr<Creature> &creature, 
 	}
 
 	return damage;
-} 
+}
 
 void Combat::getCombatArea(const Position &centerPos, const Position &targetPos, const std::unique_ptr<AreaCombat> &area, std::vector<std::shared_ptr<Tile>> &list) {
 	if (targetPos.z >= MAP_MAX_LAYERS) {
@@ -1253,12 +1251,11 @@ void Combat::CombatFunc(const std::shared_ptr<Creature> &caster, const Position 
 		if (canDoCombat(caster, tile, params.aggressive) != RETURNVALUE_NOERROR) {
 			continue;
 		}
-	
+
 		if (CreatureVector* creatures = tile->getCreatures()) {
 			const auto &topCreature = tile->getTopCreature();
-			// A copy, pois o vetor pode ser alterado no loop
+			// A copy of the tile's creature list is made because modifications to this vector, such as adding or removing creatures through a Lua callback, may occur during the iteration within the for loop.
 			CreatureVector creaturesCopy = *creatures;
-	
 			for (const auto &creature : creaturesCopy) {
 				if (params.targetCasterOrTopMost) {
 					if (caster && caster->getTile() == tile) {
@@ -1269,46 +1266,33 @@ void Combat::CombatFunc(const std::shared_ptr<Creature> &caster, const Position 
 						continue;
 					}
 				}
-	
-				if (!params.aggressive ||
-					(caster != creature &&
-					 Combat::canDoCombat(caster, creature, params.aggressive) == RETURNVALUE_NOERROR)) {
-					// Se tiver mecânicas de 'Wheel' compartilhadas, aplique antes ou depois
+
+				if (!params.aggressive || (caster != creature && Combat::canDoCombat(caster, creature, params.aggressive) == RETURNVALUE_NOERROR)) {
+					// Wheel of destiny update beam mastery damage
 					if (casterPlayer) {
 						casterPlayer->wheel().updateBeamMasteryDamage(tmpDamage, beamAffectedTotal, beamAffectedCurrent);
 					}
-	
-					// Apenas log de debug
-					const auto &stats = creature->getCombatStats();
-					g_logger().info(
-						"🎯 Atingido [{}] → ATK: {}, SP.ATK: {}, DEF: {}, SP.DEF: {}",
-						creature->getName(),
-						stats.get(SHINOBISTAT_ATK),
-						stats.get(SHINOBISTAT_SP_ATK),
-						stats.get(SHINOBISTAT_DEF),
-						stats.get(SHINOBISTAT_SP_DEF)
-					);
-	
+
 					if (func) {
-						// Calcula dano para ESTE alvo individualmente
-						// Troque "computeDamageStatic" pelo nome da sua função estática real
-						CombatDamage creatureDamage = Combat::computeDamageStatic(params, caster, creature);
-	
-						// Aplica o dano com a função callback (ex.: CombatHealthFunc)
-						func(caster, creature, params, &creatureDamage);
+						auto creatureDamage = creature->getCombatDamage();
+						if (!creatureDamage.isEmpty()) {
+							func(caster, creature, params, &creatureDamage);
+							// Reset the creature's combat damage
+							creature->setCombatDamage(CombatDamage());
+						} else {
+							func(caster, creature, params, &tmpDamage);
+						}
 					}
-	
 					if (params.targetCallback) {
 						params.targetCallback->onTargetCombat(caster, creature);
 					}
-	
+
 					if (params.targetCasterOrTopMost) {
-						break; // sai do loop de criaturas caso seja pra acertar só o "topMost"
+						break;
 					}
 				}
 			}
 		}
-		// Efeitos no tile
 		combatTileEffects(spectators.data(), caster, tile, params);
 	}
 
@@ -2485,45 +2469,4 @@ const bool* MatrixArea::operator[](uint32_t i) const {
 
 bool* MatrixArea::operator[](uint32_t i) {
 	return data_[i];
-}
-
-CombatDamage Combat::computeDamageStatic(
-    const CombatParams& params,
-    const std::shared_ptr<Creature>& caster,
-    const std::shared_ptr<Creature>& target)
-{
-    // Cria um "CombatDamage" default
-    CombatDamage damage;
-    damage.primary.type = params.combatType;
-
-    // Exemplo: se o caster for Player e tivermos um spell no params:
-    if (caster) {
-        const auto attackerPlayer = caster->getPlayer();
-        if (attackerPlayer) {
-            // Pega a baseSpell do params
-            const BaseSpell* rawSpell = params.baseSpell;
-            if (!rawSpell) {
-                // Tenta recuperar via ScriptEnvironment, se quiser
-                if (ScriptEnvironment* env = LuaEnvironment::getScriptEnv()) {
-                    rawSpell = env->getCombatSpell();
-                }
-            }
-
-            if (rawSpell) {
-                // Tenta converter para Spell
-                if (const auto* spell = dynamic_cast<const Spell*>(rawSpell)) {
-                    // Faz o cálculo baseado em stats (Spell + CombatStats)
-                    spell->applyCombatStatsDamage(attackerPlayer, target, damage, params.combatType);
-                    // Aqui "damage.primary.value" e etc. já foram setados
-                    return damage; // Se a spell resolver tudo, podemos retornar já
-                }
-            }
-        }
-    }
-
-    // Se chegou até aqui, significa que não era player ou não tinha Spell.
-    // Se quiser, insira aqui a "fórmula antiga" (usando params.formulaType, mina, etc.)
-    // ...
-    // Exemplo simples:
-    return damage;
 }

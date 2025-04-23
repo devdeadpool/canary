@@ -1326,14 +1326,9 @@ public:
 
 	void sendPlayerTyping(const std::shared_ptr<Creature> &creature, uint8_t typing) const;
 
-	CombatStats& getCombatStats() override;
-	const CombatStats& getCombatStats() const override;
-
 private:
 	friend class PlayerLock;
 	std::mutex mutex;
-
-	CombatStats combatStats;
 
 	static uint32_t playerFirstID;
 	static uint32_t playerLastID;

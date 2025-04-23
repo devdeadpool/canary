@@ -1162,30 +1162,6 @@ bool InstantSpell::playerCastInstant(const std::shared_ptr<Player> &player, std:
 		player->updateLastAggressiveAction();
 	}
 
-	
-	/*/ 🧠 DEBUG BASESPELL
-	if (const auto& combatSpell = dynamic_cast<const CombatSpell*>(this)) {
-		if (const auto& combat = combatSpell->getCombat()) {
-			combat->setBaseSpell(this);
-			if (combat->getBaseSpell()) {
-				const auto* debugSpell = dynamic_cast<const Spell*>(combat->getBaseSpell());
-				if (debugSpell) {
-					g_logger().info("✅ baseSpell setado com sucesso para a spell: {}", debugSpell->getName());
-				} else {
-					g_logger().warn("⚠️ baseSpell foi setado, mas não é do tipo Spell*");
-					g_logger().warn("📌 Tipo real: {}", typeid(*combat->getBaseSpell()).name());
-				}
-			} else {
-				g_logger().error("❌ baseSpell está null!");
-			}
-		} else {
-			g_logger().warn("⚠️ combat é null no cast da spell {}", getName());
-		}
-	} else {
-		g_logger().warn("⚠️ dynamic_cast<const CombatSpell*> falhou para a spell {}", getName());
-	} */
-
-
 	bool result = executeCastSpell(player, var);
 	if (result) {
 		postCastSpell(player);
@@ -1253,12 +1229,10 @@ bool InstantSpell::executeCastSpell(const std::shared_ptr<Creature> &creature, c
 
 	ScriptEnvironment* env = LuaEnvironment::getScriptEnv();
 	env->setScriptId(getScriptId(), getScriptInterface());
-	env->setCombatSpell(this);
 
 	lua_State* L = getScriptInterface()->getLuaState();
 
 	getScriptInterface()->pushFunction(getScriptId());
-	
 
 	LuaScriptInterface::pushUserdata<Creature>(L, creature);
 	LuaScriptInterface::setCreatureMetatable(L, -1, creature);
@@ -1519,159 +1493,4 @@ void RuneSpell::setCharges(uint32_t c) {
 		hasCharges = true;
 	}
 	charges = c;
-}
-
-void BaseSpell::applyCombatStatsDamage(
-    const std::shared_ptr<Player>& attacker,
-    const std::shared_ptr<Creature>& target,
-    CombatDamage& damage,
-    CombatType_t combatType
-) const
-{
-    // 1) Verificações iniciais
-    if (!attacker) {
-        g_logger().error("❌ applyCombatStatsDamage chamado sem attacker.");
-        return;
-    }
-
-    // 2) Coletar CombatStats de quem ataca e de quem defende
-    const CombatStats& attackerStats = attacker->getCombatStats();
-    const CombatStats& targetStats = target ? target->getCombatStats() : CombatStats::empty();
-
-    // 3) Converter BaseSpell para Spell, garantindo que seja válido
-    const Spell* spell = dynamic_cast<const Spell*>(this);
-    if (!spell) {
-        g_logger().error("❌ BaseSpell não é um Spell válido!");
-        return;
-    }
-
-    // 4) Calcular dano baseado em stats
-    int32_t finalDamage = calculateScaledDamage(attackerStats, targetStats, spell);
-
-    // [Opcional] Se desejar lidar com crítico ou outras mecânicas fora de calculateScaledDamage,
-    // pode inserir aqui, por exemplo:
-    /*
-    if (spell->getCanCrit()) {
-        // Exemplo de pseudo-lógica
-        // int critChance = attacker->getCriticalChance(); // ...
-        // bool isCrit = (uniform_random(1, 100) <= critChance);
-        // if (isCrit) {
-        //     finalDamage = static_cast<int32_t>(finalDamage * 1.5);
-        // }
-    }
-    */
-
-    // 5) Garante que o dano não fique abaixo de 1 (se for sua regra)
-   // finalDamage = std::max<int32_t>(1, finalDamage);
-
-    // 6) Ajusta os campos do CombatDamage
-    damage.primary.value = finalDamage;
-    damage.primary.type = combatType;
-    damage.instantSpellName = spell->getName();
-
-    // 7) Log para depuração
-    g_logger().info(
-        "⚔️ applyCombatStatsDamage → Dano: {} | Spell: {} | Target: {}",
-        finalDamage,
-        spell->getName(),
-        target ? target->getName() : "N/A"
-    );
-}
-
-
-AttackType_t Spell::getAttackType() const {
-	return attackType;
-}
-
-void Spell::setAttackType(AttackType_t type) {
-	attackType = type;
-}
-
-int32_t Spell::getBaseDamage() const {
-	return baseDamage;
-}
-
-void Spell::setBaseDamage(int32_t damage) {
-	baseDamage = damage;
-}
-
-bool Spell::getScaleDefense() const {
-	return scaleDefense;
-}
-
-void Spell::setScaleDefense(bool value) {
-	scaleDefense = value;
-}
-
-bool Spell::getIgnoreArmor() const {
-	return ignoreArmor;
-}
-
-void Spell::setIgnoreArmor(bool value) {
-	ignoreArmor = value;
-}
-
-bool Spell::getCanCrit() const {
-	return canCrit;
-}
-
-void Spell::setCanCrit(bool value) {
-	canCrit = value;
-}
-
-int32_t calculateScaledDamage(const CombatStats& attacker, const CombatStats& target, const Spell* spell)
-{
-    // 1) Segurança: Se a Spell for nula, retorne 0.
-    if (!spell) {
-        g_logger().warn("❌ Spell nula recebida em calculateScaledDamage.");
-        return 0;
-    }
-
-    // 2) Obter o tipo de ataque (Physical ou Special)
-    int32_t atk = 0;
-    int32_t spAtk = 0;
-    int32_t def = 0;
-    int32_t spDef = 0;
-
-    switch (spell->getAttackType()) {
-        case ATTACKTYPE_PHYSICAL:
-            atk = attacker.get(SHINOBISTAT_ATK);
-            def = target.get(SHINOBISTAT_DEF);
-            break;
-
-        case ATTACKTYPE_SPECIAL:
-            spAtk = attacker.get(SHINOBISTAT_SP_ATK);
-            spDef = target.get(SHINOBISTAT_SP_DEF);
-            break;
-
-        default:
-            g_logger().warn("⚠️ Spell [{}] com tipo de ataque desconhecido.", spell->getName());
-            break;
-    }
-
-    // 3) Definir o dano base a partir de spell->getBaseDamage()
-    int32_t finalDamage = spell->getBaseDamage();
-
-	g_logger().info("Dano base1: {}", finalDamage);
-
-    // 4) Se scaleDefense estiver ativado, somamos Atk e/ou Sp.Atk,
-    //    e se ignoreArmor for false, subtraímos Def e/ou Sp.Def
-    if (spell->getScaleDefense()) {
-        finalDamage += atk + spAtk;
-
-        if (!spell->getIgnoreArmor()) {
-            finalDamage -= (def + spDef);
-        }
-    }
-
-    // 5) Não deixar o dano cair abaixo de 1
-    finalDamage = std::max<int32_t>(1, finalDamage);
-
-    // 6) Logging detalhado para debug
-    g_logger().info("Comparativo de Stats:");
-    g_logger().info("Attacker ⇒ ATK: {:>3} | SP.ATK: {:>3}", atk, spAtk);
-    g_logger().info("Target   ⇒ DEF: {:>3} | SP.DEF: {:>3}", def, spDef);
-    g_logger().info("Dano final calculado: {}", finalDamage);
-
-    return finalDamage;
 }

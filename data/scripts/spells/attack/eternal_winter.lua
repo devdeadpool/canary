@@ -3,13 +3,13 @@ combat:setParameter(COMBAT_PARAM_TYPE, COMBAT_ICEDAMAGE)
 combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_ICETORNADO)
 combat:setArea(createCombatArea(AREA_CIRCLE5X5))
 
---[[ function onGetFormulaValues(player, level, ninjutsu)
+function onGetFormulaValues(player, level, ninjutsu)
 	local min = (level / 5) + (ninjutsu * 6)
 	local max = (level / 5) + (ninjutsu * 12)
 	return -min, -max
 end
 
-combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues") ]]
+combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")
 
 local spell = Spell("instant")
 
@@ -31,11 +31,4 @@ spell:cooldown(40 * 1000)
 spell:groupCooldown(4 * 1000, 40 * 1000)
 spell:needLearn(false)
 spell:vocation("druid;true", "elder druid;true")
-
-spell:baseDamage(100)
-spell:attackType(ATTACKTYPE_PHYSICAL)
-spell:scaleDefense(true)
-spell:ignoreArmor(false)
-spell:canCrit(true)
-
 spell:register()

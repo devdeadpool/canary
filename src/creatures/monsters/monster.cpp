@@ -51,8 +51,6 @@ Monster::Monster(const std::shared_ptr<MonsterType> &mType) :
 	attackSpells = mType->info.attackSpells;
 	defenseSpells = mType->info.defenseSpells;
 
-	calculateDerivedStats();
-
 	// Register creature events
 	for (const std::string &scriptName : mType->info.scripts) {
 		if (!registerCreatureEvent(scriptName)) {
@@ -519,8 +517,6 @@ void Monster::onAttackedByPlayer(const std::shared_ptr<Player> &attackerPlayer) 
 }
 
 void Monster::onSpawn(const Position &position) {
-		// Calcula SEMPRE os stats antes de qualquer coisa
-	combatStats.calculateFromMonster(this);
 	if (mType->info.spawnEvent != -1) {
 		// onSpawn(self, spawnPosition)
 		LuaScriptInterface* scriptInterface = mType->info.scriptInterface;
@@ -542,7 +538,6 @@ void Monster::onSpawn(const Position &position) {
 		LuaScriptInterface::pushPosition(L, position);
 
 		scriptInterface->callVoidFunction(2);
-		//calculateDerivedStats();
 	}
 }
 
@@ -2707,17 +2702,4 @@ bool Monster::checkCanApplyCharm(const std::shared_ptr<Player> &player, charmRun
 	}
 
 	return false;
-}
-
-
-void Monster::calculateDerivedStats() {
-	combatStats.calculateFromMonster(this);
-}
-
-CombatStats& Monster::getCombatStats() {
-	return combatStats;
-}
-
-const CombatStats& Monster::getCombatStats() const {
-	return combatStats;
 }

@@ -3,11 +3,9 @@
 
 #include <array>
 #include <cstdint>
-#include "creatures/creature.hpp"
 
 class Player;
 class Monster;
-class Creature;
 
 enum shinobiStat_t : uint8_t {
 	SHINOBISTAT_STAMINA = 0,
@@ -28,8 +26,6 @@ public:
 	void reset();
 	void calculateFromPlayer(Player* player);
 	void calculateFromMonster(Monster* monster);
-	static const CombatStats& empty();
-	void logDebugPointer(const std::string& context, const std::shared_ptr<Creature>& creature) const;
 
 	int32_t get(shinobiStat_t stat) const {
 		return stats[stat];

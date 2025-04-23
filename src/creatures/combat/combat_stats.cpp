@@ -3,8 +3,6 @@
 #include "creatures/players/player.hpp"
 #include "creatures/monsters/monster.hpp"
 #include "creatures/players/status/player_attributes.hpp"
-#include "creatures/monsters/monsters.hpp"
-#include "lua/lua_definitions.hpp"
 
 void CombatStats::reset() {
 	stats.fill(0);
@@ -36,41 +34,12 @@ void CombatStats::calculateFromPlayer(Player* player) {
 }
 
 void CombatStats::calculateFromMonster(Monster* monster) {
-	if (!monster)
-		return;
-
-	const std::shared_ptr<MonsterType>& monsterType = monster->getMonsterType();
-	if (!monsterType)
-		return;
-
-	const auto& info = monsterType->info;
-
-	// Função auxiliar para calcular um valor base
-	auto autoScale = [monster]() -> int32_t {
-		return std::max<int32_t>(10, monster->getMaxHealth() / 100);
-	};
-
-
-	if (!monsterType) {
-		g_logger().warn("❌ MonsterType nulo para o monstro {}", monster->getName());
-		return;
-	}
-
-	// Atribuição dos stats com fallback automático
-	stats[SHINOBISTAT_ATK]    = (info.atk    >= -1) ? info.atk    : autoScale();
-	stats[SHINOBISTAT_DEF]    = (info.def    >= -1) ? info.def    : std::max(0, autoScale() - 5);
-	stats[SHINOBISTAT_SP_ATK] = (info.spAtk  >= -1) ? info.spAtk  : autoScale() + 10;
-	stats[SHINOBISTAT_SP_DEF] = (info.spDef  >= -1) ? info.spDef  : autoScale() + 5;
-}
-
-const CombatStats& CombatStats::empty() {
-	static CombatStats emptyInstance;
-	return emptyInstance;
-}
-
-
-void CombatStats::logDebugPointer(const std::string& context, const std::shared_ptr<Creature>& creature) const {
-	if (!creature) return;
-
-	g_logger().info("🔬 {} → Pointer CombatStats de {}: {}", context, creature->getName(), fmt::ptr(this));
+	// Placeholder para lógica de monstros
+	// Exemplo fixo:
+	stats[SHINOBISTAT_STAMINA] = 100;
+	stats[SHINOBISTAT_ATK] = 10;
+	stats[SHINOBISTAT_DEF] = 8;
+	stats[SHINOBISTAT_SP_ATK] = 12;
+	stats[SHINOBISTAT_SP_DEF] = 9;
+	stats[SHINOBISTAT_POWER] = 500;
 }

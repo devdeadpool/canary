@@ -153,11 +153,6 @@ void MonsterTypeFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "MonsterType", "variant", MonsterTypeFunctions::luaMonsterTypeVariant);
 	Lua::registerMethod(L, "MonsterType", "getMonstersByRace", MonsterTypeFunctions::luaMonsterTypeGetMonstersByRace);
 	Lua::registerMethod(L, "MonsterType", "getMonstersByBestiaryStars", MonsterTypeFunctions::luaMonsterTypeGetMonstersByBestiaryStars);
-
-	Lua::registerMethod(L, "MonsterType", "atk", MonsterTypeFunctions::luaMonsterTypeAtk);
-	Lua::registerMethod(L, "MonsterType", "def", MonsterTypeFunctions::luaMonsterTypeDef);
-	Lua::registerMethod(L, "MonsterType", "spAtk", MonsterTypeFunctions::luaMonsterTypeSpAtk);
-	Lua::registerMethod(L, "MonsterType", "spDef", MonsterTypeFunctions::luaMonsterTypeSpDef);
 }
 
 void MonsterTypeFunctions::createMonsterTypeLootLuaTable(lua_State* L, const std::vector<LootBlock> &lootList) {
@@ -1907,66 +1902,6 @@ int MonsterTypeFunctions::luaMonsterTypeGetMonstersByBestiaryStars(lua_State* L)
 		Lua::pushUserdata<MonsterType>(L, monsterType);
 		Lua::setMetatable(L, -1, "MonsterType");
 		lua_rawseti(L, -2, ++index);
-	}
-	return 1;
-}
-
-int MonsterTypeFunctions::luaMonsterTypeAtk(lua_State* L) {
-	const auto& monsterType = Lua::getUserdataShared<MonsterType>(L, 1, "MonsterType");
-	if (monsterType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, monsterType->info.atk);
-		} else {
-			monsterType->info.atk = Lua::getNumber<int32_t>(L, 2);
-			Lua::pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-int MonsterTypeFunctions::luaMonsterTypeDef(lua_State* L) {
-	const auto& monsterType = Lua::getUserdataShared<MonsterType>(L, 1, "MonsterType");
-	if (monsterType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, monsterType->info.def);
-		} else {
-			monsterType->info.def = Lua::getNumber<int32_t>(L, 2);
-			Lua::pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-int MonsterTypeFunctions::luaMonsterTypeSpAtk(lua_State* L) {
-	const auto& monsterType = Lua::getUserdataShared<MonsterType>(L, 1, "MonsterType");
-	if (monsterType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, monsterType->info.spAtk);
-		} else {
-			monsterType->info.spAtk = Lua::getNumber<int32_t>(L, 2);
-			Lua::pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-int MonsterTypeFunctions::luaMonsterTypeSpDef(lua_State* L) {
-	const auto& monsterType = Lua::getUserdataShared<MonsterType>(L, 1, "MonsterType");
-	if (monsterType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, monsterType->info.spDef);
-		} else {
-			monsterType->info.spDef = Lua::getNumber<int32_t>(L, 2);
-			Lua::pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
 	}
 	return 1;
 }

@@ -143,9 +143,4 @@ private:
 	static int luaMonsterTypeVariant(lua_State* L);
 	static int luaMonsterTypeGetMonstersByRace(lua_State* L);
 	static int luaMonsterTypeGetMonstersByBestiaryStars(lua_State* L);
-
-	static int luaMonsterTypeAtk(lua_State* L);
-	static int luaMonsterTypeDef(lua_State* L);
-	static int luaMonsterTypeSpAtk(lua_State* L);
-	static int luaMonsterTypeSpDef(lua_State* L);
 };

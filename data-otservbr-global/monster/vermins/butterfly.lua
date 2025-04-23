@@ -102,6 +102,7 @@ monster.immunities = {
 	{ type = "bleed", condition = false },
 }
 
+<<<<<<< HEAD
 monster.combatStats = {
 	atk = 80,
 	def = 70,
@@ -109,4 +110,6 @@ monster.combatStats = {
 	spDef = 90,
 }
 
+=======
+>>>>>>> parent of c3c86e302 (up stst attribute combat)
 mType:register(monster)

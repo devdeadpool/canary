@@ -106,7 +106,7 @@ monster.defenses = {
 	defense = 82,
 	armor = 82,
 	mitigation = 2.31,
-	{ name = "speed", interval = 2000, chance = 8, speedChange = 250, effect = CONST_ME_MAGICs_GREEN, target = false, duration = 5000 },
+	{ name = "speed", interval = 2000, chance = 8, speedChange = 250, effect = CONST_ME_MAGIC_GREEN, target = false, duration = 5000 },
 }
 
 monster.elements = {
@@ -129,6 +129,7 @@ monster.immunities = {
 	{ type = "bleed", condition = false },
 }
 
+<<<<<<< HEAD
 monster.combatStats = {
 	atk = 80,
 	def = 70,
@@ -136,6 +137,8 @@ monster.combatStats = {
 	spDef = 90,
 }
 
+=======
+>>>>>>> parent of c3c86e302 (up stst attribute combat)
 mType.onSpawn = function(monster)
 	monster:handleCobraOnSpawn()
 end
