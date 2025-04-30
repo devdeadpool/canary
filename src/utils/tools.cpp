@@ -1015,36 +1015,35 @@ std::string getSkillName(uint8_t skillid) {
 	}
 }
 
-
 skills_t getSkillIdByName(const std::string &name) {
-    static const std::unordered_map<std::string, skills_t> skillMap = {
-        { "taijutsu", SKILL_TAIJUTSU },
-        { "fuinjutsu", SKILL_FUINJUTSU },
-        { "bukijutsu", SKILL_BUKIJUTSU },
-        { "axe", SKILL_AXE },
-        { "genjutsu", SKILL_GENJUTSU },
-        { "resistance", SKILL_RESISTANCE },
-        { "fishing", SKILL_FISHING },
-        { "critical_hit_chance", SKILL_CRITICAL_HIT_CHANCE },
-        { "critical_hit_damage", SKILL_CRITICAL_HIT_DAMAGE },
-        { "life_leech_chance", SKILL_LIFE_LEECH_CHANCE },
-        { "life_leech_amount", SKILL_LIFE_LEECH_AMOUNT },
-        { "mana_leech_chance", SKILL_MANA_LEECH_CHANCE },
-        { "mana_leech_amount", SKILL_MANA_LEECH_AMOUNT },
-        { "ninjutsu", SKILL_NINJUTSU },
-        { "level", SKILL_LEVEL }
-    };
+	static const std::unordered_map<std::string, skills_t> skillMap = {
+		{ "taijutsu", SKILL_TAIJUTSU },
+		{ "fuinjutsu", SKILL_FUINJUTSU },
+		{ "bukijutsu", SKILL_BUKIJUTSU },
+		{ "axe", SKILL_AXE },
+		{ "genjutsu", SKILL_GENJUTSU },
+		{ "resistance", SKILL_RESISTANCE },
+		{ "fishing", SKILL_FISHING },
+		{ "critical_hit_chance", SKILL_CRITICAL_HIT_CHANCE },
+		{ "critical_hit_damage", SKILL_CRITICAL_HIT_DAMAGE },
+		{ "life_leech_chance", SKILL_LIFE_LEECH_CHANCE },
+		{ "life_leech_amount", SKILL_LIFE_LEECH_AMOUNT },
+		{ "mana_leech_chance", SKILL_MANA_LEECH_CHANCE },
+		{ "mana_leech_amount", SKILL_MANA_LEECH_AMOUNT },
+		{ "ninjutsu", SKILL_NINJUTSU },
+		{ "level", SKILL_LEVEL }
+	};
 
-    // Converte o nome recebido para minúsculo
+	// Converte o nome recebido para minúsculo
 	std::string lowerName = name;
 	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
 
-    auto it = skillMap.find(lowerName);
-    if (it != skillMap.end()) {
-        return it->second;
-    }
+	auto it = skillMap.find(lowerName);
+	if (it != skillMap.end()) {
+		return it->second;
+	}
 
-    return SKILL_FIRST; // skill inválida
+	return SKILL_FIRST; // skill inválida
 }
 
 uint32_t adlerChecksum(const uint8_t* data, size_t length) {
@@ -2172,24 +2171,24 @@ uint8_t calculateMaxPvpReduction(uint8_t blessCount, bool isPromoted /* = false*
 
 #include <filesystem>
 
-bool listDirectoryFiles(const std::string& directory, std::vector<std::string>& outFiles, const std::string& extension) {
-    namespace fs = std::filesystem;
+bool listDirectoryFiles(const std::string &directory, std::vector<std::string> &outFiles, const std::string &extension) {
+	namespace fs = std::filesystem;
 
-    try {
-        for (const auto& entry : fs::directory_iterator(directory)) {
-            if (!entry.is_regular_file()) {
-                continue;
-            }
+	try {
+		for (const auto &entry : fs::directory_iterator(directory)) {
+			if (!entry.is_regular_file()) {
+				continue;
+			}
 
-            const std::string filePath = entry.path().string();
-            if (extension.empty() || entry.path().extension() == extension) {
-                outFiles.emplace_back(entry.path().filename().string());
-            }
-        }
-    } catch (const fs::filesystem_error& e) {
-        g_logger().error("[listDirectoryFiles] Error: {}", e.what());
-        return false;
-    }
+			const std::string filePath = entry.path().string();
+			if (extension.empty() || entry.path().extension() == extension) {
+				outFiles.emplace_back(entry.path().filename().string());
+			}
+		}
+	} catch (const fs::filesystem_error &e) {
+		g_logger().error("[listDirectoryFiles] Error: {}", e.what());
+		return false;
+	}
 
-    return true;
+	return true;
 }

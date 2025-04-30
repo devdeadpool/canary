@@ -414,7 +414,5 @@ class PlayerFunctions {
 	static int luaPlayerCheckStageCompletion(lua_State* L);
 	static int luaPlayerIsMissionStageComplete(lua_State* L);
 
-
-
 	friend class CreatureFunctions;
 };

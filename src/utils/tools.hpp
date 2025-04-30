@@ -119,8 +119,7 @@ ImbuementTypes_t getImbuementType(const std::string &strValue);
 SpawnType_t getSpawnType(const std::string &strValue);
 
 skills_t getSkillIdByName(const std::string &name);
-bool listDirectoryFiles(const std::string& directory, std::vector<std::string>& outFiles, const std::string& extension = "");
-
+bool listDirectoryFiles(const std::string &directory, std::vector<std::string> &outFiles, const std::string &extension = "");
 
 std::string getSkillName(uint8_t skillid);
 
