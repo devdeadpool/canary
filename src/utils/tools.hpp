@@ -7,6 +7,8 @@
  * Website: https://docs.opentibiabr.com/
  */
 
+#include "creatures/creatures_definitions.hpp"
+
 #pragma once
 
 namespace pugi {
@@ -115,6 +117,10 @@ ImbuementTypes_t getImbuementType(const std::string &strValue);
  * It will be dropped with monsters. Use RespawnPeriod_t instead.
  */
 SpawnType_t getSpawnType(const std::string &strValue);
+
+skills_t getSkillIdByName(const std::string &name);
+bool listDirectoryFiles(const std::string& directory, std::vector<std::string>& outFiles, const std::string& extension = "");
+
 
 std::string getSkillName(uint8_t skillid);
 

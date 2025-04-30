@@ -16,6 +16,7 @@
 #include "io/io_bosstiary.hpp"
 #include "lua/functions/lua_functions_loader.hpp"
 #include "creatures/players/components/wheel/wheel_definitions.hpp"
+#include "creatures/players/missions/mission_manager.hpp"
 
 constexpr const char* soundNamespace = "SOUND_EFFECT_TYPE_";
 
@@ -113,6 +114,7 @@ void LuaEnums::init(lua_State* L) {
 	initWheelEnums(L);
 	initAttributeConditionSubIdEnums(L);
 	initConcoctionsEnum(L);
+	initMissionsEnums(L);
 }
 
 void LuaEnums::initOthersEnums(lua_State* L) {
@@ -1820,4 +1822,25 @@ void LuaEnums::initWheelEnums(lua_State* L) {
 	for (const auto value : magic_enum::enum_values<WheelSpellBoost_t>()) {
 		registerMagicEnumNamespace(L, wheelNamespace, value);
 	}
+}
+
+// Use with missions
+void LuaEnums::initMissionsEnums(lua_State* L) {
+	//objectives
+	registerEnum(L, KILL);
+	registerEnum(L, COLLECT);
+	registerEnum(L, INVESTIGATE);
+	registerEnum(L, SABOTAGE);
+	registerEnum(L, TALK);
+	registerEnum(L, ESCORT);
+	registerEnum(L, DEFEND);
+	registerEnum(L, CAPTURE);
+	registerEnum(L, SURVIVE);
+	//rewards
+	registerEnum(L, XP);
+	registerEnum(L, ITEM);
+	registerEnum(L, ATTR_POINTS);
+	registerEnum(L, SKILL_TRIES);
+	registerEnum(L, PERK);
+	registerEnum(L, KVE);
 }

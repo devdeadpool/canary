@@ -14,6 +14,7 @@
 #include "creatures/npcs/npcs.hpp"
 #include "creatures/players/grouping/familiars.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
+#include "creatures/players/missions/mission_manager.hpp"
 #include "creatures/players/storages/storages.hpp"
 #include "database/databasemanager.hpp"
 #include "declarations.hpp"
@@ -379,6 +380,8 @@ void CanaryServer::loadModules() {
 	// Load monsters
 	modulesLoadHelper(g_scripts().loadScripts(datapackFolder + "/monster", false, false), datapackFolder + "/monster");
 	modulesLoadHelper((g_npcs().load(false, true)), "npc");
+
+	modulesLoadHelper(g_missionManager().loadFromXML(), "XML/missions/mission_list.xml");
 
 	g_game().loadBoostedCreature();
 	g_ioBosstiary().loadBoostedBoss();

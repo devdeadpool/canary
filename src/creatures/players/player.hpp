@@ -130,6 +130,7 @@ static constexpr uint8_t PLAYER_SOUND_HEALTH_CHANGE = 10;
 
 class Player final : public Creature, public Cylinder, public Bankable {
 public:
+	friend class MissionManager;
 	class PlayerLock {
 	public:
 		explicit PlayerLock(const std::shared_ptr<Player> &p) :
@@ -165,6 +166,8 @@ public:
 	void sendHealthBarUpdate();
 	void applyBaseSkillsFromVocation();
 	void initializeFromVocationIfNeeded(bool initAttributes);
+
+	uint32_t getItemAmount(uint16_t itemId) const;
 
 	void setID() override;
 

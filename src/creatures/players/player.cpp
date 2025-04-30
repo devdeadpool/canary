@@ -10813,3 +10813,7 @@ void Player::initializeFromVocationIfNeeded(bool initAttributes) {
 		Database::getInstance().executeQuery(fmt::format("UPDATE players SET attributes_initialized = 1 WHERE id = {}", getGUID()));
 	}
 }
+
+uint32_t Player::getItemAmount(uint16_t itemId) const {
+    return getItemTypeCount(itemId, -1);
+}

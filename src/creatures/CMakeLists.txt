@@ -20,6 +20,7 @@ target_sources(${PROJECT_NAME}_lib PRIVATE
     players/grouping/guild.cpp
     players/grouping/party.cpp
     players/imbuements/imbuements.cpp
+    players/missions/mission_manager.cpp
     players/management/ban.cpp
     players/management/waitlist.cpp
     players/storages/storages.cpp

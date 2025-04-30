@@ -1,0 +1,27 @@
+<mission id="11" name="Uchiha Awakening" repeatable="false">
+  <description>Begin your path as a true Uchiha by completing this foundational training mission.</description>
+
+  <stages>
+    <stage id="0" name="The First Trial">
+      <requirements>
+        <level min="1" />
+        <vocation id="1" /> <!-- Supondo que vocação 1 seja Uchiha -->
+      </requirements>
+
+      <objectives>
+        <kill monster="Rat" amount="5" />
+        <collect itemid="3035" amount="10" description="Collect 10 Platinum Coins." />
+        <use itemid="3043" description="Use the Sacred Pillar to test your chakra." />
+        <talk npc="Mission Master" />
+        <useon itemid="3155" target="skeleton" amount="1" description="Capture a Wild Skeleton with a tag seal." />
+      </objectives>
+
+      <rewards>
+        <xp amount="5000" />
+        <spell name="katon goukakyuu" />
+        <item id="chakra potion" count="3" />
+        <kv key="uchiha.awakening.completed" value="true" description="Marked the player as having completed the Uchiha initiation." />
+      </rewards>
+    </stage>
+  </stages>
+</mission>

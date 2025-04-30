@@ -400,5 +400,21 @@ class PlayerFunctions {
 	static int luaPlayerGetStatusPointCost(lua_State* L);
 	static int luaPlayerRemoveStatusPoints(lua_State* L);
 
+	static int luaPlayerSetActiveMissionId(lua_State* L);
+	static int luaPlayerSetActiveMissionStage(lua_State* L);
+	static int luaPlayerGetActiveMissionId(lua_State* L);
+	static int luaPlayerGetActiveMissionStageIndex(lua_State* L);
+
+	static int luaPlayerGetMissionStatus(lua_State* L);
+	static int luaPlayerCanStartStage(lua_State* L);
+	static int luaPlayerGetStageRequirementsStatus(lua_State* L);
+	static int luaPlayerGetFormattedStageRequirements(lua_State* L);
+	static int luaPlayerGetStageProgress(lua_State* L);
+	static int luaPlayerCompleteTalkObjective(lua_State* L);
+	static int luaPlayerCheckStageCompletion(lua_State* L);
+	static int luaPlayerIsMissionStageComplete(lua_State* L);
+
+
+
 	friend class CreatureFunctions;
 };

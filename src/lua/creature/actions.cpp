@@ -21,6 +21,7 @@
 #include "items/containers/rewards/rewardchest.hpp"
 #include "lua/scripts/scripts.hpp"
 #include "lib/di/container.hpp"
+#include "creatures/players/missions/mission_manager.hpp"
 
 Actions::Actions() = default;
 Actions::~Actions() = default;
@@ -416,6 +417,8 @@ bool Actions::useItem(const std::shared_ptr<Player> &player, const Position &pos
 		return false;
 	}
 
+	g_missionManager().onUseItem(*player, item->getID());
+
 	if (it.isRune() || it.type == ITEM_TYPE_POTION) {
 		player->setNextPotionAction(OTSYS_TIME() + g_configManager().getNumber(ACTIONS_DELAY_INTERVAL));
 	} else {
@@ -458,6 +461,11 @@ bool Actions::useItemEx(const std::shared_ptr<Player> &player, const Position &f
 
 	if (action->useFunction) {
 		if (action->useFunction(player, item, fromPos, action->getTarget(player, creature, toPos, toStackPos), toPos, isHotkey)) {
+			if (creature) {
+				g_missionManager().onUseOnTarget(*player, item->getID(), creature->getName());
+			} else {
+				g_missionManager().onUseItem(*player, item->getID());
+			}
 			return true;
 		}
 		return false;
@@ -468,6 +476,12 @@ bool Actions::useItemEx(const std::shared_ptr<Player> &player, const Position &f
 			player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
 		}
 		return false;
+	}
+
+	if (creature) {
+		g_missionManager().onUseOnTarget(*player, item->getID(), creature->getName());
+	} else {
+		g_missionManager().onUseItem(*player, item->getID());
 	}
 
 	if (it.isRune() || it.type == ITEM_TYPE_POTION) {

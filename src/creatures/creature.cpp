@@ -23,6 +23,7 @@
 #include "map/spectators.hpp"
 #include "creatures/players/player.hpp"
 #include "server/network/protocol/protocolgame.hpp"
+#include "creatures/players/missions/mission_manager.hpp"
 
 Creature::Creature() {
 	Creature::onIdleStatus();
@@ -506,6 +507,16 @@ void Creature::onDeath() {
 	const auto &thisCreature = getCreature();
 	const auto &thisMaster = getMaster();
 	const auto &thisMonster = getMonster();
+
+	if (lastHitCreature) {
+		if (auto playerKiller = lastHitCreature->getPlayer()) {
+			if (thisMonster) {
+				g_logger().info("[mitigation] creature: {}, player damage: {}", thisMonster->getName(), playerKiller->getName());
+				g_missionManager().onKill(*playerKiller, thisMonster->getName());
+			}
+		}
+	}
+
 	std::shared_ptr<Creature> lastHitCreatureMaster;
 	if (lastHitCreature && thisPlayer) {
 		/**
