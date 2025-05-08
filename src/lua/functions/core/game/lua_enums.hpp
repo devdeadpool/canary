@@ -67,4 +67,5 @@ private:
 	static void effectsSoundEnums(lua_State* L);
 	static void initWheelEnums(lua_State* L);
 	static void initMissionsEnums(lua_State* L);
+	static void initDoujutsuEnums(lua_State* L);
 };

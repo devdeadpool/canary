@@ -80973,9 +80973,12 @@ Granted by TibiaGoals.com"/>
 		<attribute key="primarytype" value="pillars"/>
 	</item>
 
-	<item id="49279" article="a" name="sharingan level three">
-	<attribute key="primarytype" value="soul cores"/>
-		<attribute key="description" value="Focalises the soul within a core. Can be used to turn a soul core into a greater version"/>
+	<item id="49279" article="an" name="sharingan level three">
+	<attribute key="slotType" value="two-handed"/>
+	</item>
+	<item id="49280" article="an" name="mangenkyou sharingan">
+	<attribute key="slotType" value="eye"/>
+	
 	</item>
 
 </items>

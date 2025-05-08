@@ -162,6 +162,11 @@ std::string Player::getDescription(int32_t lookDistance) {
 			s << " You have no vocation.";
 		}
 
+		const std::string graduation = getGraduation();
+		if (!graduation.empty()) {
+			s << " You are a " << graduation << ".";
+		}
+
 		if (!loyaltyTitle.empty()) {
 			s << " You are a " << loyaltyTitle << ".";
 		}
@@ -183,6 +188,11 @@ std::string Player::getDescription(int32_t lookDistance) {
 			s << " " << getSubjectVerb() << " " << vocation->getVocDescription() << '.';
 		} else {
 			s << " has no vocation.";
+		}
+
+		const std::string graduation = getGraduation();
+		if (!graduation.empty()) {
+			s << " " << subjectPronoun << " " << getSubjectVerb() << " graduated as " << graduation << ".";
 		}
 
 		if (!loyaltyTitle.empty()) {
@@ -395,7 +405,7 @@ int32_t Player::getWeaponSkill(const std::shared_ptr<Item> &item) const {
 int32_t Player::getArmor() const {
 	int32_t armor = 0;
 
-	static constexpr Slots_t armorSlots[] = { CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_ARMOR, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO };
+	static constexpr Slots_t armorSlots[] = { CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_ARMOR, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO, CONST_SLOT_EYE};
 	for (const Slots_t &slot : armorSlots) {
 		const auto &inventoryItem = inventory[slot];
 		if (inventoryItem) {
@@ -3209,16 +3219,16 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 		// Player stats gain for vocations level <= 8
 		if (vocation->getId() != VOCATION_NONE && level <= 8) {
 			const auto &noneVocation = g_vocations().getVocation(VOCATION_NONE);
-			/* healthMax += noneVocation->getHPGain();
+			healthMax += noneVocation->getHPGain();
 			health += noneVocation->getHPGain();
 			manaMax += noneVocation->getManaGain();
-			mana += noneVocation->getManaGain(); */
+			mana += noneVocation->getManaGain(); 
 			capacity += noneVocation->getCapGain();
 		} else {
-			/* healthMax += vocation->getHPGain();
+			healthMax += vocation->getHPGain();
 			health += vocation->getHPGain();
 			manaMax += vocation->getManaGain();
-			mana += vocation->getManaGain(); */
+			mana += vocation->getManaGain(); 
 			capacity += vocation->getCapGain();
 		}
 
@@ -3231,8 +3241,8 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 	}
 
 	if (prevLevel != level) {
-		/* health = healthMax;
-		mana = manaMax; */
+		 health = healthMax;
+		mana = manaMax;
 
 		updateBaseSpeed();
 		setBaseSpeed(getBaseSpeed());
@@ -3306,12 +3316,12 @@ void Player::removeExperience(uint64_t exp, bool sendText /* = false*/) {
 		// Player stats loss for vocations level <= 8
 		if (vocation->getId() != VOCATION_NONE && level <= 8) {
 			const auto &noneVocation = g_vocations().getVocation(VOCATION_NONE);
-			/* healthMax = std::max<int32_t>(0, healthMax - noneVocation->getHPGain());
-			manaMax = std::max<int32_t>(0, manaMax - noneVocation->getManaGain()); */
+			healthMax = std::max<int32_t>(0, healthMax - noneVocation->getHPGain());
+			manaMax = std::max<int32_t>(0, manaMax - noneVocation->getManaGain());
 			capacity = std::max<int32_t>(0, capacity - noneVocation->getCapGain());
 		} else {
-			/* 	healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
-			    manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain()); */
+			healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
+			manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain());
 			capacity = std::max<int32_t>(0, capacity - vocation->getCapGain());
 		}
 		currLevelExp = Player::getExpForLevel(level);
@@ -4054,12 +4064,12 @@ ReturnValue Player::queryAdd(int32_t index, const std::shared_ptr<Thing> &thing,
 	ReturnValue ret = RETURNVALUE_NOERROR;
 
 	const int32_t &slotPosition = item->getSlotPosition();
-
+	g_logger().info("[Player::queryAdd] - Item = {}, slot = {}, index = {}", item->getName(), slotPosition, index);
 	bool allowPutItemsOnAmmoSlot = g_configManager().getBoolean(ENABLE_PLAYER_PUT_ITEM_IN_AMMO_SLOT);
 	if (allowPutItemsOnAmmoSlot && index == CONST_SLOT_AMMO) {
 		ret = RETURNVALUE_NOERROR;
 	} else {
-		if ((slotPosition & SLOTP_HEAD) || (slotPosition & SLOTP_NECKLACE) || (slotPosition & SLOTP_BACKPACK) || (slotPosition & SLOTP_ARMOR) || (slotPosition & SLOTP_LEGS) || (slotPosition & SLOTP_FEET) || (slotPosition & SLOTP_RING)) {
+		if ((slotPosition & SLOTP_HEAD) || (slotPosition & SLOTP_NECKLACE) || (slotPosition & SLOTP_BACKPACK) || (slotPosition & SLOTP_ARMOR) || (slotPosition & SLOTP_LEGS) || (slotPosition & SLOTP_FEET) || (slotPosition & SLOTP_RING) || (slotPosition & SLOTP_EYE)) {
 			ret = RETURNVALUE_CANNOTBEDRESSED;
 		} else if (slotPosition & SLOTP_TWO_HAND) {
 			ret = RETURNVALUE_PUTTHISOBJECTINBOTHHANDS;
@@ -4216,6 +4226,13 @@ ReturnValue Player::queryAdd(int32_t index, const std::shared_ptr<Thing> &thing,
 			break;
 		}
 
+		case CONST_SLOT_EYE: {
+			if (slotPosition & SLOTP_EYE) {
+				ret = RETURNVALUE_NOERROR;
+			}
+			break;
+		}
+
 		case CONST_SLOT_WHEREEVER:
 		case -1:
 			ret = RETURNVALUE_NOTENOUGHROOM;
@@ -4355,7 +4372,7 @@ std::shared_ptr<Cylinder> Player::queryDestination(int32_t &index, const std::sh
 
 		std::vector<std::shared_ptr<Container>> containers;
 
-		for (uint32_t slotIndex = CONST_SLOT_FIRST; slotIndex <= CONST_SLOT_AMMO; ++slotIndex) {
+		for (uint32_t slotIndex = CONST_SLOT_FIRST; slotIndex <= CONST_SLOT_EYE; ++slotIndex) {
 			std::shared_ptr<Item> inventoryItem = inventory[slotIndex];
 			if (inventoryItem) {
 				if (inventoryItem == tradeItem) {
@@ -6560,28 +6577,13 @@ uint32_t Player::getLoyaltyMagicLevel() const {
 	return level;
 }
 
-/* int32_t Player::getMaxHealth() const {
+int32_t Player::getMaxHealth() const {
     return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
 }
 
 uint32_t Player::getMaxMana() const {
     return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
-} */
-
-int32_t Player::getMaxHealth() const {
-	const int energy = playerAttributes().getStatusAttribute(PlayerStatus::ENERGY);
-	int32_t baseHealth = energy * 8;
-	return std::max<int32_t>(10, vocation->getHPGain() + baseHealth + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
-}
-
-uint32_t Player::getMaxMana() const {
-	const int energy = playerAttributes().getStatusAttribute(PlayerStatus::ENERGY);
-	const auto* skills = getSkills();
-	uint32_t baseMana = (energy * 4)
-		+ (skills[SKILL_NINJUTSU].level * 7)
-		+ (skills[SKILL_GENJUTSU].level * 7);
-	return std::max<uint32_t>(10, vocation->getManaGain() + baseMana + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
-}
+} 
 
 bool Player::hasExtraSwing() {
 	return lastAttack > 0 && !checkLastAttackWithin(getAttackSpeed());
@@ -10816,4 +10818,12 @@ void Player::initializeFromVocationIfNeeded(bool initAttributes) {
 
 uint32_t Player::getItemAmount(uint16_t itemId) const {
     return getItemTypeCount(itemId, -1);
+}
+
+void Player::setGraduation(const std::string& rank) {
+	kv()->set("graduation", rank);
+}
+
+std::string Player::getGraduation() const {
+	return kv()->get("graduation").value_or("");
 }

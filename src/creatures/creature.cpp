@@ -511,7 +511,6 @@ void Creature::onDeath() {
 	if (lastHitCreature) {
 		if (auto playerKiller = lastHitCreature->getPlayer()) {
 			if (thisMonster) {
-				g_logger().info("[mitigation] creature: {}, player damage: {}", thisMonster->getName(), playerKiller->getName());
 				g_missionManager().onKill(*playerKiller, thisMonster->getName());
 			}
 		}
@@ -825,8 +824,6 @@ void Creature::mitigateDamage(const CombatType_t &combatType, BlockType_t &block
 	if (combatType != COMBAT_MANADRAIN && combatType != COMBAT_LIFEDRAIN && combatType != COMBAT_AGONYDAMAGE) { // Increase mitigate damage
 		auto originalDamage = damage;
 		damage -= (damage * getMitigation()) / 100.;
-		g_logger().trace("[mitigation] creature: {}, original damage: {}, mitigation damage: {}", getName(), originalDamage, damage);
-
 		if (damage <= 0) {
 			damage = 0;
 			blockType = BLOCK_ARMOR;

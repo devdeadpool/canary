@@ -244,6 +244,7 @@ enum AttrTypes_t {
 	ATTR_STORE_INBOX_CATEGORY = 42,
 	ATTR_OWNER = 43,
 	ATTR_OBTAINCONTAINER = 44,
+	ATTR_ELEMENT = 45,
 
 	// Always the last
 	ATTR_NONE = 0
@@ -420,7 +421,8 @@ enum SlotPositionBits : uint32_t {
 	SLOTP_RING = 1 << 8,
 	SLOTP_AMMO = 1 << 9,
 	SLOTP_DEPOT = 1 << 10,
-	SLOTP_TWO_HAND = 1 << 11,
+	SLOTP_EYE = 1 << 11,
+	SLOTP_TWO_HAND = 1 << 12,
 	SLOTP_HAND = (SLOTP_LEFT | SLOTP_RIGHT)
 };
 

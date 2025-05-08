@@ -169,6 +169,10 @@ public:
 
 	uint32_t getItemAmount(uint16_t itemId) const;
 
+	// Graduation (Rank) system
+	void setGraduation(const std::string& rank);
+	std::string getGraduation() const;
+
 	void setID() override;
 
 	void setOnline(bool value) override {

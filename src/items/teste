@@ -400,15 +400,16 @@
 					 break;
  
 				 case DatAttrWriteable:
-					 item.canReadText = true;
-					  item.maxTextLen = props.read<uint16_t>();
+					item.canReadText = true;
+					item.maxTextLen = props.read<uint16_t>();
+					break;
 				 case DatAttrWriteableOnce:
-					 item.canReadText = true;
-					 item.maxTextLen = props.read<uint16_t>();
-					 break;
+					item.canReadText = true;
+					item.maxTextLen = props.read<uint16_t>();
+					break;
 				 case DatAttrLiquidPool:
-				 item.group = ITEM_GROUP_SPLASH;
-				 break;
+					item.group = ITEM_GROUP_SPLASH;
+					break;
  
 				 case DatAttrLiquidContainer:
 					 item.group = ITEM_GROUP_FLUID;
@@ -465,9 +466,9 @@
 					 break;
  
 				 case DatAttrDisplaced:
-						 props.skip(2); // unknown u16 flag
-						 props.skip(2); // unknown u16 flag
-					 break;
+					props.skip(2); // unknown u16 flag
+					props.skip(2); // unknown u16 flag
+					break;
  
 				 case DatAttrElevated:
 					 item.hasHeight = true;
@@ -513,11 +514,11 @@
 				 }
  
 				 case DatAttrDefaultAction:
-					 props.read<uint16_t>();
+				 props.skip(2); // unknown u16 flag
 					 break;
  
 				 case DatAttrWrappable:
-				 item.wrapContainer = true;
+					item.wrapContainer = true;
 					  item.wrapable = true;
 					  item.wrapableTo = ITEM_DECORATION_KIT;
 					 break;
@@ -544,7 +545,9 @@
 					 break;
 				 }
 				 case DatAttrCyclopediaItem: {
-					 props.read<uint16_t>(); // CyclopediaType
+					 //props.read<uint16_t>(); // CyclopediaType
+
+					 item.wareId = props.read<uint16_t>();
 					 break;
 				 }
 				 case DatAttrAmmo: {

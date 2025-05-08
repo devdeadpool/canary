@@ -17,6 +17,7 @@
 #include "lua/functions/lua_functions_loader.hpp"
 #include "creatures/players/components/wheel/wheel_definitions.hpp"
 #include "creatures/players/missions/mission_manager.hpp"
+#include "creatures/players/doujutsu/sharingan.hpp"
 
 constexpr const char* soundNamespace = "SOUND_EFFECT_TYPE_";
 
@@ -115,6 +116,7 @@ void LuaEnums::init(lua_State* L) {
 	initAttributeConditionSubIdEnums(L);
 	initConcoctionsEnum(L);
 	initMissionsEnums(L);
+	initDoujutsuEnums(L);
 }
 
 void LuaEnums::initOthersEnums(lua_State* L) {
@@ -191,6 +193,7 @@ void LuaEnums::initOthersEnums(lua_State* L) {
 	registerEnum(L, SLOTP_FEET);
 	registerEnum(L, SLOTP_RING);
 	registerEnum(L, SLOTP_AMMO);
+ 	registerEnum(L, SLOTP_EYE); 
 	registerEnum(L, SLOTP_DEPOT);
 	registerEnum(L, SLOTP_TWO_HAND);
 
@@ -713,6 +716,7 @@ void LuaEnums::initConstSlotEnums(lua_State* L) {
 	registerEnum(L, CONST_SLOT_FEET);
 	registerEnum(L, CONST_SLOT_RING);
 	registerEnum(L, CONST_SLOT_AMMO);
+	registerEnum(L, CONST_SLOT_EYE);
 	registerEnum(L, CONST_SLOT_STORE_INBOX);
 	registerEnum(L, CONST_SLOT_LAST);
 }
@@ -1843,4 +1847,13 @@ void LuaEnums::initMissionsEnums(lua_State* L) {
 	registerEnum(L, SKILL_TRIES);
 	registerEnum(L, PERK);
 	registerEnum(L, KVE);
+}
+
+void LuaEnums::initDoujutsuEnums(lua_State* L) {
+	registerEnum(L, SHARINGAN_NONE_STAGE);
+	registerEnum(L, SHARINGAN_FIRST_STAGE);
+	registerEnum(L, SHARINGAN_SECOND_STAGE);
+	registerEnum(L, SHARINGAN_THIRD_STAGE);
+	registerEnum(L, SHARINGAN_MANGEKYOU);
+	registerEnum(L, SHARINGAN_FUUMETSU_MANGEKYOU);
 }

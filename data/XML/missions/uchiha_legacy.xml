@@ -5,7 +5,7 @@
     <stage id="0" name="The First Trial">
       <requirements>
         <level min="1" />
-        <vocation id="1" /> <!-- Supondo que vocação 1 seja Uchiha -->
+        <vocation name="uchiha" />
       </requirements>
 
       <objectives>
@@ -21,6 +21,7 @@
         <spell name="katon goukakyuu" />
         <item id="chakra potion" count="3" />
         <kv key="uchiha.awakening.completed" value="true" description="Marked the player as having completed the Uchiha initiation." />
+        <graduation name="Gennin" />
       </rewards>
     </stage>
   </stages>

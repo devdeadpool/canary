@@ -152,11 +152,7 @@ monster.elements = {
 	{ type = COMBAT_DROWNDAMAGE, percent = 100 },
 	{ type = COMBAT_ICEDAMAGE, percent = -12 },
 	{ type = COMBAT_HOLYDAMAGE, percent = -12 },
-<<<<<<< HEAD
-	--[[ 	{ type = COMBAT_DEATHDAMAGE, percent = 20 }, ]]
-=======
 	{ type = COMBAT_DEATHDAMAGE, percent = 20 },
->>>>>>> parent of c3c86e302 (up stst attribute combat)
 }
 
 monster.immunities = {
@@ -166,14 +162,4 @@ monster.immunities = {
 	{ type = "bleed", condition = false },
 }
 
-<<<<<<< HEAD
-monster.combatStats = {
-	atk = 100,
-	def = 70,
-	spAtk = 60,
-	spDef = 50,
-}
-
-=======
->>>>>>> parent of c3c86e302 (up stst attribute combat)
 mType:register(monster)

@@ -406,6 +406,7 @@ bool Items::loadFromDat() {
 				case DatAttrWriteable:
 					item.canReadText = true;
 					item.maxTextLen = props.read<uint16_t>();
+					break;
 				case DatAttrWriteableOnce:
 					item.canReadText = true;
 					item.maxTextLen = props.read<uint16_t>();
@@ -496,14 +497,14 @@ bool Items::loadFromDat() {
 					}
 					break;
 				}
-
 				case DatAttrLookthrough:
 					item.lookThrough = true;
 					break;
-
-				case DatAttrClothes:
-					props.read<uint16_t>();
+				case DatAttrClothes: {
+					uint16_t slot = props.read<uint16_t>();
+					item.slotPosition |= static_cast<SlotPositionBits>(1 << (slot - 1));
 					break;
+				}
 
 				case DatAttrMarket: {
 					auto category = props.read<uint16_t>();
@@ -551,6 +552,9 @@ bool Items::loadFromDat() {
 					break;
 				}
 				case DatAttrAmmo: {
+					break;
+				}
+				case DatAttrLyingObject: {
 					break;
 				}
 				case DatAttrShowOffSocket: {
@@ -649,7 +653,7 @@ bool Items::loadFromDat() {
 void Items::buildInventoryList() {
 	inventory.reserve(items.size());
 	for (const auto &type : items) {
-		if (type.weaponType != WEAPON_NONE || type.ammoType != AMMO_NONE || type.attack != 0 || type.defense != 0 || type.extraDefense != 0 || type.armor != 0 || type.slotPosition & SLOTP_NECKLACE || type.slotPosition & SLOTP_RING || type.slotPosition & SLOTP_AMMO || type.slotPosition & SLOTP_FEET || type.slotPosition & SLOTP_HEAD || type.slotPosition & SLOTP_ARMOR || type.slotPosition & SLOTP_LEGS) {
+		if (type.weaponType != WEAPON_NONE || type.ammoType != AMMO_NONE || type.attack != 0 || type.defense != 0 || type.extraDefense != 0 || type.armor != 0 || type.slotPosition & SLOTP_NECKLACE || type.slotPosition & SLOTP_RING || type.slotPosition & SLOTP_AMMO || type.slotPosition & SLOTP_EYE || type.slotPosition & SLOTP_FEET || type.slotPosition & SLOTP_HEAD || type.slotPosition & SLOTP_ARMOR || type.slotPosition & SLOTP_LEGS) {
 			inventory.push_back(type.id);
 		}
 	}

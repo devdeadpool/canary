@@ -1323,6 +1323,7 @@ FILELOADER_ERRORS Game::loadAppearanceProtobuf(const std::string &file) {
 		fileStream.close();
 		return ERROR_NOT_OPEN;
 	}
+	Item::items.loadFromProtobuf();
 
 	// Only iterate other objects if necessary
 	if (g_configManager().getBoolean(WARN_UNSAFE_SCRIPTS)) {
@@ -3301,6 +3302,8 @@ ObjectCategory_t Game::getObjectCategory(const ItemType &it) {
 			category = OBJECTCATEGORY_BOOTS;
 		} else if ((it.slotPosition & SLOTP_RING) != 0) {
 			category = OBJECTCATEGORY_RINGS;
+		} else if ((it.slotPosition & SLOTP_EYE) != 0) {
+			category = OBJECTCATEGORY_EYES;
 		}
 	} else if (it.type == ITEM_TYPE_RUNE) {
 		category = OBJECTCATEGORY_RUNES;
@@ -3377,6 +3380,8 @@ Slots_t getSlotType(const ItemType &it) {
 			slot = CONST_SLOT_RING;
 		} else if (slotPosition & SLOTP_AMMO) {
 			slot = CONST_SLOT_AMMO;
+		} else if (slotPosition & SLOTP_EYE) {
+			slot = CONST_SLOT_EYE;
 		} else if (slotPosition & SLOTP_TWO_HAND || slotPosition & SLOTP_LEFT) {
 			slot = CONST_SLOT_LEFT;
 		}
@@ -11545,14 +11550,26 @@ bool Game::processBankAuction(std::shared_ptr<Player> player, const std::shared_
 }
 
 bool Game::isMagicEffectRegistered(uint16_t type) const {
+	if (g_configManager().getBoolean(LOAD_ITEMS_FROM_SPR_DAT)) {
+		return true;
+	}
+
 	return std::ranges::find(registeredMagicEffects, type) != registeredMagicEffects.end();
 }
 
 bool Game::isDistanceEffectRegistered(uint16_t type) const {
+	if (g_configManager().getBoolean(LOAD_ITEMS_FROM_SPR_DAT)) {
+		return true;
+	}
+
 	return std::ranges::find(registeredDistanceEffects, type) != registeredDistanceEffects.end();
 }
 
 bool Game::isLookTypeRegistered(uint16_t type) const {
+	if (g_configManager().getBoolean(LOAD_ITEMS_FROM_SPR_DAT)) {
+		return true;
+	}
+
 	return std::ranges::find(registeredLookTypes, type) != registeredLookTypes.end();
 }
 

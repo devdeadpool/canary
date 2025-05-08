@@ -18,6 +18,7 @@
 #include "creatures/players/player.hpp"
 #include "creatures/players/status/player_attributes.hpp"
 #include "creatures/players/missions/mission_manager.hpp"
+#include "creatures/players/doujutsu/sharingan.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "game/game.hpp"
@@ -434,6 +435,17 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "completeTalkObjective", PlayerFunctions::luaPlayerCompleteTalkObjective);
 	Lua::registerMethod(L, "Player", "checkStageCompletion", PlayerFunctions::luaPlayerCheckStageCompletion);
 	Lua::registerMethod(L, "Player", "isMissionStageComplete", PlayerFunctions::luaPlayerIsMissionStageComplete);
+
+	// graduation
+	Lua::registerMethod(L, "Player", "setGraduation", PlayerFunctions::luaPlayerSetGraduation);
+	Lua::registerMethod(L, "Player", "getGraduation", PlayerFunctions::luaPlayerGetGraduation);
+
+	Lua::registerMethod(L, "Player", "isSharinganActive", PlayerFunctions::luaPlayerIsSharinganActive);
+	Lua::registerMethod(L, "Player", "setSharinganActive", PlayerFunctions::luaPlayerSetSharinganActive);
+	Lua::registerMethod(L, "Player", "getSharinganStage", PlayerFunctions::luaPlayerGetSharinganStage);
+	Lua::registerMethod(L, "Player", "setSharinganStage", PlayerFunctions::luaPlayerSetSharinganStage);
+	Lua::registerMethod(L, "Player", "toggleSharingan", PlayerFunctions::luaPlayerToggleSharingan);
+
 
 
 	GroupFunctions::init(L);
@@ -5293,4 +5305,90 @@ int PlayerFunctions::luaPlayerIsMissionStageComplete(lua_State* L) {
     bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
     Lua::pushBoolean(L, completed);
     return 1;
+}
+
+int PlayerFunctions::luaPlayerSetGraduation(lua_State* L) {
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string graduation = Lua::getString(L, 2);
+	player->setGraduation(graduation);
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerGetGraduation(lua_State* L) {
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	std::string graduation = player->getGraduation();
+	Lua::pushString(L, graduation);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerIsSharinganActive(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	Lua::pushBoolean(L, g_sharingan().isActive(player.get()));
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerSetSharinganActive(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const bool active = Lua::getBoolean(L, 2);
+	g_sharingan().setActive(player.get(), active);
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerGetSharinganStage(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const auto stage = g_sharingan().getStage(player.get());
+Lua::pushNumber(L, static_cast<uint32_t>(stage));
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerSetSharinganStage(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const uint32_t stage = Lua::getNumber<uint32_t>(L, 2);
+	g_sharingan().setStage(player.get(), static_cast<SharinganStage_t>(stage));
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerToggleSharingan(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	g_sharingan().toggle(player.get());
+	Lua::pushBoolean(L, true);
+	return 1;
 }

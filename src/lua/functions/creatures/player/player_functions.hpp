@@ -414,7 +414,15 @@ class PlayerFunctions {
 	static int luaPlayerCheckStageCompletion(lua_State* L);
 	static int luaPlayerIsMissionStageComplete(lua_State* L);
 
+	static int luaPlayerSetGraduation(lua_State* L);
+	static int luaPlayerGetGraduation(lua_State* L);
 
+	//sharingan
+	static int luaPlayerIsSharinganActive(lua_State* L);
+	static int luaPlayerSetSharinganActive(lua_State* L);
+	static int luaPlayerGetSharinganStage(lua_State* L);
+	static int luaPlayerSetSharinganStage(lua_State* L);
+	static int luaPlayerToggleSharingan(lua_State* L);
 
 	friend class CreatureFunctions;
 };
