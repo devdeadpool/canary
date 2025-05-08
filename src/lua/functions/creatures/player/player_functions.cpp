@@ -5306,9 +5306,9 @@ int PlayerFunctions::luaPlayerIsMissionStageComplete(lua_State* L) {
 	}
 
 <<<<<<< HEAD
-    bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
-    Lua::pushBoolean(L, completed);
-    return 1;
+	bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
+	Lua::pushBoolean(L, completed);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerSetGraduation(lua_State* L) {
@@ -5337,7 +5337,7 @@ int PlayerFunctions::luaPlayerGetGraduation(lua_State* L) {
 }
 
 int PlayerFunctions::luaPlayerIsSharinganActive(lua_State* L) {
-	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
 	if (!player) {
 		Lua::pushBoolean(L, false);
 		return 1;
@@ -5348,7 +5348,7 @@ int PlayerFunctions::luaPlayerIsSharinganActive(lua_State* L) {
 }
 
 int PlayerFunctions::luaPlayerSetSharinganActive(lua_State* L) {
-	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
 	if (!player) {
 		Lua::pushBoolean(L, false);
 		return 1;
@@ -5361,19 +5361,19 @@ int PlayerFunctions::luaPlayerSetSharinganActive(lua_State* L) {
 }
 
 int PlayerFunctions::luaPlayerGetSharinganStage(lua_State* L) {
-	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
 	if (!player) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	const auto stage = g_sharingan().getStage(player.get());
-Lua::pushNumber(L, static_cast<uint32_t>(stage));
+	Lua::pushNumber(L, static_cast<uint32_t>(stage));
 	return 1;
 }
 
 int PlayerFunctions::luaPlayerSetSharinganStage(lua_State* L) {
-	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
 	if (!player) {
 		Lua::pushBoolean(L, false);
 		return 1;
@@ -5386,7 +5386,7 @@ int PlayerFunctions::luaPlayerSetSharinganStage(lua_State* L) {
 }
 
 int PlayerFunctions::luaPlayerToggleSharingan(lua_State* L) {
-	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
 	if (!player) {
 		Lua::pushBoolean(L, false);
 		return 1;
