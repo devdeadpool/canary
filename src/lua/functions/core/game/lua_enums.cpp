@@ -1830,7 +1830,7 @@ void LuaEnums::initWheelEnums(lua_State* L) {
 
 // Use with missions
 void LuaEnums::initMissionsEnums(lua_State* L) {
-	//objectives
+	// objectives
 	registerEnum(L, KILL);
 	registerEnum(L, COLLECT);
 	registerEnum(L, INVESTIGATE);
@@ -1840,7 +1840,7 @@ void LuaEnums::initMissionsEnums(lua_State* L) {
 	registerEnum(L, DEFEND);
 	registerEnum(L, CAPTURE);
 	registerEnum(L, SURVIVE);
-	//rewards
+	// rewards
 	registerEnum(L, XP);
 	registerEnum(L, ITEM);
 	registerEnum(L, ATTR_POINTS);

@@ -436,6 +436,7 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "checkStageCompletion", PlayerFunctions::luaPlayerCheckStageCompletion);
 	Lua::registerMethod(L, "Player", "isMissionStageComplete", PlayerFunctions::luaPlayerIsMissionStageComplete);
 
+<<<<<<< HEAD
 	// graduation
 	Lua::registerMethod(L, "Player", "setGraduation", PlayerFunctions::luaPlayerSetGraduation);
 	Lua::registerMethod(L, "Player", "getGraduation", PlayerFunctions::luaPlayerGetGraduation);
@@ -448,6 +449,8 @@ void PlayerFunctions::init(lua_State* L) {
 
 
 
+=======
+>>>>>>> 18fb20477439459dc15a6c3d0aa1ff0bd0aedb5b
 	GroupFunctions::init(L);
 	GuildFunctions::init(L);
 	MountFunctions::init(L);
@@ -5134,7 +5137,7 @@ int PlayerFunctions::luaPlayerRemoveStatusPoints(lua_State* L) {
 	Lua::pushBoolean(L, true);
 	return 1;
 }
-/* 
+/*
 int PlayerFunctions::luaPlayerIsActiveMissionCompleted(lua_State* L) {
     const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
     if (!player) {
@@ -5154,154 +5157,155 @@ int PlayerFunctions::luaPlayerIsActiveMissionCompleted(lua_State* L) {
 } */
 
 int PlayerFunctions::luaPlayerSetActiveMissionId(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        return 0;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		return 0;
+	}
 
-    uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
-    g_missionManager().setActiveMissionId(*player, missionId);
-    return 0;
+	uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
+	g_missionManager().setActiveMissionId(*player, missionId);
+	return 0;
 }
 
 int PlayerFunctions::luaPlayerSetActiveMissionStage(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        return 0;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		return 0;
+	}
 
-    uint32_t stage = Lua::getNumber<uint32_t>(L, 2);
-    g_missionManager().setActiveMissionStage(*player, stage);
-    return 0;
+	uint32_t stage = Lua::getNumber<uint32_t>(L, 2);
+	g_missionManager().setActiveMissionStage(*player, stage);
+	return 0;
 }
 
 int PlayerFunctions::luaPlayerGetActiveMissionId(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        lua_pushinteger(L, 0);
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushinteger(L, 0);
+		return 1;
+	}
 
-    uint32_t missionId = g_missionManager().getActiveMissionId(*player);
-    lua_pushinteger(L, missionId);
-    return 1;
+	uint32_t missionId = g_missionManager().getActiveMissionId(*player);
+	lua_pushinteger(L, missionId);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetActiveMissionStageIndex(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        lua_pushinteger(L, 0);
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushinteger(L, 0);
+		return 1;
+	}
 
-    uint32_t stage = g_missionManager().getActiveMissionStageIndex(*player);
-    lua_pushinteger(L, stage);
-    return 1;
+	uint32_t stage = g_missionManager().getActiveMissionStageIndex(*player);
+	lua_pushinteger(L, stage);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetMissionStatus(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        lua_pushnil(L);
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
 
-    const std::string status = g_missionManager().getPlayerMissionStatus(*player);
-    lua_pushstring(L, status.c_str());
-    return 1;
+	const std::string status = g_missionManager().getPlayerMissionStatus(*player);
+	lua_pushstring(L, status.c_str());
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerCanStartStage(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
-    uint32_t stageId = Lua::getNumber<uint32_t>(L, 3);
+	uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
+	uint32_t stageId = Lua::getNumber<uint32_t>(L, 3);
 
-    bool canStart = g_missionManager().canStartStage(*player, missionId, stageId);
-    Lua::pushBoolean(L, canStart);
-    return 1;
+	bool canStart = g_missionManager().canStartStage(*player, missionId, stageId);
+	Lua::pushBoolean(L, canStart);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetStageRequirementsStatus(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        lua_pushstring(L, "Invalid player.");
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushstring(L, "Invalid player.");
+		return 1;
+	}
 
-    uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
-    uint32_t stageId = Lua::getNumber<uint32_t>(L, 3);
+	uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
+	uint32_t stageId = Lua::getNumber<uint32_t>(L, 3);
 
-    const std::string status = g_missionManager().getStageRequirementsStatus(*player, missionId, stageId);
-    lua_pushstring(L, status.c_str());
-    return 1;
+	const std::string status = g_missionManager().getStageRequirementsStatus(*player, missionId, stageId);
+	lua_pushstring(L, status.c_str());
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetFormattedStageRequirements(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        lua_pushnil(L);
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
 
-    uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
-    uint32_t stageId = Lua::getNumber<uint32_t>(L, 3);
+	uint32_t missionId = Lua::getNumber<uint32_t>(L, 2);
+	uint32_t stageId = Lua::getNumber<uint32_t>(L, 3);
 
-    std::string result = g_missionManager().formatRequirementsForStage(*player, missionId, stageId);
-    lua_pushstring(L, result.c_str());
-    return 1;
+	std::string result = g_missionManager().formatRequirementsForStage(*player, missionId, stageId);
+	lua_pushstring(L, result.c_str());
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerGetStageProgress(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        lua_pushstring(L, "Invalid player.");
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushstring(L, "Invalid player.");
+		return 1;
+	}
 
-    const std::string progress = g_missionManager().getStageProgress(*player);
-    lua_pushstring(L, progress.c_str());
-    return 1;
+	const std::string progress = g_missionManager().getStageProgress(*player);
+	lua_pushstring(L, progress.c_str());
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerCompleteTalkObjective(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        return 0;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		return 0;
+	}
 
-    std::string npcName = Lua::getString(L, 2);
-    g_missionManager().completeTalkObjective(*player, npcName);
-    return 0;
+	std::string npcName = Lua::getString(L, 2);
+	g_missionManager().completeTalkObjective(*player, npcName);
+	return 0;
 }
 
 int PlayerFunctions::luaPlayerCheckStageCompletion(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        return 0;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		return 0;
+	}
 
-    g_missionManager().checkStageCompletion(*player);
-    return 0;
+	g_missionManager().checkStageCompletion(*player);
+	return 0;
 }
 
 int PlayerFunctions::luaPlayerIsMissionStageComplete(lua_State* L) {
-    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
-    if (!player) {
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	const auto &player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
-    const MissionStage* stage = g_missionManager().getActiveMissionStage(*player);
-    if (!stage) {
-        Lua::pushBoolean(L, false);
-        return 1;
-    }
+	const MissionStage* stage = g_missionManager().getActiveMissionStage(*player);
+	if (!stage) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 
+<<<<<<< HEAD
     bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
     Lua::pushBoolean(L, completed);
     return 1;
@@ -5390,5 +5394,9 @@ int PlayerFunctions::luaPlayerToggleSharingan(lua_State* L) {
 
 	g_sharingan().toggle(player.get());
 	Lua::pushBoolean(L, true);
+=======
+	bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
+	Lua::pushBoolean(L, completed);
+>>>>>>> 18fb20477439459dc15a6c3d0aa1ff0bd0aedb5b
 	return 1;
 }
