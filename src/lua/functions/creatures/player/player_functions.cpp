@@ -446,8 +446,6 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "setSharinganStage", PlayerFunctions::luaPlayerSetSharinganStage);
 	Lua::registerMethod(L, "Player", "toggleSharingan", PlayerFunctions::luaPlayerToggleSharingan);
 
-
-
 	GroupFunctions::init(L);
 	GuildFunctions::init(L);
 	MountFunctions::init(L);
@@ -5302,9 +5300,9 @@ int PlayerFunctions::luaPlayerIsMissionStageComplete(lua_State* L) {
 		return 1;
 	}
 
-    bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
-    Lua::pushBoolean(L, completed);
-    return 1;
+	bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
+	Lua::pushBoolean(L, completed);
+	return 1;
 }
 
 int PlayerFunctions::luaPlayerSetGraduation(lua_State* L) {

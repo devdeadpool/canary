@@ -42,20 +42,20 @@ public:
 	SharinganStage_t getStage(Player* player) const;
 	void setStage(Player* player, SharinganStage_t stage) const;
 
-        // Aprendizado e evolução
-    void learn(Player* player) const;
-    void tryEvolve(Player* player) const;
+	// Aprendizado e evolução
+	void learn(Player* player) const;
+	void tryEvolve(Player* player) const;
 
-    // Tempo de uso
-    int32_t getUsageSeconds(Player* player) const;
-    void setUsageSeconds(Player* player, int32_t seconds) const;
-    void addUsageSeconds(Player* player, int32_t seconds) const;
+	// Tempo de uso
+	int32_t getUsageSeconds(Player* player) const;
+	void setUsageSeconds(Player* player, int32_t seconds) const;
+	void addUsageSeconds(Player* player, int32_t seconds) const;
 
-    // Reset total (opcional)
-    void resetSharinganProgress(Player* player) const;
-    std::string getStageProgressInfo(SharinganStage_t stage, int32_t seconds) const;
+	// Reset total (opcional)
+	void resetSharinganProgress(Player* player) const;
+	std::string getStageProgressInfo(SharinganStage_t stage, int32_t seconds) const;
 
-    void updateEyeItem(Player* player) const;
+	void updateEyeItem(Player* player) const;
 
 private:
 	Sharingan() = default;
@@ -66,13 +66,3 @@ private:
 // Instância global
 constexpr auto g_sharingan = Sharingan::getInstance;
 extern const std::unordered_map<SharinganStage_t, SharinganEvolutionInfo> sharinganEvolutionMap;
-
-
-
-
-
-
-
-
-
-

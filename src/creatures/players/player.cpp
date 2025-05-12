@@ -10816,7 +10816,7 @@ void Player::initializeFromVocationIfNeeded(bool initAttributes) {
 }
 
 uint32_t Player::getItemAmount(uint16_t itemId) const {
-    return getItemTypeCount(itemId, -1);
+	return getItemTypeCount(itemId, -1);
 }
 
 void Player::setGraduation(const std::string &rank) {

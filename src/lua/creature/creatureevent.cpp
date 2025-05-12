@@ -65,7 +65,6 @@ CreatureEvents &CreatureEvents::getInstance() {
 
 bool CreatureEvents::playerLogin(const std::shared_ptr<Player> &player) const {
 
-
 	if (player->getLastLoginSaved() == 0 /* || player->getGraduation().empty() */) {
 		player->setGraduation("Academy Student");
 
@@ -83,10 +82,9 @@ bool CreatureEvents::playerLogin(const std::shared_ptr<Player> &player) const {
 		if (eyeItemId != 0 && !player->getInventoryItem(CONST_SLOT_EYE)) {
 			auto item = Item::CreateItem(eyeItemId);
 			if (item && g_game().internalAddItem(player, item, CONST_SLOT_EYE, FLAG_NOLIMIT) == RETURNVALUE_NOERROR) {
-					player->sendTextMessage(MESSAGE_LOOK, "voce recebeu um olho especial.");
+				player->sendTextMessage(MESSAGE_LOOK, "voce recebeu um olho especial.");
 			}
 		}
-
 	}
 
 	// fire global event if is registered
