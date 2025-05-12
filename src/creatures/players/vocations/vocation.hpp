@@ -35,6 +35,7 @@ public:
 
 	uint16_t getAvatarLookType() const;
 	uint16_t getAcademyLookType() const;
+	uint16_t getNormalEye() const;
 
 	uint32_t getHPGain() const;
 	uint32_t getManaGain() const;
@@ -117,6 +118,7 @@ private:
 	uint8_t baseId = 0;
 	uint16_t avatarLookType = 0;
 	uint16_t academyLookType = 0;
+	uint16_t normaleye = 0;
 
 	std::vector<WheelGemSupremeModifier_t> m_supremeGemModifiers;
 

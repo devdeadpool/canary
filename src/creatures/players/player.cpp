@@ -4064,7 +4064,6 @@ ReturnValue Player::queryAdd(int32_t index, const std::shared_ptr<Thing> &thing,
 	ReturnValue ret = RETURNVALUE_NOERROR;
 
 	const int32_t &slotPosition = item->getSlotPosition();
-	g_logger().info("[Player::queryAdd] - Item = {}, slot = {}, index = {}", item->getName(), slotPosition, index);
 	bool allowPutItemsOnAmmoSlot = g_configManager().getBoolean(ENABLE_PLAYER_PUT_ITEM_IN_AMMO_SLOT);
 	if (allowPutItemsOnAmmoSlot && index == CONST_SLOT_AMMO) {
 		ret = RETURNVALUE_NOERROR;
@@ -10817,7 +10816,6 @@ void Player::initializeFromVocationIfNeeded(bool initAttributes) {
 }
 
 uint32_t Player::getItemAmount(uint16_t itemId) const {
-<<<<<<< HEAD
     return getItemTypeCount(itemId, -1);
 }
 
@@ -10827,7 +10825,4 @@ void Player::setGraduation(const std::string& rank) {
 
 std::string Player::getGraduation() const {
 	return kv()->get("graduation").value_or("");
-=======
-	return getItemTypeCount(itemId, -1);
->>>>>>> 18fb20477439459dc15a6c3d0aa1ff0bd0aedb5b
 }

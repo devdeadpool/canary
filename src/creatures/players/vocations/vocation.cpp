@@ -125,8 +125,13 @@ bool Vocations::loadFromXml() {
 		if ((attr = vocationNode.attribute("avatarlooktype"))) {
 			voc->avatarLookType = pugi::cast<uint16_t>(attr.value());
 		}
+
 		if ((attr = vocationNode.attribute("academylooktype"))) {
 			voc->academyLookType = pugi::cast<uint16_t>(attr.value());
+		}
+
+		if ((attr = vocationNode.attribute("normaleye"))) {
+			voc->normaleye = pugi::cast<uint16_t>(attr.value());
 		}
 
 		const auto attrNode = vocationNode.child("attributes");
@@ -338,6 +343,10 @@ uint16_t Vocation::getAvatarLookType() const {
 
 uint16_t Vocation::getAcademyLookType() const {
 	return academyLookType;
+}
+
+uint16_t Vocation::getNormalEye() const {
+	return normaleye;
 }
 
 uint32_t Vocation::getHPGain() const {

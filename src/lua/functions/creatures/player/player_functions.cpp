@@ -436,7 +436,6 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "checkStageCompletion", PlayerFunctions::luaPlayerCheckStageCompletion);
 	Lua::registerMethod(L, "Player", "isMissionStageComplete", PlayerFunctions::luaPlayerIsMissionStageComplete);
 
-<<<<<<< HEAD
 	// graduation
 	Lua::registerMethod(L, "Player", "setGraduation", PlayerFunctions::luaPlayerSetGraduation);
 	Lua::registerMethod(L, "Player", "getGraduation", PlayerFunctions::luaPlayerGetGraduation);
@@ -449,8 +448,6 @@ void PlayerFunctions::init(lua_State* L) {
 
 
 
-=======
->>>>>>> 18fb20477439459dc15a6c3d0aa1ff0bd0aedb5b
 	GroupFunctions::init(L);
 	GuildFunctions::init(L);
 	MountFunctions::init(L);
@@ -5305,7 +5302,6 @@ int PlayerFunctions::luaPlayerIsMissionStageComplete(lua_State* L) {
 		return 1;
 	}
 
-<<<<<<< HEAD
     bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
     Lua::pushBoolean(L, completed);
     return 1;
@@ -5394,9 +5390,5 @@ int PlayerFunctions::luaPlayerToggleSharingan(lua_State* L) {
 
 	g_sharingan().toggle(player.get());
 	Lua::pushBoolean(L, true);
-=======
-	bool completed = g_missionManager().hasCompletedAllObjectives(*player, *stage, false);
-	Lua::pushBoolean(L, completed);
->>>>>>> 18fb20477439459dc15a6c3d0aa1ff0bd0aedb5b
 	return 1;
 }

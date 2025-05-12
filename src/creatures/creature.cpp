@@ -15,6 +15,7 @@
 #include "creatures/combat/combat_stats.hpp"
 #include "creatures/monsters/monster.hpp"
 #include "creatures/players/grouping/party.hpp"
+#include "creatures/players/doujutsu/sharingan.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "game/zones/zone.hpp"
@@ -124,6 +125,36 @@ void Creature::onThink(uint32_t interval) {
 			isUpdatingPath = true;
 		}
 	}
+
+	if (getPlayer()) {
+		auto player = static_self_cast<Player>();
+		if (g_sharingan().isActive(player.get())) {
+			const int32_t addSec = interval / 1000;
+			g_sharingan().addUsageSeconds(player.get(), addSec);
+			g_sharingan().tryEvolve(player.get());
+	
+			int32_t seconds = g_sharingan().getUsageSeconds(player.get());
+			int32_t lastNotice = player->kv()->get("sharingan_notice_seconds").value_or(0);
+			if (seconds - lastNotice >= 10) {
+				player->kv()->set("sharingan_notice_seconds", seconds);
+			}
+	
+			if (player->getHealth() <= (player->getMaxHealth() * 0.15)) {
+				if (!player->kv()->get("sharingan_near_death").value_or(false)) {
+					player->kv()->set("sharingan_near_death", true);
+					player->sendTextMessage(MESSAGE_LOOK, "Você sobreviveu por pouco... algo desperta dentro de você.");
+				}
+			}
+	
+			if (player->getMana() <= (player->getMaxMana() * 0.10)) {
+				if (!player->kv()->get("sharingan_chakra_low").value_or(false)) {
+					player->kv()->set("sharingan_chakra_low", true);
+					player->sendTextMessage(MESSAGE_LOOK, "Seu chakra está à beira do colapso...");
+				}
+			}
+		}
+	}
+	
 
 	auto onThink = [self = getCreature(), interval] {
 		// scripting event - onThink
@@ -643,6 +674,39 @@ void Creature::onDeath() {
 			}
 		);
 	}
+
+
+	if (thisPlayer) {
+		const auto& party = thisPlayer->getParty();
+		if (party) {
+			for (const auto& member : party->getMembers()) {
+				if (member && member != thisPlayer && member->getPlayer()) {
+					auto player = std::static_pointer_cast<Player>(member);
+	
+					if (std::abs(Position::getOffsetX(player->getPosition(), thisPlayer->getPosition())) <= 5 &&
+						std::abs(Position::getOffsetY(player->getPosition(), thisPlayer->getPosition())) <= 5) {
+	
+						if (g_sharingan().isActive(player.get())) {
+							int count = player->kv()->get("sharingan_trauma_party_death_count").value_or(0);
+							count++;
+	
+							player->kv()->set("sharingan_trauma_party_death_count", count);
+	
+							// Ativa a flag se atingir 2 mortes próximas
+							if (count >= 2) {
+								player->kv()->set("sharingan_trauma_party_death", true);
+								player->sendTextMessage(MESSAGE_LOOK, "A dor da perda fortalece seu Sharingan...");
+						 } else {
+								player->sendTextMessage(MESSAGE_LOOK, "A morte de um aliado abala seu coração...");
+						 }
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
 
 	bool droppedCorpse = dropCorpse(lastHitCreature, mostDamageCreature, lastHitUnjustified, mostDamageUnjustified);
 	death(lastHitCreature);

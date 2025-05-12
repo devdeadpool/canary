@@ -933,7 +933,10 @@ void LuaEnums::initItemIdEnums(lua_State* L) {
 	registerEnum(L, ITEM_FORGE_CORE);
 	registerEnum(L, ITEM_PRIMAL_POD);
 	registerEnum(L, ITEM_DECORATION_KIT);
-	registerEnum(L, ITEM_SHARINGAN);
+	registerEnum(L, ITEM_SHARINGAN_FIRST_STAGE);
+	registerEnum(L, ITEM_SHARINGAN_SECOND_STAGE);
+	registerEnum(L, ITEM_SHARINGAN_THIRD_STAGE);
+	registerEnum(L, ITEM_SHARINGAN_MANGEKYOU);
 
 	registerEnum(L, ItemID_t::HIRELING_LAMP);
 }
