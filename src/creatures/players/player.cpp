@@ -405,7 +405,7 @@ int32_t Player::getWeaponSkill(const std::shared_ptr<Item> &item) const {
 int32_t Player::getArmor() const {
 	int32_t armor = 0;
 
-	static constexpr Slots_t armorSlots[] = { CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_ARMOR, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO, CONST_SLOT_EYE};
+	static constexpr Slots_t armorSlots[] = { CONST_SLOT_HEAD, CONST_SLOT_NECKLACE, CONST_SLOT_ARMOR, CONST_SLOT_LEGS, CONST_SLOT_FEET, CONST_SLOT_RING, CONST_SLOT_AMMO, CONST_SLOT_EYE };
 	for (const Slots_t &slot : armorSlots) {
 		const auto &inventoryItem = inventory[slot];
 		if (inventoryItem) {
@@ -3222,13 +3222,13 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 			healthMax += noneVocation->getHPGain();
 			health += noneVocation->getHPGain();
 			manaMax += noneVocation->getManaGain();
-			mana += noneVocation->getManaGain(); 
+			mana += noneVocation->getManaGain();
 			capacity += noneVocation->getCapGain();
 		} else {
 			healthMax += vocation->getHPGain();
 			health += vocation->getHPGain();
 			manaMax += vocation->getManaGain();
-			mana += vocation->getManaGain(); 
+			mana += vocation->getManaGain();
 			capacity += vocation->getCapGain();
 		}
 
@@ -3241,7 +3241,7 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 	}
 
 	if (prevLevel != level) {
-		 health = healthMax;
+		health = healthMax;
 		mana = manaMax;
 
 		updateBaseSpeed();
@@ -6577,12 +6577,12 @@ uint32_t Player::getLoyaltyMagicLevel() const {
 }
 
 int32_t Player::getMaxHealth() const {
-    return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
+	return std::max<int32_t>(1, healthMax + varStats[STAT_MAXHITPOINTS] + m_wheelPlayer.getStat(WheelStat_t::HEALTH));
 }
 
 uint32_t Player::getMaxMana() const {
-    return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
-} 
+	return std::max<int32_t>(0, manaMax + varStats[STAT_MAXMANAPOINTS] + m_wheelPlayer.getStat(WheelStat_t::MANA));
+}
 
 bool Player::hasExtraSwing() {
 	return lastAttack > 0 && !checkLastAttackWithin(getAttackSpeed());
@@ -10819,7 +10819,7 @@ uint32_t Player::getItemAmount(uint16_t itemId) const {
     return getItemTypeCount(itemId, -1);
 }
 
-void Player::setGraduation(const std::string& rank) {
+void Player::setGraduation(const std::string &rank) {
 	kv()->set("graduation", rank);
 }
 

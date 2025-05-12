@@ -417,7 +417,7 @@ class PlayerFunctions {
 	static int luaPlayerSetGraduation(lua_State* L);
 	static int luaPlayerGetGraduation(lua_State* L);
 
-	//sharingan
+	// sharingan
 	static int luaPlayerIsSharinganActive(lua_State* L);
 	static int luaPlayerSetSharinganActive(lua_State* L);
 	static int luaPlayerGetSharinganStage(lua_State* L);

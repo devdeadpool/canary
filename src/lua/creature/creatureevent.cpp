@@ -68,15 +68,15 @@ bool CreatureEvents::playerLogin(const std::shared_ptr<Player> &player) const {
 
 	if (player->getLastLoginSaved() == 0 /* || player->getGraduation().empty() */) {
 		player->setGraduation("Academy Student");
-	
+
 		uint16_t academyOutfit = player->getVocation()->getAcademyLookType();
 		if (academyOutfit != 0) {
 			player->addOutfit(academyOutfit, 0);
-	
+
 			Outfit_t current = player->getCurrentOutfit();
 			Outfit_t newOutfit = current;
 			newOutfit.lookType = academyOutfit;
-	
+
 			g_game().internalCreatureChangeOutfit(player, newOutfit);
 		}
 		uint16_t eyeItemId = player->getVocation()->getNormalEye();
@@ -97,11 +97,11 @@ bool CreatureEvents::playerLogin(const std::shared_ptr<Player> &player) const {
 			}
 		}
 	}
-	
+
 	if (g_sharingan().isActive(player.get())) {
 		g_sharingan().toggle(player.get());
 	}
-	
+
 	return true;
 }
 

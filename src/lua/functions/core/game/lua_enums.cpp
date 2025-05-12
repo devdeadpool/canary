@@ -193,7 +193,7 @@ void LuaEnums::initOthersEnums(lua_State* L) {
 	registerEnum(L, SLOTP_FEET);
 	registerEnum(L, SLOTP_RING);
 	registerEnum(L, SLOTP_AMMO);
- 	registerEnum(L, SLOTP_EYE); 
+	registerEnum(L, SLOTP_EYE);
 	registerEnum(L, SLOTP_DEPOT);
 	registerEnum(L, SLOTP_TWO_HAND);
 

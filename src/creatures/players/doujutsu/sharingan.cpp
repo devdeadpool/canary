@@ -5,7 +5,7 @@
 #include "creatures/players/vocations/vocation.hpp"
 
 
-Sharingan& Sharingan::getInstance() {
+Sharingan &Sharingan::getInstance() {
 	static Sharingan instance;
 	return instance;
 }
@@ -102,7 +102,7 @@ const std::unordered_map<SharinganStage_t, SharinganEvolutionInfo> sharinganEvol
 	}
 };
 
-const SharinganStageData& Sharingan::getStageData(SharinganStage_t stage) const {
+const SharinganStageData &Sharingan::getStageData(SharinganStage_t stage) const {
 	static const SharinganStageData empty;
 	auto it = sharinganStageData.find(stage);
 	return it != sharinganStageData.end() ? it->second : empty;
@@ -110,10 +110,14 @@ const SharinganStageData& Sharingan::getStageData(SharinganStage_t stage) const 
 
 std::string Sharingan::getStageName(SharinganStage_t stage) const {
 	switch (stage) {
-		case SHARINGAN_FIRST_STAGE: return "Sharingan (1 Tomoe)";
-		case SHARINGAN_SECOND_STAGE: return "Sharingan (2 Tomoe)";
-		case SHARINGAN_THIRD_STAGE: return "Sharingan (3 Tomoe)";
-		default: return "";
+		case SHARINGAN_FIRST_STAGE:
+			return "Sharingan (1 Tomoe)";
+		case SHARINGAN_SECOND_STAGE:
+			return "Sharingan (2 Tomoe)";
+		case SHARINGAN_THIRD_STAGE:
+			return "Sharingan (3 Tomoe)";
+		default:
+			return "";
 	}
 }
 
@@ -135,8 +139,9 @@ void Sharingan::setActive(Player* player, bool active) const {
 }
 
 void Sharingan::toggle(Player* player) {
-	if (!player || player->isRemoved())
+	if (!player || player->isRemoved()) {
 		return;
+	}
 
 	SharinganStage_t stage = getStage(player);
 	if (stage == SHARINGAN_NONE_STAGE) {
@@ -144,11 +149,11 @@ void Sharingan::toggle(Player* player) {
 		return;
 	}
 
-	const auto& data = getStageData(stage);
+	const auto &data = getStageData(stage);
 
 	if (isActive(player)) {
 		setActive(player, false);
-		for (const auto& [skill, modifier] : data.skillModifiers) {
+		for (const auto &[skill, modifier] : data.skillModifiers) {
 			player->setVarSkill(skill, -modifier);
 		}
 		player->sendSkills();
@@ -161,7 +166,7 @@ void Sharingan::toggle(Player* player) {
 	player->sendTextMessage(MESSAGE_LOOK, "Sharingan ativado!");
 	g_game().addMagicEffect(player->getPosition(), CONST_ME_MAGIC_RED);
 
-	for (const auto& [skill, modifier] : data.skillModifiers) {
+	for (const auto &[skill, modifier] : data.skillModifiers) {
 		player->setVarSkill(skill, modifier);
 	}
 	player->sendSkills();
