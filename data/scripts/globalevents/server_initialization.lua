@@ -132,6 +132,10 @@ function serverInitialization.onStartup()
 	updateEventRates()
 	HirelingsInit()
 	resetAccountSessions()
+
+	CitizenOnStartup()
+
+	--aqui
 end
 
 serverInitialization:register()

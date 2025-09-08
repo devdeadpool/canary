@@ -725,6 +725,9 @@ public:
 	void setCombatDamage(const CombatDamage &damage);
 	CombatDamage getCombatDamage() const;
 
+	void setWalkPath(const std::vector<Direction>& path);
+
+
 protected:
 	enum FlagAsyncClass_t : uint8_t {
 		AsyncTaskRunning = 1 << 0,
@@ -777,6 +780,7 @@ protected:
 	int32_t varSpeed = 0;
 	int32_t health = 1000;
 	int32_t healthMax = 1000;
+	int32_t manaMax = 1000;
 
 	uint32_t manaShield = 0;
 	uint32_t maxManaShield = 0;

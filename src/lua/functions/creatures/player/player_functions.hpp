@@ -424,5 +424,29 @@ class PlayerFunctions {
 	static int luaPlayerSetSharinganStage(lua_State* L);
 	static int luaPlayerToggleSharingan(lua_State* L);
 
+	static int luaPlayerGetSharinganJutsuSlots(lua_State* L);
+	static int luaPlayerSetSharinganJutsuSlots(lua_State* L);
+	static int luaPlayerAddSharinganJutsuSlot(lua_State* L);
+
+	static int luaPlayerHasCopiedJutsu(lua_State* L);
+	static int luaPlayerAddCopiedJutsu(lua_State* L);
+	static int luaPlayerGetCopiedJutsus(lua_State* L);
+
+
+	// pet
+	static int luaPlayerTogglePet(lua_State* L);
+	static int luaPlayerSetPetName(lua_State* L);
+	static int luaPlayerAddPet(lua_State* L);
+	static int luaPlayerGetPetInfo(lua_State* L);
+	static int luaPlayerIsPetSummoned(lua_State* L);
+	static int luaPlayerGetActivePetId(lua_State* L);
+	static int luaPlayerMovePetTo(lua_State* L);
+	static int luaPlayerGetPetLevel(lua_State* L);
+	static int luaPlayerGetPetAttack(lua_State* L);
+
+
+
+
+
 	friend class CreatureFunctions;
 };

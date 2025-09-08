@@ -229,11 +229,11 @@ end
 
 function Player:CreateFamiliarSpell(spellId)
 	local playerPosition = self:getPosition()
-	if not self:isPremium() then
+	--[[ if not self:isPremium() then
 		playerPosition:sendMagicEffect(CONST_ME_POFF)
 		self:sendCancelMessage("You need a premium account.")
 		return false
-	end
+	end ]]
 
 	if #self:getSummons() >= 1 and self:getAccountType() < ACCOUNT_TYPE_GOD then
 		self:sendCancelMessage("You can't have other summons.")
@@ -260,7 +260,7 @@ function Player:CreateFamiliarSpell(spellId)
 	condition:setTicks(1000 * cooldown / configManager.getFloat(configKeys.RATE_SPELL_COOLDOWN))
 	self:addCondition(condition)
 
-	self:createFamiliar(familiarName, summonDuration)
+	self:createFamiliar(familiarName, 10)
 
 	return true
 end
@@ -830,10 +830,10 @@ function Player.getURL(self)
 end
 
 local emojiMap = {
-	["knight"] = ":crossed_swords:",
+	["maito"] = ":crossed_swords:",
 	["paladin"] = ":bow_and_arrow:",
 	["druid"] = ":herb:",
-	["sorcerer"] = ":crystal_ball:",
+	["uchiha"] = ":crystal_ball:",
 }
 
 function Player.getMarkdownLink(self)

@@ -11,6 +11,7 @@
 
 #include "creatures/players/player.hpp"
 #include "creatures/players/doujutsu/sharingan.hpp"
+#include "creatures/players/pet/pet_data.hpp"
 #include "items/item.hpp"
 #include "lua/scripts/scripts.hpp"
 #include "lib/di/container.hpp"
@@ -99,6 +100,8 @@ bool CreatureEvents::playerLogin(const std::shared_ptr<Player> &player) const {
 	if (g_sharingan().isActive(player.get())) {
 		g_sharingan().toggle(player.get());
 	}
+
+	g_pet().setActivePet(player.get(), 0, false);
 
 	return true;
 }

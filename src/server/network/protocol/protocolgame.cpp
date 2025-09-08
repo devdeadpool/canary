@@ -9830,7 +9830,7 @@ void ProtocolGame::parseResetAttributes() {
 		return;
 	}
 
-	player->playerAttributes().resetStatusAttributes();
+/* 	player->playerAttributes().resetStatusAttributes(); */
 	player->sendPlayerAttributes(); // reenvia os atributos atualizados
 	player->sendTextMessage(MESSAGE_LOOK, "Your attributes were reset.");
 }

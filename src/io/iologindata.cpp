@@ -17,6 +17,7 @@
 #include "game/game.hpp"
 #include "creatures/monsters/monster.hpp"
 #include "creatures/players/player.hpp"
+#include "creatures/players/pet/pet_data.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "enums/account_type.hpp"
 #include "enums/account_errors.hpp"
@@ -182,6 +183,8 @@ bool IOLoginData::loadPlayer(const std::shared_ptr<Player> &player, const DBResu
 		IOLoginDataLoad::loadPlayerInitializeSystem(player);
 		IOLoginDataLoad::loadPlayerUpdateSystem(player);
 
+		g_pet().loadAllPets(player.get());
+
 		return true;
 	} catch (const std::system_error &error) {
 		g_logger().warn("[{}] Error while load player: {}", __FUNCTION__, error.what());
@@ -279,6 +282,8 @@ bool IOLoginData::savePlayerGuard(const std::shared_ptr<Player> &player) {
 	player->wheel().saveActiveGems();
 	player->wheel().saveKVModGrades();
 	player->wheel().saveKVScrolls();
+
+	g_pet().saveAllPets(player.get());
 
 	if (!IOLoginDataSave::savePlayerStorage(player)) {
 		throw DatabaseException("[IOLoginDataSave::savePlayerStorage] - Failed to save player storage: " + player->getName());

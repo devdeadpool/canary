@@ -168,6 +168,7 @@ public:
 	std::string typeName;
 	std::string nameDescription;
 	std::string variantName;
+	std::string originalName;
 
 	MonsterInfo info;
 

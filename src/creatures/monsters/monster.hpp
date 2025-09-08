@@ -47,7 +47,12 @@ public:
 	const std::string &getTypeName() const override;
 	const std::string &getNameDescription() const override;
 	void setNameDescription(std::string_view nameDescription);
+	const std::string &getOriginalName() const;
 	std::string getDescription(int32_t) override;
+
+	void changeMaxHealth(int32_t amount);
+	void changeMaxMana(int32_t amount);
+
 
 	const std::string &getLowerName() const {
 		return m_lowerName;
@@ -236,6 +241,7 @@ public:
 	void setCriticalDamage(uint16_t damage);
 	uint16_t getCriticalDamage() const;
 	bool checkCanApplyCharm(const std::shared_ptr<Player> &player, charmRune_t charmRune) const;
+	void setPetIdle(bool idle);
 
 protected:
 	void onExecuteAsyncTasks() override;
@@ -262,6 +268,7 @@ private:
 	std::string name;
 	std::string m_lowerName;
 	std::string nameDescription;
+	std::string originalName;
 
 	std::shared_ptr<MonsterType> mType;
 	std::shared_ptr<SpawnMonster> spawnMonster = nullptr;

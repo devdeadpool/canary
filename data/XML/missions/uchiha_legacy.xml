@@ -1,27 +1,29 @@
-<mission id="11" name="Uchiha Awakening" repeatable="false">
-  <description>Begin your path as a true Uchiha by completing this foundational training mission.</description>
+<mission id="1001" name="Naruto Uzumaki!" repeatable="false">
+  <description>Begin your journey as Naruto by completing your first critical steps as a ninja.</description>
 
   <stages>
-    <stage id="0" name="The First Trial">
+    <stage id="0" name="Academy Graduation">
       <requirements>
-        <level min="1" />
-        <vocation name="uchiha" />
+        <level min="10" />
+        <kv key="rank" value="D" />
+        <kv key="graduation" value="Academy Student" />
       </requirements>
 
       <objectives>
-        <kill monster="Rat" amount="5" />
-        <collect itemid="3035" amount="10" description="Collect 10 Platinum Coins." />
-        <use itemid="3043" description="Use the Sacred Pillar to test your chakra." />
-        <talk npc="Mission Master" />
-        <useon itemid="3155" target="skeleton" amount="1" description="Capture a Wild Skeleton with a tag seal." />
+        <talk npc="Villager" description="Talk to a villager in the center of Konoha." />
+        <talk npc="Mizuki" description="Find and speak with Mizuki near the Academy." />
+        <use itemid="2911" description="Steal the Ancient Scroll without being detected." />
+        <talk npc="Mizuki" description="Confront Mizuki about the stolen scroll." />
+        <kill monster="Mizuki" amount="1" />
       </objectives>
 
       <rewards>
-        <xp amount="5000" />
-        <spell name="katon goukakyuu" />
-        <item id="chakra potion" count="3" />
-        <kv key="uchiha.awakening.completed" value="true" description="Marked the player as having completed the Uchiha initiation." />
-        <graduation name="Gennin" />
+        <xp amount="10000" />
+        <item id="11224" count="5" />
+        <item id="11223" count="5" />
+        <item id="37316" count="1" />
+        <money amount="1000" />
+        <kv key="saga.naruto.start.completed" value="true" description="Completed the Naruto Uzumaki saga start." />
       </rewards>
     </stage>
   </stages>

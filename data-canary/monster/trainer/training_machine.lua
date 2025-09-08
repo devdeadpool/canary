@@ -4,13 +4,14 @@ local monster = {}
 monster.description = "a training machine"
 monster.experience = 0
 monster.outfit = {
-	lookType = 1142,
+	--lookTypeEx = 31413,
+	lookType = 27,
 }
 
 monster.health = 1000000
 monster.maxHealth = monster.health
 monster.race = "venom"
-monster.corpse = 0
+monster.corpse = 1000
 monster.speed = 0
 
 monster.changeTarget = {

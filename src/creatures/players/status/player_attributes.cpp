@@ -146,7 +146,7 @@ int PlayerAttributes::getStatusPoints() const {
 	return statusPoints;
 }
 
-void PlayerAttributes::resetStatusAttributes() {
+/* void PlayerAttributes::resetStatusAttributes() {
 	uint32_t total = statusPoints;
 
 	for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); i++) {
@@ -166,7 +166,7 @@ void PlayerAttributes::resetStatusAttributes() {
 	updateDerivedStats();
 
 	m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("All attributes reset! You now have {} status points.", statusPoints));
-}
+} */
 // --------------------------------------------
 // Funções de highestLevel (para controlar se já ganhou pontos de level anterior)
 
@@ -253,8 +253,8 @@ void PlayerAttributes::updateDerivedStats() {
 
 void PlayerAttributes::applyBaseAttributesFromVocation() {
 	for (int i = 0; i < static_cast<int>(PlayerStatus::LAST); ++i) {
-		uint16_t base = m_player.vocation->baseAttributes[i];
-		setBaseAttribute(static_cast<PlayerStatus>(i), base);
+		/* uint16_t base = m_player.vocation->baseAttributes[i];
+		setBaseAttribute(static_cast<PlayerStatus>(i), base); */
 	}
 	updateDerivedStats();
 	saveToDatabase();
@@ -275,8 +275,8 @@ void PlayerAttributes::saveToDatabase() {
 		  << "`highest_level` = " << getHighestLevel() << ", "
 		  << "`status_points` = " << getStatusPoints()
 		  << " WHERE `player_id` = " << m_player.getGUID();
-
+/* 
 	if (!Database::getInstance().executeQuery(query.str())) {
 		g_logger().warn("[saveToDatabase] Failed to save attributes for player {}", m_player.getName());
-	}
+	} */
 }

@@ -3,6 +3,8 @@
 #include "game/game.hpp"
 #include "creatures/combat/condition.hpp"
 #include "creatures/players/vocations/vocation.hpp"
+#include "creatures/combat/spells.hpp"
+
 
 Sharingan &Sharingan::getInstance() {
 	static Sharingan instance;
@@ -249,36 +251,63 @@ void Sharingan::updateEyeItem(Player* player) const {
 	}
 }
 
-void Sharingan::tryCopyJutsu(Player* player, const std::shared_ptr<Spell> &spell) const {
-	if (!player || !spell) {
+int32_t Sharingan::getJutsuSlots(Player* player) const {
+	return player->kv()->get("sharingan_jutsu_slots").value_or(1);
+}
+
+void Sharingan::setJutsuSlots(Player* player, int32_t slots) const {
+	player->kv()->set("sharingan_jutsu_slots", std::min(slots, 5));
+}
+
+void Sharingan::addJutsuSlots(Player* player, int32_t amount) const {
+	int32_t current = getJutsuSlots(player);
+	setJutsuSlots(player, current + amount);
+}
+
+const std::shared_ptr<KV>& Sharingan::getCopiedKV(Player* player) const {
+	if (!m_copiedKV || m_cachedPlayer != player) {
+		m_cachedPlayer = player;
+		m_copiedKV = player->kv()->scoped("sharingan")->scoped("copied");
+	}
+	return m_copiedKV;
+}
+
+bool Sharingan::hasCopiedJutsu(Player* player, const std::string& jutsuName) const {
+	return getCopiedKV(player)->get(jutsuName).value_or(false);
+}
+
+bool Sharingan::addCopiedJutsu(Player* player, const std::string& jutsuName) const {
+	if (hasCopiedJutsu(player, jutsuName))
+		return false;
+
+	getCopiedKV(player)->set(jutsuName, true);
+	return true;
+}
+
+std::vector<std::string> Sharingan::getCopiedJutsus(Player* player) const {
+	const auto& keys = getCopiedKV(player)->keys();
+	return std::vector<std::string>(keys.begin(), keys.end());
+}
+
+void Sharingan::tryCopyJutsu(Player* player, const std::shared_ptr<Spell>& spell) const {
+	if (!player || !spell || !isActive(player)) return;
+	if (getStage(player) < SHARINGAN_MANGEKYOU) return;
+
+	const auto instantSpell = std::dynamic_pointer_cast<InstantSpell>(spell);
+	if (!instantSpell || !instantSpell->isInstant()) return;
+
+	const std::string& spellName = instantSpell->getName();
+	if (hasCopiedJutsu(player, spellName)) return;
+
+	const int32_t unlockedSlots = getJutsuSlots(player);
+	std::vector<std::string> copiedList = getCopiedJutsus(player);
+
+	if (static_cast<int32_t>(copiedList.size()) >= unlockedSlots) {
+		player->sendTextMessage(MESSAGE_LOGIN, "Você não tem slots suficientes para copiar mais jutsus.");
 		return;
 	}
 
-	if (!isActive(player)) {
-		return;
-	}
-
-	if (getStage(player) < SHARINGAN_MANGEKYOU) {
-		return;
-	}
-
-	// Só copia instant spells
-	if (spell->getType() != SpellType::Instant) {
-		return;
-	}
-
-	std::string spellName = spell->getName();
-
-	// Já copiou?
-	auto key = fmt::format("copied_jutsu_{}", spellName);
-	if (player->kv()->get(key).value_or(false)) {
-		return;
-	}
-
-	// Marca como copiado
-	player->kv()->set(key, true);
-
-	// Feedback
+	addCopiedJutsu(player, spellName);
 	player->sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("Você copiou o jutsu: {}!", spellName));
 	g_game().addMagicEffect(player->getPosition(), CONST_ME_MAGIC_BLUE);
 }

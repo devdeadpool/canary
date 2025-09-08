@@ -19,6 +19,7 @@
 #include "creatures/players/status/player_attributes.hpp"
 #include "creatures/players/missions/mission_manager.hpp"
 #include "creatures/players/doujutsu/sharingan.hpp"
+#include "creatures/players/pet/pet_data.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "game/game.hpp"
@@ -416,7 +417,7 @@ void PlayerFunctions::init(lua_State* L) {
 	// SHINOBI FEATURES
 	Lua::registerMethod(L, "Player", "setStatusAttribute", PlayerFunctions::luaPlayerSetStatusAttribute);
 	Lua::registerMethod(L, "Player", "getStatusAttribute", PlayerFunctions::luaPlayerGetStatusAttribute);
-	Lua::registerMethod(L, "Player", "resetStatusAttributes", PlayerFunctions::luaPlayerResetStatusAttributes);
+	/* Lua::registerMethod(L, "Player", "resetStatusAttributes", PlayerFunctions::luaPlayerResetStatusAttributes); */
 	Lua::registerMethod(L, "Player", "getStatusPoints", PlayerFunctions::luaPlayerGetStatusPoints);
 	Lua::registerMethod(L, "Player", "getStatusPointCost", PlayerFunctions::luaPlayerGetStatusPointCost);
 	Lua::registerMethod(L, "Player", "removeStatusPoints", PlayerFunctions::luaPlayerRemoveStatusPoints);
@@ -445,6 +446,30 @@ void PlayerFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Player", "getSharinganStage", PlayerFunctions::luaPlayerGetSharinganStage);
 	Lua::registerMethod(L, "Player", "setSharinganStage", PlayerFunctions::luaPlayerSetSharinganStage);
 	Lua::registerMethod(L, "Player", "toggleSharingan", PlayerFunctions::luaPlayerToggleSharingan);
+
+	Lua::registerMethod(L, "Player", "getSharinganJutsuSlots", PlayerFunctions::luaPlayerGetSharinganJutsuSlots);
+	Lua::registerMethod(L, "Player", "addSharinganJutsuSlot", PlayerFunctions::luaPlayerAddSharinganJutsuSlot);
+	Lua::registerMethod(L, "Player", "setSharinganJutsuSlots", PlayerFunctions::luaPlayerSetSharinganJutsuSlots);
+
+	Lua::registerMethod(L, "Player", "hasCopiedJutsu", PlayerFunctions::luaPlayerHasCopiedJutsu);
+	Lua::registerMethod(L, "Player", "addCopiedJutsu", PlayerFunctions::luaPlayerAddCopiedJutsu);
+	Lua::registerMethod(L, "Player", "getCopiedJutsus", PlayerFunctions::luaPlayerGetCopiedJutsus);
+
+
+	Lua::registerMethod(L, "Player", "togglePet", PlayerFunctions::luaPlayerTogglePet);
+	Lua::registerMethod(L, "Player", "setPetName", PlayerFunctions::luaPlayerSetPetName);
+	Lua::registerMethod(L, "Player", "addPet", PlayerFunctions::luaPlayerAddPet);
+	Lua::registerMethod(L, "Player", "getPetInfo", PlayerFunctions::luaPlayerGetPetInfo);
+	Lua::registerMethod(L, "Player", "isPetSummoned", PlayerFunctions::luaPlayerIsPetSummoned);
+	Lua::registerMethod(L, "Player", "getActivePetId", PlayerFunctions::luaPlayerGetActivePetId);
+	Lua::registerMethod(L, "Player", "movePetTo", PlayerFunctions::luaPlayerMovePetTo);
+
+	Lua::registerMethod(L, "Player", "getPetLevel", PlayerFunctions::luaPlayerGetPetLevel);
+	Lua::registerMethod(L, "Player", "getPetAttack", PlayerFunctions::luaPlayerGetPetAttack);
+
+
+
+
 
 	GroupFunctions::init(L);
 	GuildFunctions::init(L);
@@ -5075,7 +5100,7 @@ int PlayerFunctions::luaPlayerResetStatusAttributes(lua_State* L) {
 		return 1;
 	}
 
-	player->playerAttributes().resetStatusAttributes();
+	/* player->playerAttributes().resetStatusAttributes(); */
 	Lua::pushBoolean(L, true);
 	return 1;
 }
@@ -5388,5 +5413,234 @@ int PlayerFunctions::luaPlayerToggleSharingan(lua_State* L) {
 
 	g_sharingan().toggle(player.get());
 	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerGetSharinganJutsuSlots(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const uint32_t slots = g_sharingan().getJutsuSlots(player.get());
+	Lua::pushNumber(L, slots);
+	return 1;
+}
+
+
+int PlayerFunctions::luaPlayerSetSharinganJutsuSlots(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const uint32_t amount = Lua::getNumber<uint32_t>(L, 2);
+	g_sharingan().setJutsuSlots(player.get(), amount);
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerAddSharinganJutsuSlot(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const uint32_t amount = Lua::getNumber<uint32_t>(L, 2);
+	g_sharingan().addJutsuSlots(player.get(), amount);
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerHasCopiedJutsu(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const std::string jutsuName = Lua::getString(L, 2);
+	const bool result = g_sharingan().hasCopiedJutsu(player.get(), jutsuName);
+	Lua::pushBoolean(L, result);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerAddCopiedJutsu(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	const std::string jutsuName = Lua::getString(L, 2);
+	const bool result = g_sharingan().addCopiedJutsu(player.get(), jutsuName);
+	Lua::pushBoolean(L, result);
+	return 1;
+}
+
+
+int PlayerFunctions::luaPlayerGetCopiedJutsus(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_newtable(L);
+		return 1;
+	}
+
+	const auto jutsus = g_sharingan().getCopiedJutsus(player.get());
+	lua_newtable(L);
+	int index = 1;
+	for (const auto& name : jutsus) {
+		lua_pushnumber(L, index++);
+		lua_pushstring(L, name.c_str());
+		lua_settable(L, -3);
+	}
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerTogglePet(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t petId = Lua::getNumber<uint16_t>(L, 2);
+	g_pet().togglePet(player.get(), petId);
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerSetPetName(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t petId = Lua::getNumber<uint16_t>(L, 2);
+	const std::string name = Lua::getString(L, 3);
+	bool success = g_pet().setPetName(player.get(), petId, name);
+	Lua::pushBoolean(L, success);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerAddPet(lua_State* L) {
+    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+    if (!player) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    const std::string name = Lua::getString(L, 2, "NewPet"); // nome opcional
+    uint16_t petId = g_pet().generateNewPetId(player.get());
+
+    auto& pet = g_pet().getPet(player.get(), petId);
+    pet.reset(); // valores padrão
+    pet.setNamePet(name);
+  	player->sendTextMessage(MESSAGE_LOOK, fmt::format("petid={} name={}", petId, name));
+    g_pet().savePet(player.get(), petId);
+
+    Lua::pushNumber(L, petId);
+    return 1;
+}
+
+int PlayerFunctions::luaPlayerGetPetInfo(lua_State* L) {
+    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+    if (!player) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    uint16_t petId = Lua::getNumber<uint16_t>(L, 2);
+    std::string info = g_pet().getPetInfo(player.get(), petId);
+
+    Lua::pushString(L, info);
+    return 1;
+}
+
+int PlayerFunctions::luaPlayerIsPetSummoned(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushboolean(L, false);
+		return 1;
+	}
+
+	if (g_pet().isPetSummoned(player.get())) {
+		lua_pushboolean(L, true);
+	} else {
+		lua_pushboolean(L, false);
+	}
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerGetActivePetId(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushinteger(L, 0);
+		return 1;
+	}
+
+	uint16_t id = g_pet().getActivePetId(player.get());
+	lua_pushinteger(L, id);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerMovePetTo(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const Position pos = Lua::getPosition(L, 2);
+
+	const uint16_t activePetId = PetManager::getActivePetId(player.get());
+	if (activePetId == 0 || !PetManager::isPetSummoned(player.get())) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
+
+	g_pet().movePetTo(player.get(), activePetId, pos);
+
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerGetPetLevel(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnumber(L, 1);
+		return 1;
+	}
+
+	const uint16_t petId = g_pet().getActivePetId(player.get());
+	if (petId == 0 || !g_pet().hasPet(player.get(), petId)) {
+		lua_pushnumber(L, 1);
+		return 1;
+	}
+
+	const auto& data = g_pet().getPet(player.get(), petId);
+	lua_pushnumber(L, data.getLevel());
+	return 1;
+}
+
+int PlayerFunctions::luaPlayerGetPetAttack(lua_State* L) {
+	const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+	if (!player) {
+		lua_pushnumber(L, 1);
+		return 1;
+	}
+
+	const uint16_t petId = g_pet().getActivePetId(player.get());
+	if (petId == 0 || !g_pet().hasPet(player.get(), petId)) {
+		lua_pushnumber(L, 1);
+		return 1;
+	}
+
+	const auto& data = g_pet().getPet(player.get(), petId);
+	lua_pushnumber(L, data.getAttack());
 	return 1;
 }

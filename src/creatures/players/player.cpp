@@ -23,6 +23,7 @@
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/status/player_attributes.hpp"
+#include "creatures/players/pet/pet_data.hpp"
 #include "creatures/players/storages/storages.hpp"
 #include "database/database.hpp"
 #include "server/network/protocol/protocolgame.hpp"
@@ -3270,6 +3271,36 @@ void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp
 	}
 	sendStats();
 	sendExperienceTracker(rawExp, exp);
+
+	int petIdRaw = kv()->get("current_pet_id").value_or(0);
+	uint16_t currentPetId = static_cast<uint16_t>(petIdRaw);
+
+	if (currentPetId > 0 && g_pet().hasPet(this, currentPetId)) {
+		auto &pet = g_pet().getPet(this, currentPetId);
+		uint32_t oldLevel = pet.getLevel();
+		uint64_t petExpGain = exp / 4;
+
+		pet.addExperience(petExpGain, level);
+
+		// ✅ Recalcula o level do pet com base no level do player
+		pet.checkLevelUp(level);
+
+		uint64_t expNeeded = pet.getRequiredExperience(pet.getLevel() + 1);
+		uint64_t remaining = (expNeeded > pet.getExperience()) ? (expNeeded - pet.getExperience()) : 0;
+
+		sendTextMessage(MESSAGE_ADMINISTRATOR, fmt::format("{} gained {} experience. {} left to level up.", pet.getNamePet(), petExpGain, remaining));
+
+		if (pet.getLevel() > oldLevel) {
+			sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("{} leveled up! Now level {}.", pet.getNamePet(), pet.getLevel()));
+
+			if (const auto &instance = g_pet().getPetInstance(this, currentPetId)) {
+				g_pet().updatePet(this, instance, currentPetId);
+			}
+		}
+	}
+
+
+
 }
 
 void Player::removeExperience(uint64_t exp, bool sendText /* = false*/) {
@@ -3345,6 +3376,17 @@ void Player::removeExperience(uint64_t exp, bool sendText /* = false*/) {
 		std::ostringstream ss;
 		ss << "You were downgraded from Level " << oldLevel << " to Level " << level << '.';
 		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
+		int petIdRaw = kv()->get("current_pet_id").value_or(0);
+		uint16_t currentPetId = static_cast<uint16_t>(petIdRaw);
+
+		if (currentPetId > 0 && g_pet().hasPet(this, currentPetId)) {
+			auto &pet = g_pet().getPet(this, currentPetId);
+			pet.checkLevelUp(level);
+
+			if (const auto &instance = g_pet().getPetInstance(this, currentPetId)) {
+				g_pet().updatePet(this, instance, currentPetId);
+			}
+		}
 	}
 
 	const uint64_t nextLevelExp = Player::getExpForLevel(level + 1);
@@ -3748,13 +3790,16 @@ void Player::death(const std::shared_ptr<Creature> &lastHitCreature) {
 		sendSkills();
 		sendReLoginWindow(unfairFightReduction);
 		sendBlessStatus();
-		if (getSkull() == SKULL_BLACK) {
+		/* if (getSkull() == SKULL_BLACK) {
 			health = 40;
 			mana = 0;
 		} else {
 			health = healthMax;
 			mana = manaMax;
-		}
+		} */
+
+		health = 40;
+		mana = 0;
 
 		auto it = conditions.begin(), end = conditions.end();
 		while (it != end) {
@@ -3786,7 +3831,8 @@ void Player::death(const std::shared_ptr<Creature> &lastHitCreature) {
 			}
 		}
 
-		health = healthMax;
+		health = 40;
+		mana = 0;
 		g_game().internalTeleport(static_self_cast<Player>(), getTemplePosition(), true);
 		g_game().addCreatureHealth(static_self_cast<Player>());
 		g_game().addPlayerMana(static_self_cast<Player>());

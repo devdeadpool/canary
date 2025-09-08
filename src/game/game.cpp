@@ -24,6 +24,8 @@
 #include "creatures/players/highscore_category.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/status/player_attributes.hpp"
+#include "creatures/players/doujutsu/sharingan.hpp"
+#include "creatures/players/pet/pet_data.hpp"
 #include "creatures/players/player.hpp"
 #include "enums/player_wheel.hpp"
 #include "database/databasetasks.hpp"
@@ -1174,15 +1176,30 @@ bool Game::internalPlaceCreature(const std::shared_ptr<Creature> &creature, cons
 	return true;
 }
 
-bool Game::placeCreature(const std::shared_ptr<Creature> &creature, const Position &pos, bool extendedPos /*=false*/, bool forced /*= false*/) {
+bool Game::placeCreature(const std::shared_ptr<Creature>& creature, const Position& pos, bool extendedPos /*=false*/, bool forced /*= false*/) {
 	metrics::method_latency measure(__METRICS_METHOD_NAME__);
+
 	if (!internalPlaceCreature(creature, pos, extendedPos, forced)) {
 		return false;
 	}
 
+	// ✅ Atualiza o nome do pet se for Akamaru
+	const auto &monster = creature->getMonster();
+	if (monster && toLowerCase(monster->getTypeName()) == "akamaru") {
+		const auto &master = monster->getMaster();
+		if (master && master->getPlayer()) {
+			int petIdRaw = master->getPlayer()->kv()->get("current_pet_id").value_or(0);
+			uint16_t petId = static_cast<uint16_t>(petIdRaw);
+			if (petId > 0 && g_pet().hasPet(master->getPlayer().get(), petId)) {
+				const auto &petName = g_pet().getPet(master->getPlayer().get(), petId).getNamePet();
+				monster->setName(petName);
+			}
+		}
+	}
+
 	bool hasPlayerSpectators = false;
-	for (const auto &spectator : Spectators().find<Creature>(creature->getPosition(), true)) {
-		if (const auto &tmpPlayer = spectator->getPlayer()) {
+	for (const auto& spectator : Spectators().find<Creature>(creature->getPosition(), true)) {
+		if (const auto& tmpPlayer = spectator->getPlayer()) {
 			tmpPlayer->sendCreatureAppear(creature, creature->getPosition(), true);
 			hasPlayerSpectators = true;
 		}
@@ -7240,6 +7257,16 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 		auto realHealthChange = target->getHealth();
 		target->gainHealth(attacker, damage.primary.value);
 		realHealthChange = target->getHealth() - realHealthChange;
+		if (const auto& monster = target->getMonster()) {
+			if (const auto& master = monster->getMaster()) {
+				if (const auto& player = master->getPlayer()) {
+					uint16_t petId = g_pet().getActivePetId(player.get());
+					if (g_pet().hasPet(player.get(), petId)) {
+						g_pet().getPet(player.get(), petId).setHealth(monster->getHealth());
+					}
+				}
+			}
+		}
 
 		if (realHealthChange > 0 && !target->isInGhostMode()) {
 			if (targetPlayer) {
@@ -7583,6 +7610,16 @@ bool Game::combatChangeHealth(const std::shared_ptr<Creature> &attacker, const s
 		}
 
 		target->drainHealth(attacker, realDamage);
+		if (const auto& monster = target->getMonster()) {
+			if (const auto& master = monster->getMaster()) {
+				if (const auto& player = master->getPlayer()) {
+					uint16_t petId = g_pet().getActivePetId(player.get());
+					if (g_pet().hasPet(player.get(), petId)) {
+						g_pet().getPet(player.get(), petId).setHealth(monster->getHealth());
+					}
+				}
+			}
+		}
 		if (realDamage > 0 && targetMonster) {
 			if (targetMonster->israndomStepping()) {
 				targetMonster->setIgnoreFieldDamage(true);
@@ -7924,6 +7961,16 @@ bool Game::combatChangeMana(const std::shared_ptr<Creature> &attacker, const std
 
 		auto realManaChange = target->getMana();
 		target->changeMana(manaChange);
+		if (const auto& monster = target->getMonster()) {
+			if (const auto& master = monster->getMaster()) {
+				if (const auto& player = master->getPlayer()) {
+					uint16_t petId = g_pet().getActivePetId(player.get());
+					if (g_pet().hasPet(player.get(), petId)) {
+						g_pet().getPet(player.get(), petId).setChakra(monster->getMana());
+					}
+				}
+			}
+		}
 		realManaChange = target->getMana() - realManaChange;
 
 		if (realManaChange > 0 && !target->isInGhostMode()) {
@@ -8034,6 +8081,16 @@ bool Game::combatChangeMana(const std::shared_ptr<Creature> &attacker, const std
 		}
 
 		target->drainMana(attacker, manaLoss);
+		if (const auto& monster = target->getMonster()) {
+			if (const auto& master = monster->getMaster()) {
+				if (const auto& player = master->getPlayer()) {
+					uint16_t petId = g_pet().getActivePetId(player.get());
+					if (g_pet().hasPet(player.get(), petId)) {
+						g_pet().getPet(player.get(), petId).setChakra(monster->getMana());
+					}
+				}
+			}
+		}
 
 		std::stringstream ss;
 

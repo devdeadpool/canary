@@ -30,6 +30,7 @@
 #include "map/spectators.hpp"
 #include "creatures/players/player.hpp"
 #include "creatures/players/components/wheel/wheel_definitions.hpp"
+#include "creatures/players/doujutsu/sharingan.hpp"
 
 int32_t Combat::getLevelFormula(const std::shared_ptr<Player> &player, const std::shared_ptr<Spell> &wheelSpell, const CombatDamage &damage) const {
 	if (!player) {
@@ -57,6 +58,9 @@ CombatDamage Combat::getCombatDamage(const std::shared_ptr<Creature> &creature, 
 
 	damage.instantSpellName = instantSpellName;
 	damage.runeSpellName = runeSpellName;
+
+	
+
 	// Wheel of destiny
 	std::shared_ptr<Spell> wheelSpell = nullptr;
 	std::shared_ptr<Player> attackerPlayer = creature ? creature->getPlayer() : nullptr;
@@ -615,7 +619,6 @@ void Combat::CombatHealthFunc(const std::shared_ptr<Creature> &caster, const std
 	assert(data);
 
 	CombatDamage damage = *data;
-
 	std::shared_ptr<Player> attackerPlayer = nullptr;
 	if (caster) {
 		attackerPlayer = caster->getPlayer();
@@ -658,6 +661,13 @@ void Combat::CombatHealthFunc(const std::shared_ptr<Creature> &caster, const std
 		if (targetPlayer && damage.primary.type == COMBAT_HEALING) {
 			damage.primary.value *= targetPlayer->getBuff(BUFF_HEALINGRECEIVED) / 100.;
 		}
+
+		if (targetPlayer && !damage.instantSpellName.empty()) {
+		const auto& copiedSpell = g_spells().getInstantSpellByName(damage.instantSpellName);
+		if (copiedSpell) {
+			g_sharingan().tryCopyJutsu(targetPlayer.get(), copiedSpell);
+		}
+	}
 
 		damage.damageMultiplier += attackerPlayer->wheel().getMajorStatConditional("Divine Empowerment", WheelMajor_t::DAMAGE);
 		g_logger().trace("Wheel Divine Empowerment damage multiplier {}", damage.damageMultiplier);
@@ -1304,6 +1314,8 @@ void Combat::doCombatHealth(const std::shared_ptr<Creature> &caster, const std::
 }
 
 void Combat::doCombatHealth(const std::shared_ptr<Creature> &caster, const std::shared_ptr<Creature> &target, const Position &origin, CombatDamage &damage, const CombatParams &params) {
+	// aqui combat
+	
 	bool canCombat = !params.aggressive || (caster != target && Combat::canDoCombat(caster, target, params.aggressive) == RETURNVALUE_NOERROR);
 	if ((caster && target)
 	    && (caster == target || canCombat)

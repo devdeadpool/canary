@@ -5,7 +5,7 @@ function talkaction.onSay(player, words, param)
 
 	local action = args[1]
 	if not action then
-		player:sendCancelMessage("Use: /teste [set|stage|ativar|desativar|toggle|info|ativo]")
+		player:sendCancelMessage("Use: /teste [set|stage|ativar|desativar|toggle|info|ativo|jutsus|slots]")
 		return false
 	end
 
@@ -40,13 +40,41 @@ function talkaction.onSay(player, words, param)
 			player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "❌ Sharingan está DESATIVADO.")
 		end
 
---[[ 	-- mantém comandos antigos:
-	elseif action == "reset" then
-		resetMissions(player)
+	elseif action == "jutsus" then
+		local jutsus = player:getCopiedJutsus()
+		if #jutsus == 0 then
+			player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "Nenhum jutsu copiado.")
+		else
+			player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "Jutsus copiados: " .. table.concat(jutsus, ", "))
+		end
 
-	elseif action == "graduation" then
-		player:setGraduation("Genin")
- ]]
+	elseif action == "shader" then
+		player:setShader("Outfit - cyclopedia-black")
+	elseif action == "nick" then
+		player:setPetName(1, "Charuto Uzukrak")
+
+	elseif action == "petinfo" then
+ 		local info = player:getPetInfo(1)
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, info)
+
+	elseif action == "addpet" then
+		player:addPet("Akamaru")
+
+
+
+	elseif action == "pet" then
+		player:togglePet(1)
+	elseif action == "copy" then
+	if player:hasCopiedJutsu("Eternal Winters") then
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "Você já copiou Eternal Winter.")
+	else
+		player:addCopiedJutsu("Eternal Winters")
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "Você copiou Eternal Winter.")
+	end
+	elseif action == "slots" then
+		local slots = player:getSharinganJutsuSlots()
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "Você possui " .. slots .. " slot(s) de jutsus copiados.")
+
 	else
 		player:sendCancelMessage("Comando desconhecido: " .. action)
 	end

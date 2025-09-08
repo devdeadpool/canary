@@ -3269,7 +3269,7 @@ std::string Item::getNameDescription(const ItemType &it, const std::shared_ptr<I
 			s << name;
 		}
 	} else {
-		s << "an item of type " << it.id;
+		s << "an item.";
 	}
 	return s.str();
 }

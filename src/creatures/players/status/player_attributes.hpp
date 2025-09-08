@@ -12,7 +12,7 @@ public:
 	int getStatusAttribute(PlayerStatus status) const;
 	void addStatusPoints(int value);
 	int getStatusPoints() const;
-	void resetStatusAttributes();
+/* 	void resetStatusAttributes(); */
 	void setHighestLevel(int level);
 	int getHighestLevel() const;
 	void updatePoints(uint32_t oldLevel, uint32_t newLevel);

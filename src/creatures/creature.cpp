@@ -16,6 +16,7 @@
 #include "creatures/monsters/monster.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/players/doujutsu/sharingan.hpp"
+#include "creatures/players/pet/pet_data.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "game/zones/zone.hpp"
@@ -100,23 +101,53 @@ int32_t Creature::getWalkSize() {
 void Creature::onThink(uint32_t interval) {
 	metrics::method_latency measure(__METRICS_METHOD_NAME__);
 
-	const auto &followCreature = getFollowCreature();
-	const auto &master = getMaster();
+	const auto& followCreature = getFollowCreature();
+	const auto& master = getMaster();
+
+	// ⛔ Remove follow/attack se não puder ver
 	if (followCreature && master != followCreature && !canSeeCreature(followCreature)) {
 		onCreatureDisappear(followCreature, false);
 	}
-
-	const auto &attackedCreature = getAttackedCreature();
+	const auto& attackedCreature = getAttackedCreature();
 	if (attackedCreature && master != attackedCreature && !canSeeCreature(attackedCreature)) {
 		onCreatureDisappear(attackedCreature, false);
 	}
 
+	// 🧱 Atualiza bloqueios
 	blockTicks += interval;
 	if (blockTicks >= 1000) {
 		blockCount = std::min<uint32_t>(blockCount + 1, 2);
 		blockTicks = 0;
 	}
 
+	// 🐾 Verificação de ordem manual do pet
+	if (master) {
+		const auto& player = master->getPlayer();
+		if (player && player->kv()->get("pet_manual_move").value_or(false)) {
+			// Se não estiver seguindo ninguém, mas ficou muito longe, volta a seguir o mestre
+			if (getFollowCreature() == nullptr) {
+				if (Position::getDistanceX(getPosition(), player->getPosition()) > 4 ||
+					Position::getDistanceY(getPosition(), player->getPosition()) > 4) {
+					player->sendTextMessage(MESSAGE_EVENT_ADVANCE, "[Pet] Voltando a seguir o jogador.");
+					setFollowCreature(player);
+					player->kv()->set("pet_manual_move", false);
+				}
+			}
+
+			// Se ainda está andando pelo caminho manual, não interfere com IA
+			if (!listWalkDir.empty()) {
+				addEventWalk();
+			}
+
+			// Se já terminou de andar, libera IA novamente
+			if (listWalkDir.empty()) {
+				player->kv()->set("pet_manual_move", false);
+			}
+			return; // ✅ Interrompe a IA do pet
+		}
+	}
+
+	// 🔁 Lógica de follow comum
 	if (followCreature) {
 		walkUpdateTicks += interval;
 		if (forceUpdateFollowPath || walkUpdateTicks >= 2000) {
@@ -126,6 +157,7 @@ void Creature::onThink(uint32_t interval) {
 		}
 	}
 
+	// 🧠 Efeitos do Sharingan
 	if (getPlayer()) {
 		auto player = static_self_cast<Player>();
 		if (g_sharingan().isActive(player.get())) {
@@ -155,14 +187,15 @@ void Creature::onThink(uint32_t interval) {
 		}
 	}
 
+	// 🧩 Eventos de script Lua
 	auto onThink = [self = getCreature(), interval] {
-		// scripting event - onThink
-		const auto &thinkEvents = self->getCreatureEvents(CREATURE_EVENT_THINK);
-		for (const auto &creatureEventPtr : thinkEvents) {
+		const auto& thinkEvents = self->getCreatureEvents(CREATURE_EVENT_THINK);
+		for (const auto& creatureEventPtr : thinkEvents) {
 			creatureEventPtr->executeOnThink(self->static_self_cast<Creature>(), interval);
 		}
 	};
 
+	// 🔁 Recalcula caminho se necessário
 	if (isUpdatingPath) {
 		isUpdatingPath = false;
 		goToFollowCreature_async(onThink);
@@ -171,6 +204,9 @@ void Creature::onThink(uint32_t interval) {
 
 	onThink();
 }
+
+
+
 
 void Creature::checkCreatureAttack(bool now) {
 	if (now) {
@@ -260,10 +296,14 @@ void Creature::onCreatureWalk() {
 		}
 
 		if (cancelNextWalk) {
-			listWalkDir.clear();
-			onWalkAborted();
+			const auto& player = getMaster() ? getMaster()->getPlayer() : nullptr;
+			if (!(player && player->kv()->get("pet_manual_move").value_or(false))) {
+				listWalkDir.clear();
+				onWalkAborted();
+			}
 			cancelNextWalk = false;
 		}
+
 
 		if (eventWalk != 0) {
 			eventWalk = 0;
@@ -334,6 +374,20 @@ void Creature::addEventWalk(bool firstStep) {
 		return;
 	}
 
+	// ✅ Permite movimento se pet estiver com passos a seguir
+	if (isSummon()) {
+		if (const auto& player = getMaster()->getPlayer()) {
+			if (player->kv()->get("pet_manual_move").value_or(false)) {
+				if (listWalkDir.empty()) {
+					// ✅ Finalizou caminho, libera IA
+					player->kv()->set("pet_manual_move", false);
+					return;
+				}
+				// 🔄 Ainda tem caminho manual, deixa passar
+			}
+		}
+	}
+
 	const int64_t ticks = getEventStepTicks(firstStep);
 	if (ticks <= 0) {
 		return;
@@ -347,7 +401,7 @@ void Creature::addEventWalk(bool firstStep) {
 
 		eventWalk = g_dispatcher().scheduleEvent(
 			static_cast<uint32_t>(ticks), [self = std::weak_ptr<Creature>(getCreature())] {
-				if (const auto &creature = self.lock()) {
+				if (const auto& creature = self.lock()) {
 					creature->onCreatureWalk();
 				}
 			},
@@ -363,14 +417,34 @@ void Creature::stopEventWalk() {
 	}
 }
 
-void Creature::onCreatureAppear(const std::shared_ptr<Creature> &creature, bool isLogin) {
+void Creature::onCreatureAppear(const std::shared_ptr<Creature>& creature, bool isLogin) {
 	metrics::method_latency measure(__METRICS_METHOD_NAME__);
+
+	// 🔥 Checa se é o próprio Akamaru
+	const auto &monster = creature->getMonster();
+	if (monster && toLowerCase(monster->getTypeName()) == "akamaru") {
+		// Verifica quem é o master
+		const auto &master = monster->getMaster();
+		if (master && master->getPlayer()) {
+			// Busca o nome salvo do pet
+			int petIdRaw = master->getPlayer()->kv()->get("current_pet_id").value_or(0);
+			uint16_t petId = static_cast<uint16_t>(petIdRaw);
+			const std::string &petName = g_pet().getPet(master->getPlayer().get(), petId).getNamePet();
+
+			monster->setName(petName); // Atualiza o nome para quem acabou de ver
+		}
+	}
+
+
+
+	// 🧠 Mantém o comportamento original
 	if (creature.get() == this) {
 		if (isLogin) {
 			setLastPosition(getPosition());
 		}
 	}
 }
+
 
 void Creature::onRemoveCreature(const std::shared_ptr<Creature> &creature, bool) {
 	metrics::method_latency measure(__METRICS_METHOD_NAME__);
@@ -1761,6 +1835,7 @@ bool Creature::getPathTo(const Position &targetPos, std::vector<Direction> &dirL
 	return g_game().map.getPathMatching(getCreature(), targetPos, dirList, FrozenPathingConditionCall(targetPos), fpp);
 }
 
+
 bool Creature::getPathTo(const Position &targetPos, std::vector<Direction> &dirList, int32_t minTargetDist, int32_t maxTargetDist, bool fullPathSearch /*= true*/, bool clearSight /*= true*/, int32_t maxSearchDist /*= 7*/) {
 	FindPathParams fpp;
 	fpp.fullPathSearch = fullPathSearch;
@@ -2007,4 +2082,12 @@ void Creature::sendCombatStatsInfo() const {
 	if (const auto &player = getPlayer()) {
 		player->sendTextMessage(MESSAGE_LOOK, msg.str());
 	}
+}
+
+void Creature::setWalkPath(const std::vector<Direction>& path) {
+	listWalkDir.clear();
+	for (Direction dir : path) {
+		listWalkDir.push_back(dir);
+	}
+	addEventWalk(true);
 }

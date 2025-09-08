@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Amazon")
 local monster = {}
 
 monster.description = "an amazon"
-monster.experience = 60
+monster.experience = 400
 monster.outfit = {
 	lookType = 137,
 	lookHead = 113,
@@ -27,8 +27,8 @@ monster.Bestiary = {
 		west of Venore, Oasis Tomb, on the smallest of the Laguna Islands, Foreigner Quarter and Trade Quarter.",
 }
 
-monster.health = 110
-monster.maxHealth = 110
+monster.health = 1
+monster.maxHealth = 1
 monster.race = "blood"
 monster.corpse = 18042
 monster.speed = 86
@@ -54,7 +54,7 @@ monster.flags = {
 	canPushItems = true,
 	canPushCreatures = false,
 	staticAttackChance = 90,
-	targetDistance = 4,
+	targetDistance = 0,
 	runHealth = 0,
 	healthHidden = false,
 	isBlockable = false,
@@ -90,7 +90,7 @@ monster.loot = {
 }
 
 monster.attacks = {
-	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -45 },
+	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -1 },
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_PHYSICALDAMAGE, minDamage = 0, maxDamage = -40, range = 5, shootEffect = CONST_ANI_THROWINGKNIFE, target = false },
 }
 

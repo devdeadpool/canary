@@ -8,6 +8,7 @@
  */
 
 #include "creatures/creatures_definitions.hpp"
+#include <string>
 
 #pragma once
 
@@ -105,6 +106,7 @@ int64_t getTimeUsNow();
 std::string convertIPToString(uint32_t ip);
 
 void trimString(std::string &str);
+std::string toLowerCase(const std::string& input);
 
 MagicEffectClasses getMagicEffect(const std::string &strValue);
 ShootType_t getShootType(const std::string &strValue);

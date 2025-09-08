@@ -63,14 +63,14 @@ KeyDoorTable = {
 	{ lockedDoor = 18002, closedDoor = 18003, openDoor = 18004 },
 	{ lockedDoor = 20444, closedDoor = 20443, openDoor = 20445 },
 	{ lockedDoor = 20453, closedDoor = 20452, openDoor = 20454 },
-	{ lockedDoor = 23873, closedDoor = 23874, openDoor = 23877 },
-	{ lockedDoor = 23875, closedDoor = 23876, openDoor = 23878 },
-	{ lockedDoor = 28364, closedDoor = 28365, openDoor = 28368 },
+	--[[{ lockedDoor = 23873, closedDoor = 23874, openDoor = 23877 },
+	 { lockedDoor = 23875, closedDoor = 23876, openDoor = 23878 },
+	{ lockedDoor = 28364, closedDoor = 28365, openDoor = 28368 }, 
 	{ lockedDoor = 28366, closedDoor = 28367, openDoor = 28369 },
 	{ lockedDoor = 30772, closedDoor = 30773, openDoor = 30776 },
 	{ lockedDoor = 30774, closedDoor = 30775, openDoor = 30777 },
 	{ lockedDoor = 37982, closedDoor = 37981, openDoor = 37985 },
-	{ lockedDoor = 37984, closedDoor = 37983, openDoor = 37986 },
+	{ lockedDoor = 37984, closedDoor = 37983, openDoor = 37986 },]]
 }
 
 -- These are the common doors, the ones that just open and close without any special requirements.
@@ -127,55 +127,13 @@ CustomDoorTable = {
 	{ closedDoor = 18025, openDoor = 18026 },
 	{ closedDoor = 20446, openDoor = 20447 },
 	{ closedDoor = 20455, openDoor = 20456 },
-	{ closedDoor = 24541, openDoor = 24542 },
-	{ closedDoor = 24543, openDoor = 24544 },
-	{ closedDoor = 24903, openDoor = 28520 },
-	--[[ do not have the open door id, if activate this, have a conflict of id (is only a locked door?)
-	{ closedDoor = 30049, openDoor = 30035 },
-	{ closedDoor = 30050, openDoor = 30036 },
-	{ closedDoor = 30051, openDoor = 30039 },
-	{ closedDoor = 30052, openDoor = 30040 },
-	]]
-	{ closedDoor = 30833, openDoor = 30837 },
-	{ closedDoor = 30834, openDoor = 30837 },
-	{ closedDoor = 30835, openDoor = 30838 },
-	{ closedDoor = 30836, openDoor = 30838 },
-	{ closedDoor = 30849, openDoor = 30853 },
-	{ closedDoor = 30850, openDoor = 30854 },
-	{ closedDoor = 30851, openDoor = 30855 },
-	{ closedDoor = 30852, openDoor = 30856 },
-	{ closedDoor = 31494, openDoor = 31496 },
-	{ closedDoor = 31495, openDoor = 31497 },
-	{ closedDoor = 31663, openDoor = 31664 },
-	{ closedDoor = 31665, openDoor = 31666 },
-	{ closedDoor = 33271, openDoor = 33272 },
-	{ closedDoor = 33273, openDoor = 33274 },
-	--{ closedDoor = 33335}, -- it's probably door of a quest
-	--{ closedDoor = 33336}, -- it's probably door of a quest
-	--{ closedDoor = 33632}, -- it's probably door of a quest
-	--{ closedDoor = 33634}, -- it's probably door of a quest
-	{ closedDoor = 33633, openDoor = 33636 },
-	{ closedDoor = 33635, openDoor = 33637 },
-	{ closedDoor = 34221, openDoor = 34222 },
-	{ closedDoor = 34223, openDoor = 34224 },
 	{ closedDoor = 15890, openDoor = 15891 },
 	{ closedDoor = 15892, openDoor = 15893 },
 	{ closedDoor = 22502, openDoor = 22503 },
 	{ closedDoor = 22504, openDoor = 22505 },
-	{ closedDoor = 39660, openDoor = 39666 },
-	{ closedDoor = 39661, openDoor = 39667 },
-	{ closedDoor = 44913, openDoor = 44917 },
-	{ closedDoor = 44914, openDoor = 44917 },
-	{ closedDoor = 44915, openDoor = 44918 },
-	{ closedDoor = 44916, openDoor = 44918 },
-	{ closedDoor = 48495, openDoor = 48497 },
-	{ closedDoor = 48496, openDoor = 48498 },
-	{ closedDoor = 48499, openDoor = 48501 },
-	{ closedDoor = 48500, openDoor = 48502 },
-	{ closedDoor = 48520, openDoor = 48524 },
-	{ closedDoor = 48522, openDoor = 48526 },
-	{ closedDoor = 48528, openDoor = 48530 },
-	{ closedDoor = 48529, openDoor = 48531 },
+
+	{ closedDoor = 31038, openDoor = 31039 },
+
 }
 
 -- These are the doors for missions, they need access from some mission (storage) to be able to enter. Put the storage value in the action id of the door and it will open only to the player who has the storage value.
@@ -228,7 +186,7 @@ QuestDoorTable = {
 	{ closedDoor = 20459, openDoor = 20460 },
 	{ closedDoor = 22506, openDoor = 22507 },
 	{ closedDoor = 22508, openDoor = 22509 },
-	{ closedDoor = 28658, openDoor = 28885 },
+	--[[ { closedDoor = 28658, openDoor = 28885 }, 
 	{ closedDoor = 28659, openDoor = 28886 },
 	{ closedDoor = 30041, openDoor = 30042 },
 	{ closedDoor = 30043, openDoor = 30044 },
@@ -239,7 +197,7 @@ QuestDoorTable = {
 	{ closedDoor = 36547, openDoor = 36548 },
 	{ closedDoor = 39351, openDoor = 39353 },
 	{ closedDoor = 39352, openDoor = 39354 },
-	{ closedDoor = 42744, openDoor = 42745 },
+	{ closedDoor = 42744, openDoor = 42745 },]]
 }
 
 -- Level doors.
@@ -295,8 +253,8 @@ LevelDoorTable = {
 	{ closedDoor = 18007, openDoor = 18008 },
 	{ closedDoor = 20448, openDoor = 20449 },
 	{ closedDoor = 20457, openDoor = 20458 },
-	{ closedDoor = 30033, openDoor = 30035 },
+	--[[ { closedDoor = 30033, openDoor = 30035 },
 	{ closedDoor = 30034, openDoor = 30036 },
 	{ closedDoor = 30037, openDoor = 30039 },
-	{ closedDoor = 30038, openDoor = 30040 },
+	{ closedDoor = 30038, openDoor = 30040 }, ]]
 }

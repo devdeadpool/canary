@@ -49,14 +49,30 @@ local function handleCreatureDescription(inspectedThing, lookDistance)
 
 	if inspectedThing:isMonster() then
 		local monsterMaster = inspectedThing:getMaster()
-		if monsterMaster and table.contains({ "sorcerer familiar", "knight familiar", "druid familiar", "paladin familiar" }, inspectedThing:getName():lower()) then
-			local summonTimeRemaining = monsterMaster:kv():get("familiar-summon-time") or 0
-			descriptionText = string.format("%s (Master: %s). It will disappear in %s", descriptionText, monsterMaster:getName(), Game.getTimeInWords(summonTimeRemaining - os.time()))
+
+		if monsterMaster then
+			local nameLower = inspectedThing:getName():lower()
+
+			-- ✅ Familiars
+			if table.contains({ "sorcerer familiar", "knight familiar", "druid familiar", "paladin familiar" }, nameLower) then
+				local summonTimeRemaining = monsterMaster:kv():get("familiar-summon-time") or 0
+				descriptionText = string.format("%s (Master: %s). It will disappear in %s", descriptionText, monsterMaster:getName(), Game.getTimeInWords(summonTimeRemaining - os.time()))
+
+			-- ✅ Naruto Project Pet
+			elseif monsterMaster:isPlayer() and monsterMaster:isPetSummoned() then
+				local petId = monsterMaster:getActivePetId()
+				local info = monsterMaster:getPetInfo(petId)
+				if info then
+					local status = "\n[Pet Info]\n" .. info
+					descriptionText = descriptionText .. status
+				end
+			end
 		end
 	end
 
 	return "You see " .. descriptionText
 end
+
 
 local function appendAdminDetails(descriptionText, inspectedThing, inspectedPosition)
 	if inspectedThing:isItem() then
@@ -96,6 +112,7 @@ local function appendAdminDetails(descriptionText, inspectedThing, inspectedPosi
 		if inspectedThing:isPlayer() and inspectedThing:getMaxMana() > 0 then
 			creatureId = string.format("Player ID: %i", inspectedThing:getGuid())
 			healthDescription = string.format("%s, Mana: %d / %d", healthDescription, inspectedThing:getMana(), inspectedThing:getMaxMana())
+		
 		elseif inspectedThing:isMonster() then
 			creatureId = string.format("Monster ID: %i", inspectedThing:getId())
 		elseif inspectedThing:isNpc() then

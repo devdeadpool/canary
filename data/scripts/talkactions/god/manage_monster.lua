@@ -114,14 +114,15 @@ function setMonsterName.onSay(player, words, param)
 
 	local splitParams = param:split(",")
 	local newMonsterName = splitParams[1]
-	local spectators, spectator = Game.getSpectators(player:getPosition(), false, false, 4, 4, 4, 4)
+ 	local spectators, spectator = Game.getSpectators(player:getPosition(), false, false, 4, 4, 4, 4)
 
 	for i = 1, #spectators do
 		spectator = spectators[i]
 		if spectator:isMonster() then
 			spectator:setName(newMonsterName)
 		end
-	end
+	end 
+	
 	return true
 end
 

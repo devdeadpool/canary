@@ -37,6 +37,7 @@ std::shared_ptr<Monster> Monster::createMonster(const std::string &name) {
 Monster::Monster(const std::shared_ptr<MonsterType> &mType) :
 	m_lowerName(asLowerCaseString(mType->name)),
 	nameDescription(asLowerCaseString(mType->nameDescription)),
+	originalName(asLowerCaseString(mType->name)),
 	mType(mType) {
 	defaultOutfit = mType->info.outfit;
 	currentOutfit = mType->info.outfit;
@@ -118,6 +119,10 @@ const std::string &Monster::getNameDescription() const {
 		return mType->nameDescription;
 	}
 	return nameDescription;
+}
+
+const std::string &Monster::getOriginalName() const {
+	return originalName;
 }
 
 void Monster::setNameDescription(std::string_view newNameDescription) {
@@ -1086,26 +1091,34 @@ void Monster::onThink(uint32_t interval) {
 }
 
 void Monster::onThink_async() {
-	if (isIdle) { // updateIdleStatus(); is executed before this method
-		return;
+	if (isIdle) return;
+
+	// 🛑 Impede IA se estiver executando movimento manual (com lista de direção ativa)
+	if (isSummon()) {
+		const auto& player = getMaster()->getPlayer();
+		if (player && player->kv()->get("pet_manual_move").value_or(false)) {
+			// Continua andando suavemente usando a própria velocidade
+			if (!listWalkDir.empty()) {
+				addEventWalk();
+			}
+			return; // 🔒 Bloqueia completamente a IA enquanto andar manual estiver ativo
+		}
 	}
 
 	addEventWalk();
 
-	const auto &attackedCreature = getAttackedCreature();
-	const auto &followCreature = getFollowCreature();
+	// 🔁 Comportamento normal da IA
+	const auto& attackedCreature = getAttackedCreature();
+	const auto& followCreature = getFollowCreature();
 	if (isSummon()) {
-		const auto &master = getMaster();
+		const auto& master = getMaster();
 		if (attackedCreature.get() == this) {
 			setFollowCreature(nullptr);
 		} else if (attackedCreature && followCreature != attackedCreature) {
-			// This happens just after a master orders an attack, so lets follow it aswell.
 			setFollowCreature(attackedCreature);
 		} else if (master && master->getAttackedCreature()) {
-			// This happens if the monster is summoned during combat
 			selectTarget(master->getAttackedCreature());
 		} else if (master && master != followCreature) {
-			// Our master has not ordered us to attack anything, lets follow him around instead.
 			setFollowCreature(master);
 		}
 	} else if (!targetList.empty()) {
@@ -1128,6 +1141,7 @@ void Monster::onThink_async() {
 		onThinkSound(EVENT_CREATURE_THINK_INTERVAL);
 	});
 }
+
 
 void Monster::doAttacking(uint32_t interval) {
 	const auto &attackedCreature = getAttackedCreature();
@@ -2702,4 +2716,16 @@ bool Monster::checkCanApplyCharm(const std::shared_ptr<Player> &player, charmRun
 	}
 
 	return false;
+}
+
+void Monster::changeMaxHealth(int32_t amount) {
+	healthMax = std::max(0, healthMax + amount);
+}
+
+void Monster::changeMaxMana(int32_t amount) {
+	manaMax = std::max(0, manaMax + amount);
+}
+
+void Monster::setPetIdle(bool idle) {
+	setIdle(idle); // Chama a função original privada de forma segura
 }

@@ -1,7 +1,7 @@
 local talkaction = TalkAction("/at")
 
 function talkaction.onSay(player, words, param)
-	Game.createItem(ITEM_SHARINGAN, 1, player:getPosition())
+
 	local split = param:split(" ")
 
 	if not split[1] then
@@ -78,7 +78,7 @@ function talkaction.onSay(player, words, param)
 	end
 
 	if action == "reset" then
-		player:resetStatusAttributes()
+		--[[ player:resetStatusAttributes() ]]
 		player:sendTextMessage(MESSAGE_GAME_HIGHLIGHT, "All your attributes have been reset!")
 		return true
 	end

@@ -20,6 +20,14 @@
 
 #include "absl/debugging/stacktrace.h"
 #include "absl/debugging/symbolize.h"
+#include <string>
+
+
+std::string toLowerCase(const std::string& input) {
+    std::string result = input;
+    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
+}
 
 void printXMLError(const std::string &where, const std::string &fileName, const pugi::xml_parse_result &result) {
 	g_logger().error("[{}] Failed to load {}: {}", where, fileName, result.description());
