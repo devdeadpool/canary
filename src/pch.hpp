@@ -122,11 +122,7 @@ format_as(E e) {
 #include <mio/mmap.hpp>
 
 // MySQL
-#if __has_include("<mysql.h>")
-	#include <mysql.h>
-#else
-	#include <mysql/mysql.h>
-#endif
+#include <mysql/mysql.h>
 
 #include <mysql/errmsg.h>
 
